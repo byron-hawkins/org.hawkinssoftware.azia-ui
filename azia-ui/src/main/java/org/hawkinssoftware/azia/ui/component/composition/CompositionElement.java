@@ -1,0 +1,33 @@
+package org.hawkinssoftware.azia.ui.component.composition;
+
+import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
+import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry.CompositionInitializationDomain;
+import org.hawkinssoftware.rns.core.aop.InitializationAspect;
+import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
+import org.hawkinssoftware.rns.core.role.CoreDomains.InitializationDomain;
+import org.hawkinssoftware.rns.core.role.DomainRole;
+
+@InitializationAspect(agent = CompositionElement.Agent.class)
+public interface CompositionElement
+{
+	public interface Initializing extends CompositionElement
+	{
+		// TODO: might be nice to enforce a call to super on all of these, since I think the override is always
+		// additive, never intending to replace what super was doing.
+		@InvocationConstraint(domains = CompositionInitializationDomain.class)
+		void compositionCompleted();
+	}
+
+	@InvocationConstraint(extendedTypes = CompositionElement.class)
+	@DomainRole.Join(membership = { InitializationDomain.class, AssemblyDomain.class })
+	public static class Agent implements InitializationAspect.Agent<CompositionElement>
+	{
+		public static final Agent INSTANCE = new Agent();
+
+		@Override
+		public void initialize(CompositionElement instance)
+		{
+			CompositionRegistry.register(instance);
+		}
+	}
+}
