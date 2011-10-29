@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.composition;
 
 import java.util.ArrayList;
@@ -18,9 +28,20 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = CompositionRegistry.CompositionInitializationDomain.class)
 public final class CompositionRegistry
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = CompositionInitializationDomain.class)
 	private static class Session
 	{
@@ -64,6 +85,11 @@ public final class CompositionRegistry
 
 	// TODO: when I change the hierarchy of a domain, every domain usage instance needs to be analyzed. Currently it
 	// only checks the domain references, not all the implications of contraints having the domain in them.
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(extendedTypes = { CompositionRegistry.class, Composition.class, CompositionElement.class }, packages = VisibilityConstraint.MY_PACKAGE)
 	public static class CompositionInitializationDomain extends AssemblyDomain
 	{
@@ -71,6 +97,11 @@ public final class CompositionRegistry
 		public static final CompositionInitializationDomain INSTANCE = new CompositionInitializationDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = CompositionInitializationDomain.class)
 	private static class SessionStack implements Iterable<Session>
 	{
@@ -114,6 +145,11 @@ public final class CompositionRegistry
 			this.repaintHost = repaintHost;
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		@DomainRole.Join(membership = CompositionInitializationDomain.class)
 		private class SessionIterator implements Iterator<Session>
 		{
@@ -342,6 +378,11 @@ public final class CompositionRegistry
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { CompositionInitializationDomain.class })
 	private class Composition
 	{
@@ -379,6 +420,11 @@ public final class CompositionRegistry
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class PendingRegistration
 	{
 		final CompositionElement element;

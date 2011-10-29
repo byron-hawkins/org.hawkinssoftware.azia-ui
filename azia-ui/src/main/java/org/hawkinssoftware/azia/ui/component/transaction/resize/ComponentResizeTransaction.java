@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.transaction.resize;
 
 import java.util.ArrayList;
@@ -12,9 +22,24 @@ import org.hawkinssoftware.azia.ui.tile.transaction.resize.AbstractApplyLayoutTr
 import org.hawkinssoftware.azia.ui.tile.transaction.resize.TileBoundsChangeDirective.EnclosureEncountered;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = DisplayBoundsDomain.class)
 public class ComponentResizeTransaction implements UserInterfaceTransaction
 {
+	
+	/**
+	 * The listener interface for receiving transactionRegistry events. The class that is interested in processing a
+	 * transactionRegistry event implements this interface, and the object created with that class is registered with a
+	 * component using the component's <code>addTransactionRegistryListener<code> method. When
+	 * the transactionRegistry event occurs, that object's appropriate
+	 * method is invoked.
+	 * 
+	 * @see TransactionRegistryEvent
+	 */
 	public static class TransactionRegistryListener implements TransactionRegistry.Listener
 	{
 		public static final TransactionRegistryListener INSTANCE = new TransactionRegistryListener();

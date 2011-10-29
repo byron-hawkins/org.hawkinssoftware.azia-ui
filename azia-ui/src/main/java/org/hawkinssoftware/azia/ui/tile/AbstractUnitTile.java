@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.tile;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -11,8 +21,21 @@ import org.hawkinssoftware.azia.ui.tile.transaction.resize.TileBoundsChangeDirec
 import org.hawkinssoftware.azia.ui.tile.transaction.resize.TileBoundsChangeDirective.Notification;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <KeyType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>> implements LayoutRegion, LayoutTile<KeyType>
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	protected static class Padding
 	{
 		int top;

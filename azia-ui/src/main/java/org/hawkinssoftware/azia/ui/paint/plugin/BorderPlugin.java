@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.plugin;
 
 import java.awt.Color;
@@ -6,6 +16,13 @@ import org.hawkinssoftware.azia.ui.component.AbstractComponent;
 import org.hawkinssoftware.azia.ui.paint.canvas.Canvas;
 import org.hawkinssoftware.azia.ui.paint.canvas.Inset;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <ContentType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 public abstract class BorderPlugin<ContentType>
 {
 	protected Inset inset;
@@ -32,6 +49,13 @@ public abstract class BorderPlugin<ContentType>
 		c.pushBounds(inset.getContainedBounds(c.size()));
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <ContentType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static class Empty<ContentType extends AbstractComponent> extends BorderPlugin<ContentType>
 	{
 		public Empty(Inset inset)
@@ -40,6 +64,13 @@ public abstract class BorderPlugin<ContentType>
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <ContentType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static class Solid<ContentType> extends BorderPlugin<ContentType>
 	{
 		public static void paintBorder(Canvas c, Inset inset)

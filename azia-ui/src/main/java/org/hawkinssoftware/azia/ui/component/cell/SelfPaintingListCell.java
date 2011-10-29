@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.cell;
 
 import java.awt.Color;
@@ -21,6 +31,11 @@ import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManag
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 public class SelfPaintingListCell extends VirtualComponent implements AggregatePainter.Atom, CompositionElement.Initializing
@@ -102,8 +117,19 @@ public class SelfPaintingListCell extends VirtualComponent implements AggregateP
 		return new ChangeTextDirective(newText);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class ChangeTextDirective extends ChangeComponentStateDirective
 	{
+		
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public class Notification extends UserInterfaceNotification
 		{
 			public String getText()
@@ -134,6 +160,11 @@ public class SelfPaintingListCell extends VirtualComponent implements AggregateP
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class Handler implements UserInterfaceHandler
 	{
 		public void textChanging(ChangeTextDirective.Notification textChange, PendingTransaction transaction)

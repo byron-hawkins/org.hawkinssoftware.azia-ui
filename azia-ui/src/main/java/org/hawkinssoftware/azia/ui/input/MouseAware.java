@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.input;
 
 import java.util.ArrayList;
@@ -26,15 +36,32 @@ import com.google.common.collect.Multimap;
  */
 public interface MouseAware extends UserInterfaceActor
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class MouseEventDomain extends DisplayBoundsDomain
 	{
 		@DomainRole.Instance
 		public static final MouseEventDomain INSTANCE = new MouseEventDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@InvocationConstraint(domains = MouseEventDomain.class)
 	public static class State
 	{
+		
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public static class MouseFrame
 		{
 			private int id;
@@ -62,6 +89,11 @@ public interface MouseAware extends UserInterfaceActor
 			}
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		static class Contact
 		{
 			final MouseAware entity;
@@ -156,6 +188,11 @@ public interface MouseAware extends UserInterfaceActor
 			}
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public static class FrameConclusion
 		{
 			public final List<MouseAware> satellitePositionForwards = new ArrayList<MouseAware>();
@@ -211,6 +248,11 @@ public interface MouseAware extends UserInterfaceActor
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static final class Contact extends UserInterfaceNotification
 	{
 		private final MouseAware entity;
@@ -227,6 +269,11 @@ public interface MouseAware extends UserInterfaceActor
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static final class Forward extends UserInterfaceNotification
 	{
 		private final MouseAware entity;
@@ -243,6 +290,11 @@ public interface MouseAware extends UserInterfaceActor
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = MouseEventDomain.class)
 	public static abstract class EventPass extends UserInterfaceNotification
 	{
@@ -251,12 +303,22 @@ public interface MouseAware extends UserInterfaceActor
 		public abstract boolean wasInContact(MouseAware entity);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = MouseEventDomain.class)
 	public static abstract class EventPassTermination extends UserInterfaceNotification
 	{
 		public abstract MouseInputEvent event();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { TransactionParticipant.class, DisplayBoundsDomain.class })
 	public interface MouseHandler extends UserInterfaceHandler
 	{

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.tile.transaction.modify;
 
 import java.util.ArrayList;
@@ -28,9 +38,22 @@ import org.hawkinssoftware.azia.ui.tile.TopTile;
 import org.hawkinssoftware.azia.ui.tile.UnitTile;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <KeyType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = TileLayoutDomain.class)
 public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> implements UserInterfaceTransaction, LayoutTransaction
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = TileLayoutDomain.class)
 	private class CreateWindowTask extends InstantiationTask.Producer<CreateWindowTask>
 	{
@@ -314,6 +337,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class ComponentHandle extends Handle<ComponentTile<KeyType>>
 	{
 		public ComponentHandle(ComponentTile<KeyType> container)
@@ -332,6 +360,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class TopHandle extends Handle<TopTile<KeyType>>
 	{
 		public TopHandle(TopTile<KeyType> unit)
@@ -355,6 +388,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class UnitHandle extends Handle<UnitTile<KeyType>>
 	{
 		public UnitHandle(UnitTile<KeyType> unit)
@@ -394,6 +432,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class FloaterHandle extends Handle<FloatingUnitTile<KeyType>>
 	{
 		public FloaterHandle(FloatingUnitTile<KeyType> entity)
@@ -422,6 +465,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class PairHandle extends Handle<PairTile<KeyType>>
 	{
 		public PairHandle(PairTile<KeyType> pair)

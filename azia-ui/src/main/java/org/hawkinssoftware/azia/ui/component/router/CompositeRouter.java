@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.router;
 
 import java.util.ArrayList;
@@ -23,11 +33,22 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ExecutionPath.NoFrame
 @VisibilityConstraint(extendedTypes = { VirtualComponent.class, AbstractEventDispatch.class })
 @InvocationConstraint(types = { VirtualComponent.class, AbstractEventDispatch.class })
 public final class CompositeRouter 
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private static class ActionMethodFilter implements ClassLoadObserver.MethodFilter
 	{
@@ -50,6 +71,11 @@ public final class CompositeRouter
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private static class NoteMethodFilter implements ClassLoadObserver.MethodFilter
 	{

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -14,6 +24,17 @@ import org.hawkinssoftware.rns.core.role.TypeRole;
 import org.hawkinssoftware.rns.core.util.DefinesIdentity;
 
 //@SuppressWarnings("rawtypes")
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <ComponentType>
+ *            the generic type
+ * @param <PainterMarker>
+ *            the generic type
+ * @param <EnclosureType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @DefinesIdentity
 @InvocationConstraint(domains = AssemblyDomain.class)
 @DomainRole.Join(membership = AssemblyDomain.class)
@@ -46,6 +67,11 @@ public abstract class ComponentAssembly<ComponentType extends AbstractComponent,
 	}
 
 	// WIP: R-N-S clampdown on the Constraint implementations, to avoid stack overflow
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class Containment implements ExecutionPath.StackObserver
 	{
 		static final Containment INSTANCE = new Containment();

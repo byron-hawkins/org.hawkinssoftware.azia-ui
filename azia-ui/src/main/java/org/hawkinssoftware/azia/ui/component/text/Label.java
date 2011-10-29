@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.text;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -10,8 +20,19 @@ import org.hawkinssoftware.azia.ui.component.composition.CompositeAssembly;
 import org.hawkinssoftware.azia.ui.component.text.handler.PlainTextHandler;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 public class Label extends AbstractComponent
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class Assembly extends CompositeAssembly<Label, Label.Painter, LabelComposite<Label, ?>>
 	{
 		public Assembly()
@@ -31,6 +52,11 @@ public class Label extends AbstractComponent
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Painter extends UserInterfaceHandler
 	{
 		// marker

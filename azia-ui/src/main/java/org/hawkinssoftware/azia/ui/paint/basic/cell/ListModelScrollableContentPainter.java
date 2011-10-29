@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.cell;
 
 import java.awt.Color;
@@ -23,6 +33,11 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 @DomainRole.Join(membership = { RenderingDomain.class, DisplayBoundsDomain.class, FlyweightCellDomain.class, ModelListDomain.class })
@@ -108,6 +123,13 @@ public class ListModelScrollableContentPainter implements UserInterfaceHandler, 
 		return position;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { DisplayBoundsDomain.class, FlyweightCellDomain.class, ModelListDomain.class })
 	private class Repaint<DataType> extends CellRepaintRequest
 	{

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.button;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -17,17 +27,33 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 @DomainRole.Join(membership = PushButton.PushButtonDomain.class)
 public class PushButton extends AbstractButton
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class PushButtonDomain extends DomainRole
 	{
 		@DomainRole.Instance
 		public static final PushButtonDomain INSTANCE = new PushButtonDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static abstract class Assembly extends CompositeAssembly<PushButton, PushButton.Painter, ButtonComposite<PushButton, ?>>
 	{
 		public Assembly()
@@ -39,6 +65,11 @@ public class PushButton extends AbstractButton
 		}
 	}
 	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class TextButtonAssembly extends Assembly
 	{
 		@Override
@@ -53,6 +84,11 @@ public class PushButton extends AbstractButton
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Painter extends UserInterfaceHandler
 	{
 		// marker

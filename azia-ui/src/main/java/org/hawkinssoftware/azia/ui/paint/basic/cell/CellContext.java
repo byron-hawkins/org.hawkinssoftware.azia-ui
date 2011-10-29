@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.cell;
 
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.FlyweightCellDomain;
@@ -7,6 +17,13 @@ import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintAtomRequest;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <DataType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @InvocationConstraint(domains = FlyweightCellDomain.class)
 @DomainRole.Join(membership = FlyweightCellDomain.class)
 public interface CellContext<DataType>
@@ -23,6 +40,13 @@ public interface CellContext<DataType>
 
 	CellContext<DataType> translate(int dx, int dy);
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static class CellContextImpl<DataType> implements CellContext<DataType>
 	{
 		final RowAddress address;
@@ -81,6 +105,13 @@ public interface CellContext<DataType>
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static class Translation<DataType> implements CellContext<DataType>
 	{
 		private final CellContext<DataType> original;

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.plugin;
 
 import java.awt.geom.Rectangle2D;
@@ -15,6 +25,11 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 public abstract class LabelTextPlugin extends LabelContentPlugin
@@ -46,6 +61,11 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class Center extends LabelTextPlugin
 	{
 		@Override
@@ -86,6 +106,11 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class Fixed extends LabelTextPlugin
 	{
 		private final int x;

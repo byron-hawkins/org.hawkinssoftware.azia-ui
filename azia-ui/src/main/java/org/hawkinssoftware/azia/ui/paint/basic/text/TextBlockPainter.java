@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.text;
 
 import java.awt.Color;
@@ -24,6 +34,11 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 // TODO: should there be a separate painter?
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 @InvocationConstraint(domains = RenderingDomain.class)
@@ -35,6 +50,11 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 	// a painter.
 
 	// TODO: should all references within a source be exempt from constraints?
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ValidateRead
 	@ValidateWrite
 	@DomainRole.Join(membership = RenderingDomain.class)
@@ -79,6 +99,11 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class TextSizeChangeNotification extends UserInterfaceNotification
 	{
 		public final EnclosureBounds newTextBounds;
@@ -147,6 +172,11 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 		transaction.contribute(sizeChangeNotification);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class SetTextBlockDirective extends ChangeComponentStateDirective
 	{
 		private final TextBlock textBlock;

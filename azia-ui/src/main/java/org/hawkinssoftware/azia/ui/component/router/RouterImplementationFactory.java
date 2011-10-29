@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.router;
 
 import java.io.IOException;
@@ -11,6 +21,9 @@ import org.hawkinssoftware.rns.core.aop.ClassLoadObserver.ObservedMethod;
 import org.hawkinssoftware.rns.core.aop.ClassLoadObserver.ObservedType;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * A factory for creating RouterImplementation objects.
+ */
 class RouterImplementationFactory
 {
 	private static RouterImplementationFactory INSTANCE;
@@ -27,6 +40,11 @@ class RouterImplementationFactory
 		return INSTANCE;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class GeneratorDefinition implements RouterImplementationGenerator.BaseClassnames
 	{
 		@Override
@@ -70,6 +88,11 @@ class RouterImplementationFactory
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private class ClassCreator extends ClassLoader
 	{
 		public ClassCreator()

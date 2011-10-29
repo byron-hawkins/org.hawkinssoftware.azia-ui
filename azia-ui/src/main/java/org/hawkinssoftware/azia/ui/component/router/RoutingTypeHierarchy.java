@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.router;
 
 import java.util.ArrayList;
@@ -15,8 +25,19 @@ import org.hawkinssoftware.rns.core.aop.ClassLoadObserver.TypeHierarchy;
 import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 class RoutingTypeHierarchy
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class DeliverableType
 	{
 		static DeliverableType get(TypeHierarchy deliverableTypeHierarchy, RouterType type)
@@ -51,6 +72,13 @@ class RoutingTypeHierarchy
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <RouterImplementationType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	private static class Router<RouterImplementationType extends AbstractComponentRouter>
 	{
 		final GeneratedRouter<RouterImplementationType> router;
@@ -63,6 +91,13 @@ class RoutingTypeHierarchy
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <RouterImplementationType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	private static class DeliverableSubtree<RouterImplementationType extends AbstractComponentRouter>
 	{
 		final GeneratedRouter<RouterImplementationType> router;
@@ -77,6 +112,13 @@ class RoutingTypeHierarchy
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <RouterImplementationType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	private static class DeliverableSubtrees<RouterImplementationType extends AbstractComponentRouter>
 	{
 		final RouterType routerType;
@@ -115,6 +157,11 @@ class RoutingTypeHierarchy
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class HandlerType
 	{
 		private final List<Router<ComponentDirectiveRouter>> actionRouters = new ArrayList<Router<ComponentDirectiveRouter>>();

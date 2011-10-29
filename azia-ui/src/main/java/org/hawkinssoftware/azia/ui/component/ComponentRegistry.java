@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component;
 
 import java.util.HashMap;
@@ -13,6 +23,11 @@ import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = { TransactionFacilitation.class, AssemblyDomain.class })
 public final class ComponentRegistry
 {
@@ -83,6 +98,11 @@ public final class ComponentRegistry
 		return enclosure;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static class ComponentCreationTask extends InstantiationTask.Producer<ComponentCreationTask>
 	{

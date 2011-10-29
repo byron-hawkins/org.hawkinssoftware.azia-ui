@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component;
 
 import java.lang.reflect.Constructor;
@@ -12,9 +22,18 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 
 // WIP: build is still not finding all dependency deltas, e.g. putting this factory in the RenderingDomain revealed a need for AssemblyDomain permissions
 
+/**
+ * A factory for creating Component objects.
+ */
 @DomainRole.Join(membership = { RenderingDomain.class, AssemblyDomain.class })
 class ComponentFactory
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class FactoryException extends RuntimeException
 	{
 		FactoryException(String message, Throwable cause)

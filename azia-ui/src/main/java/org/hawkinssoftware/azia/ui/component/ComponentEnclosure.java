@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component;
 
 import java.util.Collection;
@@ -21,10 +31,25 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <ComponentType>
+ *            the generic type
+ * @param <PainterType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class ComponentEnclosure<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> implements
 		UserInterfaceHandler.Host, ComponentDataHandler.Host, BoundedEntity, PaintableActorDelegate, CompositionElement
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = RenderingDomain.class)
 	public class PaintIncludeHandler implements UserInterfaceHandler
 	{
@@ -34,6 +59,11 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = DisplayBoundsDomain.class)
 	public class BoundsChangeHandler implements UserInterfaceHandler
 	{
@@ -43,6 +73,11 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@SuppressWarnings("rawtypes")
 	public static class Key
 	{

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component;
 
 import java.awt.Dialog;
@@ -39,9 +49,22 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <KeyType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = DisplayBoundsDomain.class)
 public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractEventDispatch implements RepaintInstanceDirective.Host
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public enum FrameType
 	{
 		UNDECORATED,
@@ -171,6 +194,11 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class VisibilityHandler implements UserInterfaceHandler
 	{
 		public void setVisible(SetVisibleAction action)
@@ -179,6 +207,11 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private class WindowEventDispatch extends UserInterfaceTask
 	{
 		private UserInterfaceDirective windowAction;
@@ -204,6 +237,11 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private class WindowState implements WindowListener, WindowStateListener, WindowFocusListener, ComponentListener
 	{
 		private final WindowEventDispatch eventDispatch = new WindowEventDispatch();

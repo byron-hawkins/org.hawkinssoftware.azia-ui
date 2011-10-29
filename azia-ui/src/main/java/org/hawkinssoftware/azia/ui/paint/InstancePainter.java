@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint;
 
 import java.awt.Font;
@@ -19,11 +29,28 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <ComponentType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @InvocationConstraint(domains = RenderingDomain.class)
 @VisibilityConstraint(domains = RenderingDomain.class, types = ComponentAssembly.class)
 @DomainRole.Join(membership = { RenderingDomain.class, DisplayBoundsDomain.class })
 public interface InstancePainter<ComponentType extends AbstractComponent>
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <MarkerType>
+	 *            the generic type
+	 * @param <PainterType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	@InvocationConstraint(packages = InvocationConstraint.MY_PACKAGE, domains = AssemblyDomain.class)
 	@VisibilityConstraint(packages = InvocationConstraint.MY_PACKAGE, domains = AssemblyDomain.class)
 	public static final class Key<MarkerType, PainterType extends MarkerType>
@@ -42,10 +69,21 @@ public interface InstancePainter<ComponentType extends AbstractComponent>
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@InvocationConstraint(domains = RenderingDomain.class)
 	@VisibilityConstraint(domains = RenderingDomain.class)
 	public static final class TextMetrics
 	{
+		
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public enum BoundsType
 		{
 			TEXT,

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.model.list;
 
 import java.util.ArrayList;
@@ -19,17 +29,33 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @VisibilityConstraint(domains = ListDataModel.ModelListDomain.class)
 @InvocationConstraint(domains = ListDataModel.ModelListDomain.class)
 @DomainRole.Join(membership = FlyweightCellDomain.class)
 public class ListDataModel implements UserInterfaceActorDelegate, CompositionElement.Initializing
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class ModelListDomain extends DomainRole
 	{
 		@DomainRole.Instance
 		public static final ModelListDomain INSTANCE = new ModelListDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = FlyweightCellDomain.class)
 	public interface ComponentContext
 	{
@@ -38,10 +64,21 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		RowAddress createAddress(int row, Section section);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
 	public static class DataChangeNotification extends UserInterfaceNotification
 	{
+		
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public enum Type
 		{
 			ADD,
@@ -62,6 +99,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public static class StaticDataChangeNotification extends DataChangeNotification
 	{
@@ -71,6 +113,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public static class ScrollableDataChangeNotification extends DataChangeNotification
 	{
@@ -80,6 +127,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	@InvocationConstraint(domains = { ModelListDomain.class, FlyweightCellDomain.class })
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
@@ -142,12 +194,22 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = FlyweightCellDomain.class)
 	interface ModificationAction
 	{
 		RowAddress getAddress();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public class AddAction extends AbstractDataAction
 	{
@@ -175,6 +237,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public class ReplaceAction extends AbstractDataAction implements ModificationAction
 	{
@@ -196,6 +263,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public class RemoveAction extends AbstractDataAction implements ModificationAction
 	{
@@ -217,6 +289,13 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
 	public class ChangeDataAction<DataType> extends AbstractDataAction
 	{
@@ -241,6 +320,13 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public class ChangeAllRowsAction<DataType> extends UserInterfaceDirective
 	{
 		private final DataChange<DataType> change;
@@ -271,12 +357,24 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <DataType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
 	public interface DataChange<DataType>
 	{
 		void applyChange(Section section, int row, DataType data);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { ModelListDomain.class, TransactionParticipant.class })
 	public class Session
 	{

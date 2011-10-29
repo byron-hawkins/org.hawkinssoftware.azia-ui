@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.transaction.clipboard;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
@@ -12,14 +22,30 @@ import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 public class ClipboardEventDispatch extends AbstractEventDispatch implements ClipboardMonitor.Listener
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class ClipboardEventDomain extends DomainRole
 	{
 		@DomainRole.Instance
 		public static final ClipboardEventDomain INSTANCE = new ClipboardEventDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = ClipboardEventDomain.class)
 	private class InitiateClipboardEventTransaction extends UserInterfaceTask
 	{
@@ -51,6 +77,11 @@ public class ClipboardEventDispatch extends AbstractEventDispatch implements Cli
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private static class InitializationTask extends InstantiationTask.StandaloneInstantiationTask
 	{
 		ClipboardEventDispatch instance;

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.cell;
 
 import org.hawkinssoftware.azia.ui.component.PaintableActor;
@@ -8,6 +18,13 @@ import org.hawkinssoftware.azia.ui.model.list.ListDataModel;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.AbstractCellContentPainter;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.CellViewportPainter;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <CellPainterType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 public class CellViewportComposite<CellPainterType extends AbstractCellContentPainter> extends ScrollPaneViewportComposite<CellViewport, CellViewportPainter>
 		implements ListDataModel.ComponentContext
 {

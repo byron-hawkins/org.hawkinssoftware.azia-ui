@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.canvas;
 
 import java.awt.Color;
@@ -19,16 +29,32 @@ import org.hawkinssoftware.rns.core.moa.ExecutionPath;
 import org.hawkinssoftware.rns.core.moa.ExecutionStackFrame;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ExecutionPath.NoFrame
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class Canvas
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private static final class Key implements ExecutionContext.Key<PaintExecutionContext>
 	{
 		private static final Key INSTANCE = new Key();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private static class PaintExecutionContext extends ExecutionContext
 	{
@@ -84,6 +110,11 @@ public class Canvas
 		return c;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private class CurrentBounds
 	{
@@ -113,6 +144,11 @@ public class Canvas
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private class BoundsFrame
 	{
@@ -349,6 +385,11 @@ public class Canvas
 		currentFrame.invocationDepth--;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ExecutionPath.NoFrame
 	private class Frame
 	{

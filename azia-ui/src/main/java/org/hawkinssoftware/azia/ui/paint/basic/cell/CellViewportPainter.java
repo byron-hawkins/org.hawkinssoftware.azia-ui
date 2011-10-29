@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.cell;
 
 import java.awt.Color;
@@ -13,6 +23,11 @@ import org.hawkinssoftware.azia.ui.paint.basic.scalar.ScrollPaneViewportPainter;
 import org.hawkinssoftware.azia.ui.paint.canvas.Canvas;
 import org.hawkinssoftware.azia.ui.paint.plugin.BorderPlugins;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 public class CellViewportPainter extends ScrollPaneViewportPainter<CellViewport> implements AggregatePainter<CellViewport>, ScrollPaneViewport.Painter
 {
 	private CellViewportComposite<?> viewport;

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.text;
 
 import java.awt.Color;
@@ -16,6 +26,13 @@ import org.hawkinssoftware.azia.ui.paint.plugin.LabelTextPlugin;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <LabelType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 public class LabelPainter<LabelType extends Label> extends ComponentPainter<LabelType> implements Label.Painter
 {
 	private static final Color FOREGROUND_COLOR = Color.black;

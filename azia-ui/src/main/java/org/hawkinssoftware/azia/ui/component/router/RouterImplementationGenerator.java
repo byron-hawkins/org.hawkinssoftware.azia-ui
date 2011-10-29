@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.router;
 
 import java.io.ByteArrayOutputStream;
@@ -14,14 +24,30 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 import org.hawkinssoftware.rns.core.aop.ClassLoadObserver.TypeHierarchy;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 class RouterImplementationGenerator implements Constants
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	enum RouterType
 	{
 		DIRECTIVE,
 		NOTIFICATION;
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	interface BaseClassnames
 	{
 		String getRouterBaseClassname(RouterType routerType);
@@ -33,6 +59,11 @@ class RouterImplementationGenerator implements Constants
 		String getTransactionClassname();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	interface InstanceDefinition
 	{
 		RouterType getRouterType();
@@ -65,6 +96,11 @@ class RouterImplementationGenerator implements Constants
 		return constructor.create();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	private class RouterConstructor
 	{
 		private final InstanceDefinition definition;

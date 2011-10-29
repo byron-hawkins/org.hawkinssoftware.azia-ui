@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.composition;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
@@ -17,11 +27,25 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 // TODO: moving a class to a different package causes RNS failures in the evaluation by FQN, b/c it is stale some places
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <ComponentType>
+ *            the generic type
+ * @param <PainterType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 @DomainRole.Join(membership = RenderingDomain.class)
 public abstract class AbstractComposite<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> extends
 		ComponentEnclosure<ComponentType, PainterType>
 {
 	// TODO: domain membership did not get applied to implementor ScrollPaneResizeHandler (had to duplicate it)
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = TransactionParticipant.class)
 	public interface ResizeHandler extends UserInterfaceHandler
 	{
@@ -30,6 +54,11 @@ public abstract class AbstractComposite<ComponentType extends AbstractComponent,
 		void apply(UserInterfaceDirective action);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = TransactionParticipant.class)
 	public interface PaintHandler extends UserInterfaceHandler
 	{

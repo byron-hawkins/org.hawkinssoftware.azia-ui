@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.cell;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
@@ -19,10 +29,25 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 public class CellViewport extends ScrollPaneViewport
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <CellPainterType>
+	 *            the generic type
+	 * @param <ViewportCompositeType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static abstract class Assembly<CellPainterType extends AbstractCellContentPainter, ViewportCompositeType extends CellViewportComposite<CellPainterType>>
 			extends ComponentAssembly<CellViewport, CellViewport.Painter, ViewportCompositeType>
 	{
@@ -46,6 +71,11 @@ public class CellViewport extends ScrollPaneViewport
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Painter extends ScrollPaneViewport.Painter
 	{
 		// marker
@@ -78,6 +108,11 @@ public class CellViewport extends ScrollPaneViewport
 	// the coordinates need to be adjusted for the ScrollPaneViewport(CellViewport) (x,y). The viewport doesn't
 	// intervene in this call, it is as if this handler were directly on the viewport. Trouble is, I can't see the
 	// viewport's scroll position from here... In general, a painter is allowed to see its component.
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { TransactionParticipant.class, FlyweightCellDomain.class })
 	public class MouseHandler implements UserInterfaceHandler
 	{

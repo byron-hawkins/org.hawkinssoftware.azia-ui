@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.scalar;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -19,18 +29,35 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 @InvocationConstraint(domains = SliderTrack.SliderTrackDomain.class)
 public class SliderTrack extends AbstractComponent
 {
 	// TODO: not totally sure about this sub-domain configuration
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public static class SliderTrackDomain extends DisplayBoundsDomain
 	{
 		@DomainRole.Instance
 		public static final SliderTrackDomain INSTANCE = new SliderTrackDomain();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <PainterType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = RenderingDomain.class)
 	public static class Assembly<PainterType extends InstancePainter<SliderTrack>> extends
 			ComponentAssembly<SliderTrack, SliderTrack.Painter, ComponentEnclosure<SliderTrack, PainterType>>
@@ -52,6 +79,11 @@ public class SliderTrack extends AbstractComponent
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Painter
 	{
 		// marker
@@ -103,6 +135,11 @@ public class SliderTrack extends AbstractComponent
 		return new DivisionHook();
 	}
 	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = { SliderTrackDomain.class, DisplayBoundsDomain.class })
 	public class DivisionHook implements UserInterfaceHandler
 	{

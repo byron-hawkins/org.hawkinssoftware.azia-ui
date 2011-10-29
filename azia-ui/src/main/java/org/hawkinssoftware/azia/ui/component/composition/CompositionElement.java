@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.composition;
 
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
@@ -7,9 +17,20 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.CoreDomains.InitializationDomain;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @InitializationAspect(agent = CompositionElement.Agent.class)
 public interface CompositionElement
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Initializing extends CompositionElement
 	{
 		// TODO: might be nice to enforce a call to super on all of these, since I think the override is always
@@ -18,6 +39,11 @@ public interface CompositionElement
 		void compositionCompleted();
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@InvocationConstraint(extendedTypes = CompositionElement.class)
 	@DomainRole.Join(membership = { InitializationDomain.class, AssemblyDomain.class })
 	public static class Agent implements InitializationAspect.Agent<CompositionElement>

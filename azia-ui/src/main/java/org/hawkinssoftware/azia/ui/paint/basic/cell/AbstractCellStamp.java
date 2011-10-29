@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.paint.basic.cell;
 
 import java.util.HashMap;
@@ -26,6 +36,13 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @param <DataType>
+ *            the generic type
+ * @author Byron Hawkins
+ */
 public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>, CompositionElement.Initializing
 {
 	private Map<RowAddress, InteractiveCell> interactiveCells = new HashMap<RowAddress, InteractiveCell>();
@@ -83,6 +100,11 @@ public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>
 		return cell.getPlugin(key);
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@ValidateRead
 	@ValidateWrite
 	@VisibilityConstraint(domains = FlyweightCellDomain.class)
@@ -135,6 +157,11 @@ public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>
 			return "MouseAwareCellHandle for row " + cellContext.getAddress().row;
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		public class MouseHandler implements UserInterfaceHandler
 		{
 			public void mouseOverChanged(ChangeMouseOverDirective.Notification note, PendingTransaction transaction)
@@ -147,6 +174,11 @@ public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = FlyweightCellDomain.class)
 	private class RemoveMouseHandleDirective extends UserInterfaceDirective
 	{

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.scalar.handler;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -14,11 +24,22 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 @DomainRole.Join(membership = SliderTrackDomain.class)
 public class SliderTrackDivisionHandler implements UserInterfaceHandler, UserInterfaceActorDelegate
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public class Half implements UserInterfaceHandler
 	{
 		private final boolean polarity;
@@ -31,6 +52,11 @@ public class SliderTrackDivisionHandler implements UserInterfaceHandler, UserInt
 			this.polarity = polarity;
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		@DomainRole.Join(membership = SliderTrack.SliderTrackDomain.class)
 		public class MouseOverHalf extends MouseOverState
 		{
@@ -50,6 +76,11 @@ public class SliderTrackDivisionHandler implements UserInterfaceHandler, UserInt
 			}
 		}
 
+		/**
+		 * DOC comment task awaits.
+		 * 
+		 * @author Byron Hawkins
+		 */
 		@DomainRole.Join(membership = SliderTrack.SliderTrackDomain.class)
 		public class MousePressedHalf extends MousePressedState
 		{

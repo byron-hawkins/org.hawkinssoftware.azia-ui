@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.input;
 
 import java.util.HashSet;
@@ -13,8 +23,23 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.CoreDomains.InitializationDomain;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 public class InputDispatch
 {
+	
+	/**
+	 * The listener interface for receiving input events. The class that is interested in processing a input event
+	 * implements this interface, and the object created with that class is registered with a component using the
+	 * component's <code>addInputListener<code> method. When
+	 * the input event occurs, that object's appropriate
+	 * method is invoked.
+	 * 
+	 * @see InputEvent
+	 */
 	@DomainRole.Join(membership = MouseEventDomain.class)
 	private class InputListener implements NativeInputSpool.Listener
 	{

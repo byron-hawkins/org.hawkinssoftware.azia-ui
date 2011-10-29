@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2011 HawkinsSoftware
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Byron Hawkins of HawkinsSoftware
+ */
 package org.hawkinssoftware.azia.ui.component.scalar;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
@@ -16,10 +26,25 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
+/**
+ * DOC comment task awaits.
+ * 
+ * @author Byron Hawkins
+ */
 @ValidateRead
 @ValidateWrite
 public class ScrollPane extends AbstractComponent
 {
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @param <ViewportCompositeType>
+	 *            the generic type
+	 * @param <ScrollPaneType>
+	 *            the generic type
+	 * @author Byron Hawkins
+	 */
 	public static class Assembly<ViewportCompositeType extends ScrollPaneViewportComposite<?, ?>, ScrollPaneType extends ScrollPaneComposite<ViewportCompositeType>>
 			extends CompositeAssembly<ScrollPane, ScrollPane.Painter, ScrollPaneType>
 	{
@@ -56,6 +81,11 @@ public class ScrollPane extends AbstractComponent
 		}
 	}
 
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	public interface Painter
 	{
 		// marker
