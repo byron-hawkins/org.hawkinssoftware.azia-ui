@@ -51,9 +51,9 @@ basic points are mentioned here.
 1. Every instance of [AbstractComponent] and [AbstractComposite]
    must be constructed using a [ComponentAssembly] within the 
    execution context of an [InstantiationTask] member class.
-    * This process is under substantial revision
-1. Implementations of [InstancePainter] are assigned to composites
-   by the [PainterRegistry] using the current [PainterFactory]
+    * This process is under substantial revision (it's a mess)
+1. Implementations of [InstancePainter] are constructed by the
+   [PainterRegistry] using the installed [PainterFactory]
     * In <code>paint([Canvas])</code> methods, all changes pushed 
       to the canvas will be automatically popped on method exit
        + Manual pop is available for complex painting
@@ -83,6 +83,6 @@ basic points are mentioned here.
 1. There are very few components available. As a prototype, the
    goal so far has been to implement a diversity of components,
    rather than a comprehensive library. So there are no menus, 
-   combo boxes, tables, etc.
+   combo boxes, tables, etc. (yet)
 1. Much of the code is experimental, so there is substantial
    disorganization and inconsistency. 
