@@ -8,6 +8,9 @@ client API for the the [Azia User Interface Library][parent].
 [Input]: https://github.com/byron-hawkins/org.hawkinssoftware.azia-input/blob/master/azia-input/README.md
 [parent]: https://github.com/byron-hawkins/org.hawkinssoftware.azia/blob/master/azia/README.md
 
+#### Artifact
+
+A pure Java library.
 
 #### Installation
 
@@ -16,8 +19,8 @@ Add it as a project dependency, like any ordinary Java library.
 #### Usage
 
 Refer to the [Azia documentation][website] for tutorials and
-reference documentation on the usage of components. Only a few 
-basic points are mentioned here.
+reference on the usage of components. A few basic points are 
+mentioned here.
 
 1. Any entity may receive [UserInterfaceNotification]s about 
    transactional activity by implementing [UserInterfaceHandler]
