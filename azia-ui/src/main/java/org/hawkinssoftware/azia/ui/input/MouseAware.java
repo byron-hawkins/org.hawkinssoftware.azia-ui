@@ -117,7 +117,7 @@ public interface MouseAware extends UserInterfaceActor
 		private final List<MouseAware> contactProcessing = new ArrayList<MouseAware>();
 		private final Multimap<MouseInputEvent.Button, MouseAware> pressedEntitiesByButton = ArrayListMultimap.create();
 
-		private int currentFrameIndex;
+		private int currentFrameIndex; 
 
 		public State()
 		{

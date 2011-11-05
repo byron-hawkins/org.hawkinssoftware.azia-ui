@@ -26,7 +26,6 @@ import org.hawkinssoftware.rns.core.util.DefinesIdentity;
 @DomainRole.Join(membership = { TransactionParticipant.class, UserInterfaceHandler.HandlerDomain.class })
 public interface UserInterfaceHandler extends CompositionElement
 { 
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -42,7 +41,7 @@ public interface UserInterfaceHandler extends CompositionElement
 	 * DOC comment task awaits.
 	 * 
 	 * @author Byron Hawkins
-	 */
+	 */  
 	public interface Host extends UserInterfaceActorDelegate
 	{
 		void installHandler(UserInterfaceHandler handler);
@@ -52,3 +51,4 @@ public interface UserInterfaceHandler extends CompositionElement
 		void removeHandler(UserInterfaceHandler handler);
 	}
 }
+   
