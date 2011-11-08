@@ -13,7 +13,6 @@ package org.hawkinssoftware.azia.ui.component;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
-import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.DefinesIdentity;
 
@@ -51,4 +50,3 @@ public interface UserInterfaceHandler extends CompositionElement
 		void removeHandler(UserInterfaceHandler handler);
 	}
 }
-   

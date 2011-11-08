@@ -13,8 +13,8 @@ package org.hawkinssoftware.azia.ui;
 import org.hawkinssoftware.azia.core.action.TransactionRegistry;
 import org.hawkinssoftware.azia.core.lock.LockRegistry;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
-import org.hawkinssoftware.azia.core.role.CollaborationObserver;
 import org.hawkinssoftware.azia.input.clipboard.ClipboardMonitor;
+import org.hawkinssoftware.azia.input.key.HardwareKey;
 import org.hawkinssoftware.azia.ui.component.router.CompositeRouter;
 import org.hawkinssoftware.azia.ui.component.transaction.clipboard.ClipboardEventDispatch;
 import org.hawkinssoftware.azia.ui.component.transaction.key.KeyEventDispatch;
@@ -25,7 +25,6 @@ import org.hawkinssoftware.azia.ui.paint.transaction.resize.PainterResizeTransac
 import org.hawkinssoftware.azia.ui.tile.transaction.resize.ApplyLayoutSubTransaction;
 import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.moa.DomainObserver;
-import org.hawkinssoftware.rns.core.moa.ExecutionPath;
 import org.hawkinssoftware.rns.core.role.CoreDomains.InitializationDomain;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.role.DomainSpecificationRegistry;
@@ -56,7 +55,7 @@ public class AziaUserInterfaceInitializer
 			// ExecutionPath.Universe.getInstance().addObserver(new DomainObserver.Factory(new
 			// OrthogonalityViolationReporter()));
 
-			ExecutionPath.Universe.getInstance().addObserver(new CollaborationObserver.Factory());
+			// ExecutionPath.Universe.getInstance().addObserver(new CollaborationObserver.Factory());
 		}
 		catch (Exception e)
 		{
@@ -69,6 +68,7 @@ public class AziaUserInterfaceInitializer
 		ApplyLayoutSubTransaction.TransactionRegistryListener.INSTANCE.toString();
 		RepaintRequestManager.initialize();
 
+		HardwareKey.initialize();
 		InputDispatch.start();
 		CompositeRouter.initialize();
 		LockRegistry.initialize();

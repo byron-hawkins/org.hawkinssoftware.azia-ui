@@ -24,7 +24,9 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * All instances of <code>AbstractComponent</code> must be constructed within the ComponentRegistry using
+ * <code>establishComposite()</code>. Once a component has been constructed, it may be accessed <i>ad hoc</i> from
+ * anywhere in the JVM using <code>getComposite()</code> or <code>getComponent()</code>.
  * 
  * @author Byron Hawkins
  */
