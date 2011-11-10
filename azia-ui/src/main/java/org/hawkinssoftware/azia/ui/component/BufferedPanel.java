@@ -51,7 +51,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
  */
 public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Canvas
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -59,7 +59,7 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 	 */
 	@DomainRole.Join(membership = RenderingDomain.class)
 	private class PaintAllTask extends UserInterfaceTask
-	{ 
+	{
 		@Override
 		protected boolean execute()
 		{
@@ -94,7 +94,7 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 	 */
 	private class TopTileResizer extends ComponentAdapter
 	{
-		
+
 		/**
 		 * DOC comment task awaits.
 		 * 
@@ -230,7 +230,7 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 			}
 		}
 	}
- 
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -502,6 +502,11 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 		}
 	}
 
+	/**
+	 * Modifies the backbuffer with the specified <code>repaints</code>
+	 * 
+	 * @param repaints
+	 */
 	void invokeTransactionRepaints(Collection<RepaintDirective> repaints)
 	{
 		try
@@ -516,6 +521,9 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 		}
 	}
 
+	/**
+	 * Swap the backbuffer into the screen.
+	 */
 	void applyTransactionRepaints()
 	{
 		if (repaintTask.painted())

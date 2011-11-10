@@ -30,14 +30,17 @@ import org.hawkinssoftware.azia.ui.paint.PainterRegistry;
 import org.hawkinssoftware.azia.ui.paint.canvas.Canvas;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintAtomCollection;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
+import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
 import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * Internal transaction which executes painting of the screen. Operates either on an entire window, or on individual
+ * repaint requests submitted to the <code>RepaintRequestManager</code>.
  * 
  * @author Byron Hawkins
+ * @see RepaintRequestManager
  */
 @DomainRole.Join(membership = RenderingDomain.class)
 public class PaintTransaction implements UserInterfaceTransaction.Iterative
