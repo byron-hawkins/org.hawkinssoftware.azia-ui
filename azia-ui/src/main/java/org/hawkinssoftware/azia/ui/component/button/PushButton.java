@@ -37,7 +37,6 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @DomainRole.Join(membership = PushButton.PushButtonDomain.class)
 public class PushButton extends AbstractButton
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

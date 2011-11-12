@@ -36,7 +36,6 @@ import org.hawkinssoftware.rns.core.util.RNSUtils;
 @DomainRole.Join(membership = CompositionRegistry.CompositionInitializationDomain.class)
 public final class CompositionRegistry
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
