@@ -10,10 +10,9 @@
  */
 package org.hawkinssoftware.azia.ui.paint.plugin;
 
-import java.awt.geom.Rectangle2D;
-
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
+import org.hawkinssoftware.azia.ui.component.PartialBounds;
 import org.hawkinssoftware.azia.ui.component.VirtualComponent;
 import org.hawkinssoftware.azia.ui.component.text.handler.PlainTextHandler;
 import org.hawkinssoftware.azia.ui.component.transaction.state.ChangeTextDirective;
@@ -34,7 +33,30 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateWrite
 public abstract class LabelTextPlugin extends LabelContentPlugin
 {
-	protected Rectangle2D textBounds = new Rectangle2D.Double(-1.0, -1.0, -1.0, -1.0);
+	protected Axis.Bounds.Double textBounds = new Axis.Bounds.Double(-1.0, -1.0, -1.0, -1.0);
+	protected PartialBounds fixedBounds = new PartialBounds();
+	protected final Axis.Bounds activeBounds = new ActiveBounds();
+
+	private class ActiveBounds implements Axis.Bounds
+	{
+		@Override
+		public int getExtent(Axis axis)
+		{
+			return getPosition(axis) + getSpan(axis);
+		}
+
+		@Override
+		public int getPosition(Axis axis)
+		{
+			return fixedBounds.hasPosition(axis) ? fixedBounds.getPosition(axis) : textBounds.getPosition(axis);
+		}
+
+		@Override
+		public int getSpan(Axis axis)
+		{
+			return fixedBounds.hasSpan(axis) ? fixedBounds.getSpan(axis) : textBounds.getSpan(axis);
+		}
+	}
 
 	@ValidateWrite.Exempt
 	protected BoundsType boundsType = BoundsType.GLYPH;
@@ -53,11 +75,26 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 		this.boundsType = boundsType;
 	}
 
+	public void clearFixedBounds()
+	{
+		fixedBounds = new PartialBounds();
+	}
+
+	public void setFixedBounds(PartialBounds fixedBounds)
+	{
+		this.fixedBounds = fixedBounds;
+	}
+
+	public void mergeFixedBounds(PartialBounds fixedBounds)
+	{
+		this.fixedBounds = this.fixedBounds.fillWith(fixedBounds);
+	}
+
 	public void textChanged(ChangeTextDirective textChange)
 	{
 		if (textChange.text != null)
 		{
-			textBounds = TextMetrics.INSTANCE.getBounds(textChange.text, boundsType);
+			textBounds.bounds = TextMetrics.INSTANCE.getBounds(textChange.text, boundsType);
 		}
 	}
 
@@ -73,7 +110,7 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 		{
 			Canvas c = Canvas.get();
 
-			int x = c.centerLeadingEdge(textBounds);
+			int x = c.centerLeadingEdge(activeBounds);
 			int baseline;
 			switch (boundsType)
 			{
@@ -81,7 +118,7 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 					baseline = c.centerTypicalTextBaseline();
 					break;
 				case GLYPH:
-					baseline = c.centerExactBaseline(textBounds);
+					baseline = c.centerExactBaseline(activeBounds);
 					break;
 				default:
 					throw new UnknownEnumConstantException(boundsType);
@@ -94,15 +131,7 @@ public abstract class LabelTextPlugin extends LabelContentPlugin
 		@Override
 		public int getPackedSize(Axis axis)
 		{
-			switch (axis)
-			{
-				case H:
-					return (int) Math.round(textBounds.getWidth());
-				case V:
-					return (int) Math.round(textBounds.getHeight());
-				default:
-					throw new UnknownEnumConstantException(axis);
-			}
+			return ((int) Math.round(activeBounds.getSpan(axis))) + 1;
 		}
 	}
 

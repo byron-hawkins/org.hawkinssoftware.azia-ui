@@ -23,6 +23,8 @@ import org.hawkinssoftware.azia.ui.component.scalar.transaction.ChangeKnobSpanDi
 import org.hawkinssoftware.azia.ui.component.scalar.transaction.ChangeViewportContentBoundsDirective;
 import org.hawkinssoftware.azia.ui.component.scalar.transaction.MoveViewportOriginDirective;
 import org.hawkinssoftware.azia.ui.component.transaction.resize.ComponentBoundsChangeDirective;
+import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
+import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
@@ -33,7 +35,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = { ScrollPaneDomain.class, ScrollPaneViewportDomain.class, DisplayBoundsDomain.class })
 public class ScrollPaneViewportContributor implements UserInterfaceHandler
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -69,6 +71,8 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 			int knobPosition = (int) (knobRange * positionRatio);
 			knobPosition = Math.max(Math.min(knobPosition, scrollbarSpan - knobSpan), 0);
 			transaction.contribute(new ChangeKnobPositionNotification(host.getScrollbar(axis).getComponent(), knobPosition));
+
+			RepaintRequestManager.requestRepaint(new RepaintInstanceDirective(host.getScrollbar(axis).getComponent()));
 		}
 	}
 

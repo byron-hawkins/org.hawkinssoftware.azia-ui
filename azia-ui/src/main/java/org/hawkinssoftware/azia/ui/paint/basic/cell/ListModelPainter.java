@@ -51,7 +51,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 public class ListModelPainter extends AbstractCellContentPainter implements CellStamp.RepaintHandler, ScrollPaneViewport.Painter,
 		CompositionElement.Initializing
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -164,13 +164,81 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 				}
 				position += cellHeight;
 
-				if (position >= staticContent.getSouthSectionTop())
+				if (position >= (viewport.getComponent().yViewport() + staticContent.getSouthSectionTop()))
 				{
 					break;
 				}
 			}
 		}
 		return null;
+	}
+
+	public boolean isRowFullyVisible(int row)
+	{
+		Axis.Span span = getRowSpan(Section.SCROLLABLE, Axis.V, row);
+		if (span.position < viewport.getComponent().yViewport())
+		{
+			return false;
+		}
+		if (((span.position + span.span) - viewport.getComponent().yViewport()) > staticContent.getSouthSectionTop())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public <DataType> Axis.Span getRowSpan(Section section, Axis axis, int row)
+	{
+		RowAddress rowAddress = viewport.createAddress(row, section);
+		@SuppressWarnings("unchecked")
+		DataType rowDatum = (DataType) model.get(rowAddress);
+		CellStamp<DataType> rowStamp = stampFactory.getStamp(rowAddress, rowDatum);
+
+		int position = 0;
+		int span = rowStamp.getSpan(axis, rowDatum);
+
+		if (axis == Axis.V)
+		{
+			for (int i = 0; i < row; i++)
+			{
+				RowAddress address = viewport.createAddress(i, section);
+				@SuppressWarnings("unchecked")
+				DataType datum = (DataType) model.get(address);
+				CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
+				position += stamp.getSpan(Axis.V, datum);
+			}
+		}
+
+		return new Axis.Span(axis, position, span);
+	}
+
+	public <DataType> int getRowAtPosition(int targetPosition)
+	{
+		if (targetPosition == 0)
+		{
+			return 0;
+		}
+		
+		int row = 0;
+		int position = 0;
+		for (; row < model.getRowCount(Section.SCROLLABLE); row++)
+		{
+			RowAddress address = viewport.createAddress(row, Section.SCROLLABLE);
+			@SuppressWarnings("unchecked")
+			DataType datum = (DataType) model.get(address);
+			CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
+			position += stamp.getSpan(Axis.V, datum);
+			if (position >= targetPosition)
+			{
+				break;
+			}
+		}
+		return row;
+	}
+
+	public <DataType> int getLastVisibleRow()
+	{
+		return Math.max(0, getRowAtPosition(viewport.getComponent().yViewport() + viewport.getBounds().height) - 1);
 	}
 
 	public void repaint(RowAddress address)

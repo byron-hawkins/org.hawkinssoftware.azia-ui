@@ -62,6 +62,12 @@ public class LabelPainter<LabelType extends Label> extends ComponentPainter<Labe
 		this.labelPlugin = labelPlugin;
 	}
 
+	@InvocationConstraint(domains = AssemblyDomain.class)
+	public LabelContentPlugin getLabelPlugin()
+	{
+		return labelPlugin;
+	}
+	
 	@Override
 	public int getPackedSize(Axis axis)
 	{

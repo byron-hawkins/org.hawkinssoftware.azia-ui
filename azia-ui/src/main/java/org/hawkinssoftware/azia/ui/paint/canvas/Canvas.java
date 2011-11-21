@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.RenderingDomain;
@@ -38,7 +39,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class Canvas
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -220,9 +221,9 @@ public class Canvas
 		return currentBounds.span;
 	}
 
-	public int centerLeadingEdge(Rectangle2D glyphBounds)
+	public int centerLeadingEdge(Axis.Bounds glyphBounds)
 	{
-		return (int) Math.round(((size().width - glyphBounds.getWidth()) / 2) - glyphBounds.getX());
+		return (int) Math.round(((size().width - glyphBounds.getSpan(Axis.H)) / 2) - glyphBounds.getPosition(Axis.H));
 	}
 
 	public int centerTypicalTextBaseline()
@@ -231,12 +232,12 @@ public class Canvas
 		return Math.round(((size().height - ascentSpan) / 2) + ascentSpan);
 	}
 
-	public int centerExactBaseline(Rectangle2D glyphBounds)
+	public int centerExactBaseline(Axis.Bounds glyphBounds)
 	{
-		double yAscent = ((size().height - glyphBounds.getHeight()) / 2);
-		return (int) Math.round(yAscent + glyphBounds.getHeight() - (glyphBounds.getHeight() + glyphBounds.getY()));
+		double yAscent = ((size().height - glyphBounds.getSpan(Axis.V)) / 2);
+		return (int) Math.round(yAscent + glyphBounds.getSpan(Axis.V) - (glyphBounds.getSpan(Axis.V) + glyphBounds.getPosition(Axis.V)));
 	}
-	
+
 	private void revertClip(Rectangle clip)
 	{
 		if (clip == null)

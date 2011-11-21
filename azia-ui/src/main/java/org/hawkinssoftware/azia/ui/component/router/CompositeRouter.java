@@ -43,7 +43,6 @@ import org.hawkinssoftware.rns.core.util.RNSUtils;
 @InvocationConstraint(types = { VirtualComponent.class, AbstractEventDispatch.class })
 public final class CompositeRouter 
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

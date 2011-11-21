@@ -41,7 +41,7 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 @DomainRole.Join(membership = { RenderingDomain.class, DisplayBoundsDomain.class })
 public interface InstancePainter<ComponentType extends AbstractComponent>
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -65,7 +65,7 @@ public interface InstancePainter<ComponentType extends AbstractComponent>
 
 		private Key(Class<PainterType> painterType)
 		{
-			this.painterType = painterType; 
+			this.painterType = painterType;
 		}
 	}
 
@@ -74,11 +74,10 @@ public interface InstancePainter<ComponentType extends AbstractComponent>
 	 * 
 	 * @author Byron Hawkins
 	 */
-	@InvocationConstraint(domains = RenderingDomain.class)
-	@VisibilityConstraint(domains = RenderingDomain.class)
+	@VisibilityConstraint(domains = { RenderingDomain.class, AssemblyDomain.class })
 	public static final class TextMetrics
 	{
-		
+
 		/**
 		 * DOC comment task awaits.
 		 * 
