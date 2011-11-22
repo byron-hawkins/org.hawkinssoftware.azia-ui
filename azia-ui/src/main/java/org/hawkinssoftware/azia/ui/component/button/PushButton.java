@@ -28,7 +28,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * Simple push button. All characteristic behaviors are pluggable in the containing <code>ButtonComposite</code>, so
+ * this component itself is an empty shell.
  * 
  * @author Byron Hawkins
  */
@@ -38,7 +39,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 public class PushButton extends AbstractButton
 {
 	/**
-	 * DOC comment task awaits.
+	 * Domain specific to interaction with a <code>PushButton</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -49,7 +50,8 @@ public class PushButton extends AbstractButton
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Generic assembly for a <code>PushButton</code>. This assembly is abstract because it doesn't plug any
+	 * characteristic behaviors into the button, which therefore does not even draw on the screen.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -63,9 +65,10 @@ public class PushButton extends AbstractButton
 			setEnclosure(new ComponentEnclosure.Key(ButtonComposite.class));
 		}
 	}
-	
+
 	/**
-	 * DOC comment task awaits.
+	 * Assembly for a simple <code>PushButton</code> having a centered text label, a pressed state and a mouseover
+	 * state.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -84,7 +87,7 @@ public class PushButton extends AbstractButton
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Marker interface
 	 * 
 	 * @author Byron Hawkins
 	 */

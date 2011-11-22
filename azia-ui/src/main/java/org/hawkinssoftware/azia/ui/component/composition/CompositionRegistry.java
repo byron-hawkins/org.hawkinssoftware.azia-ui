@@ -29,18 +29,19 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
 /**
- * DOC comment task awaits.
+ * Global facilitator of implicit composition. The method <code>beginComposition</code> explicitly initiates a
+ * thread-based session, during which all instantiations of <code>CompositionElement</code> will be associated with the
+ * composition hierarhcy of the specified <code>AbstractComposite</code> type. When no such session is active, each
+ * instantiation of <code>CompositionElement</code> is assumed to be a compositional sibling of the most recent
+ * <code>CompositionElement</code> on the call stack at the time of instantiation; a warning is reported to the log if
+ * no such <code>CompositionElement</code> is found on the call stack, and the instantiating
+ * <code>CompositionElement</code> is considered to be an orphan.
  * 
  * @author Byron Hawkins
  */
 @DomainRole.Join(membership = CompositionRegistry.CompositionInitializationDomain.class)
 public final class CompositionRegistry
 {
-	/**
-	 * DOC comment task awaits.
-	 * 
-	 * @author Byron Hawkins
-	 */
 	@DomainRole.Join(membership = CompositionInitializationDomain.class)
 	private static class Session
 	{
@@ -78,14 +79,15 @@ public final class CompositionRegistry
 			else
 			{
 				elements.add(element);
-			} 
+			}
 		}
 	}
 
 	// TODO: when I change the hierarchy of a domain, every domain usage instance needs to be analyzed. Currently it
 	// only checks the domain references, not all the implications of contraints having the domain in them.
 	/**
-	 * DOC comment task awaits.
+	 * Domain specific to the initialization and implicit composition of <code>AbstractComposite</code>s and their
+	 * <code>CompositionElement</code>s.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -96,11 +98,6 @@ public final class CompositionRegistry
 		public static final CompositionInitializationDomain INSTANCE = new CompositionInitializationDomain();
 	}
 
-	/**
-	 * DOC comment task awaits.
-	 * 
-	 * @author Byron Hawkins
-	 */
 	@DomainRole.Join(membership = CompositionInitializationDomain.class)
 	private static class SessionStack implements Iterable<Session>
 	{
@@ -144,11 +141,6 @@ public final class CompositionRegistry
 			this.repaintHost = repaintHost;
 		}
 
-		/**
-		 * DOC comment task awaits.
-		 * 
-		 * @author Byron Hawkins
-		 */
 		@DomainRole.Join(membership = CompositionInitializationDomain.class)
 		private class SessionIterator implements Iterator<Session>
 		{

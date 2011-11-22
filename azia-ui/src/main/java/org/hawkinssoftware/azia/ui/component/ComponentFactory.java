@@ -20,20 +20,12 @@ import org.hawkinssoftware.azia.ui.paint.InstancePainter;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
-// WIP: build is still not finding all dependency deltas, e.g. putting this factory in the RenderingDomain revealed a need for AssemblyDomain permissions
-
 /**
- * A factory for creating Component objects.
+ * A factory for creating <code>AbstractComponent</code> and <code>AbstractComposite</code> objects.
  */
 @DomainRole.Join(membership = { RenderingDomain.class, AssemblyDomain.class })
 class ComponentFactory
 {
-	
-	/**
-	 * DOC comment task awaits.
-	 * 
-	 * @author Byron Hawkins
-	 */
 	private static class FactoryException extends RuntimeException
 	{
 		FactoryException(String message, Throwable cause)

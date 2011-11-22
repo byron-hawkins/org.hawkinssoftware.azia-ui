@@ -16,7 +16,8 @@ import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.rns.core.publication.ExtensionConstraint;
 
 /**
- * DOC comment task awaits.
+ * Trivial interface for a <code>UserInterfaceNotification</code> router; implemented only by the
+ * <code>RouterImplementationFactory</code>.
  * 
  * @author Byron Hawkins
  */

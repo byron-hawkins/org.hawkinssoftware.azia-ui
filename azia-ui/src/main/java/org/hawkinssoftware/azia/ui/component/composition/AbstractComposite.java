@@ -28,21 +28,23 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 
 // TODO: moving a class to a different package causes RNS failures in the evaluation by FQN, b/c it is stale some places
 /**
- * DOC comment task awaits.
+ * An <code>AbstractComponent</code> is composed with an <code>InstancePainter</code> and a set of
+ * <code>UserInterfaceHandler</code>s having characteristic behaviors into an <code>AbstractComposite</code>.
  * 
  * @param <ComponentType>
- *            the generic type
+ *            The specific type of composed <code>AbstractComposite</code>.
  * @param <PainterType>
- *            the generic type
+ *            The specific type of <code>InstancePainter</code> which renders the <code>ComponentType</code> for this
+ *            <code>AbstractComposite</code>.
  * @author Byron Hawkins
  */
 @DomainRole.Join(membership = RenderingDomain.class)
 public abstract class AbstractComposite<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> extends
 		ComponentEnclosure<ComponentType, PainterType>
 {
-	// TODO: domain membership did not get applied to implementor ScrollPaneResizeHandler (had to duplicate it)
 	/**
-	 * DOC comment task awaits.
+	 * General declaration of a transaction participant which responds to and applies size changes. Not really necessary
+	 * now that routers are instrumented according to convention.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -55,7 +57,8 @@ public abstract class AbstractComposite<ComponentType extends AbstractComponent,
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * General declaration of a transaction participant which responds to paint requests. Not really necessary now that
+	 * routers are instrumented according to convention.
 	 * 
 	 * @author Byron Hawkins
 	 */

@@ -15,15 +15,16 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 
 /**
- * DOC comment task awaits.
+ * Generic transaction contribution to change the pressed state of some kind of <code>AbstractComponent</code>; often
+ * transformed into a contribution which is more particular to the pressed component.
  * 
  * @author Byron Hawkins
  */
 public class ChangePressedStateDirective extends ChangeComponentStateDirective
 {
-	
+
 	/**
-	 * DOC comment task awaits.
+	 * Notification corresponding to the enclosing <code>ChangePressedStateDirective</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */

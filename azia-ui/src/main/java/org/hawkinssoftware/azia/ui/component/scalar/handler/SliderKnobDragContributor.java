@@ -23,7 +23,7 @@ import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManag
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * Contributes <code>SlideToPositionNotification</code> to a mouse drag transaction.
  * 
  * @author Byron Hawkins
  */
@@ -38,7 +38,7 @@ public class SliderKnobDragContributor implements UserInterfaceHandler
 	{
 		this.host = host;
 		repaint = new RepaintInstanceDirective(host.getComponent());
-	} 
+	}
 
 	public void mouseDragged(MouseDragDirective.Notification drag, PendingTransaction transaction)
 	{

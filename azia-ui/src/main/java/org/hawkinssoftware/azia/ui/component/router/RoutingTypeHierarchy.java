@@ -26,15 +26,18 @@ import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
 /**
- * DOC comment task awaits.
+ * Singleton hierarchy of <code>UserInterfaceDirective</code> and <code>UserInterfaceNotification</code> which maps each
+ * instance to a set of compatible <code>AbstractComponentRouter</code>s and populates the
+ * <code>InstrumentedRouterCache</code> accordingly. Every <code>UserInterfaceDirective</code> and
+ * <code>UserInterfaceNotification</code> is mapped directly to a complete set of compatible routers, such that
+ * <code>InstrumentedRouterCache</code> lookup never requires resolving implications or traversing.
  * 
  * @author Byron Hawkins
  */
 class RoutingTypeHierarchy
 {
-	
 	/**
-	 * DOC comment task awaits.
+	 * Represents one <code>UserInterfaceDirective</code> or <code>UserInterfaceNotification</code> in the hierarchy.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -73,10 +76,11 @@ class RoutingTypeHierarchy
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Represents a bytecode instrumented <code>AbstractComponentRouter</code> for a particular hierarchy of
+	 * <code>UserInterfaceDirective</code> or <code>UserInterfaceNotification</code>.
 	 * 
 	 * @param <RouterImplementationType>
-	 *            the generic type
+	 *            the particular kind of <code>AbstractComponentRouter</code>
 	 * @author Byron Hawkins
 	 */
 	private static class Router<RouterImplementationType extends AbstractComponentRouter>
@@ -92,7 +96,8 @@ class RoutingTypeHierarchy
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Represents a subtree in the hierarchy of <code>UserInterfaceDirective</code> or
+	 * <code>UserInterfaceNotification</code>.
 	 * 
 	 * @param <RouterImplementationType>
 	 *            the generic type
@@ -113,10 +118,21 @@ class RoutingTypeHierarchy
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * The set of subtrees of the <code>UserInterfaceDirective</code> or <code>UserInterfaceNotification</code>
+	 * hierarchy which can be routed to a particular <code>UserInterfaceHandler</code>. For example, suppose a
+	 * <code>ShapeHandler extends UserInterfaceHandler</code> has methods
+	 * <code>addTrapezoid(TrapezoidAddNotification notification)</code> and
+	 * <code>addQuadrilateral(QuadrilateralAddNotification notification)</code>. In this case, the
+	 * <code>DeliverableSubtrees</code> will contain two overlapping entries: the subtree of
+	 * <code>QuadrilateralAddNotification</code> and the subtree of <code>TrapezoidAddNotification</code>. When
+	 * deliverables are assigned, each overlapping subtree is truncated at the root of the contained subtree, such that
+	 * the most direct method is called for any deliverable type. In the example, this means every
+	 * <code>QuadrilateralAddNotification</code> will be posted only to the <code>addQuadrilateral()</code> method
+	 * unless it is more specifically a <code>TrapezoidAddNotification</code>, in which case the
+	 * <code>addTrapezoid</code> method is used instead.
 	 * 
 	 * @param <RouterImplementationType>
-	 *            the generic type
+	 *            <code>ComponentDirectiveRouter</code> or <code>ComponentNotificationRouter</code>
 	 * @author Byron Hawkins
 	 */
 	private static class DeliverableSubtrees<RouterImplementationType extends AbstractComponentRouter>
@@ -158,7 +174,9 @@ class RoutingTypeHierarchy
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Expanded representation of a single <code>UserInterfaceHandler</code>. In the initial construction, the entirety
+	 * of the deliverable hierarchies--as presently known--will be assigned to the handler's routers. When a new
+	 * deliverable is introduced into the JVM, it will be assigned to each handler's routers for which it is compatible.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -245,18 +263,18 @@ class RoutingTypeHierarchy
 		Log.out(Tag.ROUTER_INIT, "Loaded %s: %s", type, RNSUtils.getPlainName(deliverableType.qualifiedName));
 
 		List<TypeHierarchy> delta = new ArrayList<TypeHierarchy>();
-		TypeHierarchy observedAction = deliverableType;
+		TypeHierarchy observedType = deliverableType;
 		DeliverableType entryPoint = null;
-		while (observedAction != null)
+		while (observedType != null)
 		{
-			DeliverableType existingType = DeliverableType.ALL.get(observedAction.qualifiedName);
+			DeliverableType existingType = DeliverableType.ALL.get(observedType.qualifiedName);
 			if (existingType != null)
 			{
 				entryPoint = existingType;
 				break;
 			}
-			delta.add(observedAction);
-			observedAction = observedAction.supertype;
+			delta.add(observedType);
+			observedType = observedType.supertype;
 		}
 
 		if (entryPoint == null)
@@ -268,42 +286,6 @@ class RoutingTypeHierarchy
 		for (int i = delta.size() - 1; i >= 0; i--)
 		{
 			parent = parent.createSubtype(delta.get(i).qualifiedName);
-
-			for (HandlerType handler : handlerTypes)
-			{
-				handler.assignDeliverable(parent, type);
-			}
-		}
-	}
-
-	private void installDeliverable(Class<?> deliverableType, RouterType type)
-	{
-		Log.out(Tag.ROUTER_INIT, "Loaded %s: %s", type, RNSUtils.getPlainName(deliverableType));
-
-		List<Class<?>> delta = new ArrayList<Class<?>>();
-		Class<?> observedAction = deliverableType;
-		DeliverableType entryPoint = null;
-		while (observedAction != null)
-		{
-			DeliverableType existingType = DeliverableType.ALL.get(observedAction.getName());
-			if (existingType != null)
-			{
-				entryPoint = existingType;
-				break;
-			}
-			delta.add(observedAction);
-			observedAction = observedAction.getSuperclass();
-		}
-
-		if (entryPoint == null)
-		{
-			throw new RuntimeException("Unable to find the entry point for observed action type " + deliverableType.getName());
-		}
-
-		DeliverableType parent = entryPoint;
-		for (int i = delta.size() - 1; i >= 0; i--)
-		{
-			parent = parent.createSubtype(delta.get(i).getName());
 
 			for (HandlerType handler : handlerTypes)
 			{

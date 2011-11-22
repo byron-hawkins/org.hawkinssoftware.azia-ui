@@ -23,19 +23,16 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 
 // TODO: make one of these for re-layout requests, and keep them in sequence in the TxnReg
 /**
- * DOC comment task awaits.
+ * Global coordinator of repaints, which receives <i>ad hoc</i> requests from any participant in a
+ * <code>UserInterfaceTransaction</code> and applies all requests in the transaction post-processing phase. Redundant
+ * requests will be automatically discarded, atom requests will be grouped by their enclosing aggregate, and a request
+ * to repaint an entire aggregate supersedes all its atom requests (which would be redundant).
  * 
  * @author Byron Hawkins
  */
 @DomainRole.Join(membership = TransactionParticipant.class)
 public class RepaintRequestManager
 {
-	
-	/**
-	 * DOC comment task awaits.
-	 * 
-	 * @author Byron Hawkins
-	 */
 	private static class TransactionHook implements UserInterfaceTransaction.PostProcessor
 	{
 		public void sessionStarting()

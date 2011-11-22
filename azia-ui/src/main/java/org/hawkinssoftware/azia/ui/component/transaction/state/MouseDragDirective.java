@@ -19,7 +19,7 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * Directive to a draggable UIActor when a mouse move transaction is determined to comprise a drag for that actor.
  * 
  * @author Byron Hawkins
  */
@@ -28,9 +28,9 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = MouseEventDomain.class)
 public class MouseDragDirective extends ChangeComponentStateDirective
 {
-	
 	/**
-	 * DOC comment task awaits.
+	 * An instance of the enclosing <code>MouseDragDirective</code> always represents one of these three states of the
+	 * drag process.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -42,7 +42,7 @@ public class MouseDragDirective extends ChangeComponentStateDirective
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Notification for the directive.
 	 * 
 	 * @author Byron Hawkins
 	 */

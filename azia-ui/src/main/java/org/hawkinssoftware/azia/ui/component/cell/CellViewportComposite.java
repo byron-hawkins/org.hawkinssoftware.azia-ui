@@ -19,10 +19,13 @@ import org.hawkinssoftware.azia.ui.paint.basic.cell.AbstractCellContentPainter;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.CellViewportPainter;
 
 /**
- * DOC comment task awaits.
+ * Abstract base class for a <code>ScrollPane</code> viewport containing a vertical list of cells. Supports both
+ * flyweight and concrete cell implementations. Note that all scroll pane viewports in Azia are content-specific; there
+ * is no generic viewport holding a generic component, because viewports are always content-specific (see the phony
+ * linkages between JTable and JScrollPane for confirmation).
  * 
  * @param <CellPainterType>
- *            the generic type
+ *            Specifies the painter to render the cells in this viewport.
  * @author Byron Hawkins
  */
 public class CellViewportComposite<CellPainterType extends AbstractCellContentPainter> extends ScrollPaneViewportComposite<CellViewport, CellViewportPainter>
@@ -34,7 +37,7 @@ public class CellViewportComposite<CellPainterType extends AbstractCellContentPa
 	{
 		super(component);
 	}
-	
+
 	public boolean hasFocus()
 	{
 		return false;

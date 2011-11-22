@@ -29,16 +29,16 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * Excluded from its own `MouseEventDomain because a MouseAware is expected to delegate, and only those delegates belong
- * in the domain with its permission
+ * Marker interface for all UI entities having awareness of mouse interactions. It is excluded from its own
+ * <code>MouseEventDomain</code> because a <code>MouseAware</code> is expected to delegate transactional behaviors (to
+ * optimize compositional freedom), and only those delegates belong in the domain with its permission
  * 
  * @author b
  */
 public interface MouseAware extends UserInterfaceActor
 {
-	
 	/**
-	 * DOC comment task awaits.
+	 * Domain specific to mouse events.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -49,16 +49,15 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Internal implementation of mouse event state and history.
 	 * 
 	 * @author Byron Hawkins
 	 */
 	@InvocationConstraint(domains = MouseEventDomain.class)
 	public static class State
 	{
-		
 		/**
-		 * DOC comment task awaits.
+		 * Data capture for a single mouse event, designed for stacking a history.
 		 * 
 		 * @author Byron Hawkins
 		 */
@@ -117,7 +116,7 @@ public interface MouseAware extends UserInterfaceActor
 		private final List<MouseAware> contactProcessing = new ArrayList<MouseAware>();
 		private final Multimap<MouseInputEvent.Button, MouseAware> pressedEntitiesByButton = ArrayListMultimap.create();
 
-		private int currentFrameIndex; 
+		private int currentFrameIndex;
 
 		public State()
 		{
@@ -189,7 +188,9 @@ public interface MouseAware extends UserInterfaceActor
 		}
 
 		/**
-		 * DOC comment task awaits.
+		 * Data container for the conclusion of a mouse frame, which must account for special conditions such as an
+		 * object which is presently being dragged but does not have the mouse pointer on it (e.g., the user drifts the
+		 * mouse pointer beside the scrollbar while dragging it).
 		 * 
 		 * @author Byron Hawkins
 		 */
@@ -249,7 +250,8 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Used by a <code>MouseAware</code>'s handlers to notify the <code>MouseAware.State</code> that the mouse pointer
+	 * contacted it during the present <code>MouseEventTransaction</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -270,7 +272,9 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Used by a <code>MouseAware</code> to report that another <code>MouseAware</code> may be included in the present
+	 * <code>MouseEventTransaction</code> (if so, that <code>MouseAware</code> will be expected to post
+	 * <code>Contact</code>).
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -291,7 +295,7 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Used to broadcast the present mouse state during a <code>MouseEventTransaction</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -304,7 +308,7 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Used to broadcast the closure of a <code>MouseEventTransaction</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -315,7 +319,8 @@ public interface MouseAware extends UserInterfaceActor
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Generic specification of a handler for <code>MouseEventTransaction</code>s. Not really necessary now that
+	 * handlers are instrumented according to convention.
 	 * 
 	 * @author Byron Hawkins
 	 */

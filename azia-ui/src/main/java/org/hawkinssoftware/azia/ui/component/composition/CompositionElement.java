@@ -18,16 +18,18 @@ import org.hawkinssoftware.rns.core.role.CoreDomains.InitializationDomain;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * A marker interface indicating that the implementor will participate in implicit composition, as instrumented
+ * according to the <code>@InitializationAspect</code> and facilitated by the <code>CompositionRegistry</code>.
  * 
  * @author Byron Hawkins
  */
 @InitializationAspect(agent = CompositionElement.Agent.class)
 public interface CompositionElement
 {
-	
+
 	/**
-	 * DOC comment task awaits.
+	 * A marker interface indicating that the implementor would like to be notified when its implicit composition
+	 * sequence has been completed.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -40,7 +42,8 @@ public interface CompositionElement
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Instantiation of any <code>CompositionElement</code> is pointcut by its <code>@InitializationAspect</code> to
+	 * this <code>Agent</code>, which simply delegates to the <code>CompositionRegistry</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */

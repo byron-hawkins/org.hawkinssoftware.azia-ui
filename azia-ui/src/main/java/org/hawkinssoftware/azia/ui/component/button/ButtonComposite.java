@@ -15,7 +15,8 @@ import org.hawkinssoftware.azia.ui.paint.ComponentPainter;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 
 /**
- * DOC comment task awaits.
+ * Composite container for an <code>AbstractButton</code> and its constituent characteristic behaviors. The
+ * <code>ButtonComposite</code> is an empty shell until things are plugged into it (no label or anything).
  * 
  * @param <ButtonType>
  *            the generic type

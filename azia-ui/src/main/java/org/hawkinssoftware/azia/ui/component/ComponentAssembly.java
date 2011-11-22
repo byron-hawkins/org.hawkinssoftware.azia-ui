@@ -25,14 +25,16 @@ import org.hawkinssoftware.rns.core.util.DefinesIdentity;
 
 //@SuppressWarnings("rawtypes")
 /**
- * DOC comment task awaits.
+ * Abstract assembly descriptor for an <code>AbstractComponent</code>.
  * 
  * @param <ComponentType>
- *            the generic type
+ *            The specific kind of component to create.
  * @param <PainterMarker>
- *            the generic type
+ *            Identifies the type of painter for type checking purposes only. Generic specifications do not support
+ *            direct identification of the painter, since its hierarchy can diverge from the <code>ComponentType</code>
+ *            hierarchy, which is also specified here and would be directly related to the (unsupported) PainterType.
  * @param <EnclosureType>
- *            the generic type
+ *            The kind of <code>ComponentEnclosure</code> with which to wrap the constructed component.
  * @author Byron Hawkins
  */
 @DefinesIdentity
@@ -68,7 +70,8 @@ public abstract class ComponentAssembly<ComponentType extends AbstractComponent,
 
 	// WIP: R-N-S clampdown on the Constraint implementations, to avoid stack overflow
 	/**
-	 * DOC comment task awaits.
+	 * MOA implementation of domain containment, which will print log warnings any time a thread leaves the
+	 * <code>AssemblyDomain</code> after having started something inside it.
 	 * 
 	 * @author Byron Hawkins
 	 */

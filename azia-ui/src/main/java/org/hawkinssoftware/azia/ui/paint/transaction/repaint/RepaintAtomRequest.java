@@ -26,7 +26,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * Generic request to repaint a single atom of an aggregate structure, such as a single item of a list.
  * 
  * @author Byron Hawkins
  */
@@ -38,7 +38,7 @@ public class RepaintAtomRequest implements UserInterfaceActorDelegate, Compositi
 	@ValidateRead.Exempt
 	@ValidateWrite.Exempt
 	private AbstractComposite<AbstractComponent, AggregatePainter<AbstractComponent>> composite;
-	
+
 	final AggregatePainter.Atom atom;
 
 	@InvocationConstraint(domains = FlyweightCellDomain.class)
@@ -60,12 +60,12 @@ public class RepaintAtomRequest implements UserInterfaceActorDelegate, Compositi
 	{
 		this.composite = CompositionRegistry.getComposite(AbstractComposite.class);
 	}
-	
+
 	public AbstractComposite<AbstractComponent, AggregatePainter<AbstractComponent>> getComposite()
 	{
 		return composite;
 	}
-	
+
 	public PaintableActor getPaintedActor()
 	{
 		return composite.getComponent();

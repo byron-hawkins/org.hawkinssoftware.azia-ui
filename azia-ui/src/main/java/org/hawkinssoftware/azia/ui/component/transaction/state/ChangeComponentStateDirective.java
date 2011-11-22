@@ -17,15 +17,16 @@ import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.input.MouseAware;
 
 /**
- * DOC comment task awaits.
+ * Generic transaction contribution for changing a stateful characteristic of an <code>AbstractComponent</code>.
  * 
  * @author Byron Hawkins
  */
 public abstract class ChangeComponentStateDirective extends UserInterfaceDirective
 {
-	
 	/**
-	 * DOC comment task awaits.
+	 * Generically describes a <code>UserInterfaceHandler</code> which commits a subtype of the enclosing
+	 * <code>ChangeComponentStateDirective</code>. This interface is not really necessary now that routers are
+	 * instrumented according to handler convention.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -35,7 +36,9 @@ public abstract class ChangeComponentStateDirective extends UserInterfaceDirecti
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Generic compositional characteristics of a component for which state changes may be transactionally executed:
+	 * painted on the screen, interacts with the mouse, maintains <code>UserInterfaceHandler</code>s and accepts repaint
+	 * requests.
 	 * 
 	 * @author Byron Hawkins
 	 */

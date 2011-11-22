@@ -10,11 +10,13 @@
  */
 package org.hawkinssoftware.azia.ui.component.scalar.transaction;
 
-import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
+import org.hawkinssoftware.azia.ui.component.scalar.AbstractSlider;
+import org.hawkinssoftware.azia.ui.component.scalar.SliderComposite;
 
 /**
- * DOC comment task awaits.
+ * Appoints a new position the knob of a slider according to external calculation. The slider is expected to contribute
+ * a directive which puts the new position into effect.
  * 
  * @author Byron Hawkins
  */
@@ -25,7 +27,7 @@ public class SlideToPositionNotification extends UserInterfaceNotification.Direc
 	 */
 	public final int pixelPosition;
 
-	public SlideToPositionNotification(UserInterfaceActorDelegate actor, int pixelPosition)
+	public SlideToPositionNotification(SliderComposite<? extends AbstractSlider> actor, int pixelPosition)
 	{
 		super(actor);
 

@@ -34,17 +34,19 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.RNSUtils;
 
 /**
- * DOC comment task awaits.
+ * Maintains a set of <code>UserInterfaceHandler</code> and binds them to the instrumented routers of the
+ * <code>InstrumentedRouterCache</code> (which are populated by the enclosed <code>ClassLoadListener</code>).
  * 
  * @author Byron Hawkins
  */
 @ExecutionPath.NoFrame
 @VisibilityConstraint(extendedTypes = { VirtualComponent.class, AbstractEventDispatch.class })
 @InvocationConstraint(types = { VirtualComponent.class, AbstractEventDispatch.class })
-public final class CompositeRouter 
+public final class CompositeRouter
 {
 	/**
-	 * DOC comment task awaits.
+	 * Filters for the <code>UserInterfaceHandler</code> action method, which according to Azia convention takes one
+	 * <code>UserInterfaceDirective</code> parameter.
 	 * 
 	 * @author Byron Hawkins
 	 */
@@ -71,7 +73,8 @@ public final class CompositeRouter
 	}
 
 	/**
-	 * DOC comment task awaits.
+	 * Filters for the <code>UserInterfaceHandler</code> notification method, which according to Azia convention takes a
+	 * <code>UserInterfaceNotification</code> and a <code>PendingTransaction</code>.
 	 * 
 	 * @author Byron Hawkins
 	 */

@@ -42,7 +42,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * Painting delegate for the immovable list items at the top and bottom of a list. This painter will also be used for
+ * table column headers and footers when the flyweight table is built.
  * 
  * @author Byron Hawkins
  */

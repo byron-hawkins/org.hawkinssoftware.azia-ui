@@ -23,15 +23,15 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * Generic painter for a multi-line text area.
  * 
- * @param <LabelType>
- *            the generic type
+ * @param <TextAreaType>
+ *            Specifies the type of <code>TextArea</code> to be painted.
  * @author Byron Hawkins
  */
 @ValidateRead
 @ValidateWrite
-public class TextAreaPainter<LabelType extends TextArea> extends ComponentPainter<LabelType> implements TextArea.Painter
+public class TextAreaPainter<TextAreaType extends TextArea> extends ComponentPainter<TextAreaType> implements TextArea.Painter
 {
 	protected static final Color BACKGROUND = Color.white;
 	protected static final Color FOREGROUND = Color.black;
