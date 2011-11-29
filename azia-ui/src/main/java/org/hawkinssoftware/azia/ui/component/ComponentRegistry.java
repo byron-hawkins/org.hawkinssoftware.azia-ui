@@ -19,6 +19,7 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.Tran
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
 import org.hawkinssoftware.azia.ui.component.composition.AbstractComposite;
 import org.hawkinssoftware.azia.ui.component.composition.CompositeAssembly;
+import org.hawkinssoftware.azia.ui.component.transaction.window.ApplicationFocusHandler;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 import org.hawkinssoftware.rns.core.role.DomainRole;
@@ -48,6 +49,18 @@ public final class ComponentRegistry
 	}
 
 	private final Map<ComponentAssembly<?, ?, ?>, ComponentEnclosure<?, ?>> componentsByKey = new HashMap<ComponentAssembly<?, ?, ?>, ComponentEnclosure<?, ?>>();
+	
+	private ApplicationFocusHandler focusHandler;
+	
+	public void installFocusHandler(ApplicationFocusHandler focusHandler)
+	{
+		this.focusHandler = focusHandler;
+	}
+	
+	public ApplicationFocusHandler getFocusHandler()
+	{
+		return focusHandler;
+	}
 
 	/**
 	 * Get a composite which the caller is certain has already been instantiated.
@@ -58,7 +71,19 @@ public final class ComponentRegistry
 	public <ComponentType extends AbstractComponent, PainterType, CompositeType extends AbstractComposite<ComponentType, ?>> CompositeType getComposite(
 			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly)
 	{
-		return establishComposite(assembly, null);
+		return establishComposite(assembly, null, null);
+	}
+
+	/**
+	 * Convenience version for DesktopContainer.SingleFaced.
+	 * 
+	 * @param assembly
+	 * @return the composite
+	 */
+	public <ComponentType extends AbstractComponent, PainterType, CompositeType extends AbstractComposite<ComponentType, ?>> CompositeType establishComposite(
+			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer.SingleFaced window)
+	{
+		return establishComposite(assembly, window, window);
 	}
 
 	/**
@@ -71,12 +96,12 @@ public final class ComponentRegistry
 	 */
 	@SuppressWarnings("unchecked")
 	public <ComponentType extends AbstractComponent, PainterType, CompositeType extends AbstractComposite<ComponentType, ?>> CompositeType establishComposite(
-			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, RepaintDirective.Host repaintHost)
+			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer window, RepaintDirective.Host repaintHost)
 	{
 		CompositeType composite = (CompositeType) componentsByKey.get(assembly);
 		if (composite == null)
 		{
-			ComponentCreationTask task = new ComponentCreationTask(assembly.actorType, assembly.getClass().getName(), assembly, repaintHost);
+			ComponentCreationTask task = new ComponentCreationTask(assembly.actorType, assembly.getClass().getName(), assembly, window, repaintHost);
 			task.start();
 			composite = (CompositeType) task.enclosure;
 			componentsByKey.put(assembly, composite);
@@ -92,7 +117,7 @@ public final class ComponentRegistry
 		EnclosureType enclosure = (EnclosureType) componentsByKey.get(assembly);
 		if (enclosure == null)
 		{
-			ComponentCreationTask task = new ComponentCreationTask(assembly.actorType, assembly.getClass().getName(), assembly, null);
+			ComponentCreationTask task = new ComponentCreationTask(assembly.actorType, assembly.getClass().getName(), assembly, null, null);
 			task.start();
 			enclosure = (EnclosureType) task.enclosure;
 			componentsByKey.put(assembly, enclosure);
@@ -109,20 +134,23 @@ public final class ComponentRegistry
 	private static class ComponentCreationTask extends InstantiationTask.Producer<ComponentCreationTask>
 	{
 		private ComponentAssembly assembly;
+		private DesktopContainer window;
 		private RepaintDirective.Host repaintHost;
 		ComponentEnclosure enclosure = null;
 
-		public ComponentCreationTask(SynchronizationRole role, String description, ComponentAssembly assembly, RepaintDirective.Host repaintHost)
+		public ComponentCreationTask(SynchronizationRole role, String description, ComponentAssembly assembly, DesktopContainer window,
+				RepaintDirective.Host repaintHost)
 		{
 			super(role, description);
 			this.assembly = assembly;
+			this.window = window;
 			this.repaintHost = repaintHost;
 		}
 
 		@Override
 		protected void execute()
 		{
-			enclosure = ComponentFactory.createComponent(assembly, repaintHost);
+			enclosure = ComponentFactory.createComponent(assembly, window, repaintHost);
 		}
 	}
 }

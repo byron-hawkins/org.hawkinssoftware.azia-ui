@@ -24,7 +24,6 @@ import org.hawkinssoftware.rns.core.publication.VisibilityConstraint;
 @VisibilityConstraint(domains = { RenderingDomain.class, FlyweightCellDomain.class })
 public class RowAddress extends ComponentIdentifier
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

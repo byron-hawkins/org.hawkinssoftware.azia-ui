@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
+import org.hawkinssoftware.azia.ui.component.DesktopContainer;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
 import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.moa.ExecutionPath;
@@ -104,6 +105,7 @@ public final class CompositionRegistry
 		private final List<Session> activeSessions = new ArrayList<Session>();
 		private final List<Composition> closedSessions = new ArrayList<Composition>();
 
+		private DesktopContainer window;
 		private RepaintDirective.Host repaintHost;
 
 		void push(Session session)
@@ -134,11 +136,6 @@ public final class CompositionRegistry
 		public Iterator<Session> iterator()
 		{
 			return new SessionIterator();
-		}
-
-		void setRepaintHost(RepaintDirective.Host repaintHost)
-		{
-			this.repaintHost = repaintHost;
 		}
 
 		@DomainRole.Join(membership = CompositionInitializationDomain.class)
@@ -204,6 +201,24 @@ public final class CompositionRegistry
 		}
 		throw new IllegalArgumentException("Composite " + RNSUtils.getPlainName(compositeType) + " for element " + RNSUtils.getPlainName(element.getClass())
 				+ " could not be found in the composition registry.");
+	}
+	
+	public static DesktopContainer getWindow(CompositionElement element)
+	{
+		SessionStack sessions = SESSIONS.get();
+		if (!sessions.isEmpty())
+		{
+			return sessions.window;
+		}
+		
+		for (Composition composition : INSTANCE.compositions.values())
+		{
+			if (composition.elements.contains(element))
+			{
+				return composition.window;
+			}
+		}
+		return null;
 	}
 
 	// TODO: might want to flatten the recursion
@@ -288,6 +303,16 @@ public final class CompositionRegistry
 		INSTANCE.compose(sessions);
 	}
 
+	public static void registerWindow(DesktopContainer window)
+	{
+		SessionStack sessions = SESSIONS.get();
+		if (sessions.isEmpty())
+		{
+			throw new IllegalStateException("Attempt to register a DesktopContainer with no composition session active.");
+		}
+		sessions.window = window;
+	}
+
 	public static void registerRepaintHost(RepaintDirective.Host repaintHost)
 	{
 		SessionStack sessions = SESSIONS.get();
@@ -347,10 +372,12 @@ public final class CompositionRegistry
 			if (sessions.isEmpty())
 			{
 				composition.notifyCompositionCompleted();
+				composition.window = sessions.window;
 				composition.repaintHost = sessions.repaintHost;
 				for (int i = sessions.closedSessions.size() - 1; i >= 0; i--)
 				{
 					sessions.closedSessions.get(i).notifyCompositionCompleted();
+					sessions.closedSessions.get(i).window = sessions.window;
 					sessions.closedSessions.get(i).repaintHost = sessions.repaintHost;
 				}
 				sessions.closedSessions.clear();
@@ -380,6 +407,7 @@ public final class CompositionRegistry
 		private final AbstractComposite<?, ?> composite;
 		private final Set<CompositionElement> elements;
 		private final List<CompositionElement> notificationList = new ArrayList<CompositionElement>();
+		private DesktopContainer window;
 		private RepaintDirective.Host repaintHost;
 
 		Composition(AbstractComposite<?, ?> composite, Set<CompositionElement> elements)

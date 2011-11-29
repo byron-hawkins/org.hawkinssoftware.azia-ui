@@ -39,7 +39,6 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 @DomainRole.Join(membership = FlyweightCellDomain.class)
 public class ListDataModel implements UserInterfaceActorDelegate, CompositionElement.Initializing
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -385,6 +384,14 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		Session(ListDataModelTransaction transaction)
 		{
 			this.transaction = transaction;
+		}
+		
+		public void clear()
+		{
+			for (int i = (getRowCount(Section.SCROLLABLE) -1); i >= 0 ; i--)
+			{
+				remove(i);
+			}
 		}
 
 		public void add(Object datum)

@@ -68,7 +68,7 @@ public final class PainterRegistry
 	}
 
 	@SuppressWarnings("unchecked")
-	@InvocationConstraint(domains = RenderingDomain.class)
+	@InvocationConstraint(domains = { AssemblyDomain.class, RenderingDomain.class })
 	public <RegionType extends BoundedEntity.PanelRegion> RegionPainter<RegionType> getPainter(RegionType region)
 	{
 		RegionPainter<RegionType> painter = (RegionPainter<RegionType>) regionPainters.get(region);

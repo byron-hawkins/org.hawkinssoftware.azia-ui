@@ -37,12 +37,12 @@ class ComponentFactory
 	static <ComponentType extends AbstractComponent, PainterType extends InstancePainter<ComponentType>, EnclosureType extends ComponentEnclosure<ComponentType, PainterType>> EnclosureType createComponent(
 			ComponentAssembly<ComponentType, PainterType, EnclosureType> assembly)
 	{
-		return createComponent(assembly, null);
+		return createComponent(assembly, null, null);
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	static <ComponentType extends AbstractComponent, PainterType extends InstancePainter<ComponentType>, EnclosureType extends ComponentEnclosure<ComponentType, PainterType>> EnclosureType createComponent(
-			ComponentAssembly<ComponentType, PainterType, EnclosureType> assembly, RepaintDirective.Host repaintHost)
+			ComponentAssembly<ComponentType, PainterType, EnclosureType> assembly, DesktopContainer window, RepaintDirective.Host repaintHost)
 	{
 		try
 		{
@@ -52,6 +52,11 @@ class ComponentFactory
 				composing = true;
 				CompositionRegistry.beginComposition((Class<? extends AbstractComposite<?, ?>>) assembly.getEnclosure().enclosureType);
 
+				if (window != null)
+				{
+					CompositionRegistry.registerWindow(window);
+				}
+				
 				if (repaintHost != null)
 				{
 					CompositionRegistry.registerRepaintHost(repaintHost);

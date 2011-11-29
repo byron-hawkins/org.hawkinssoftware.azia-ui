@@ -44,7 +44,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 public class ComponentEnclosure<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> implements
 		UserInterfaceHandler.Host, ComponentDataHandler.Host, BoundedEntity, PaintableActorDelegate, CompositionElement
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -121,7 +121,7 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	public ComponentEnclosure(ComponentType component, PainterType painter)
 	{
 		this(component);
-		this.painter = painter;
+		installPainter(painter);
 	}
 
 	@Override

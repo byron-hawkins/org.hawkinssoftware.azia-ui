@@ -27,6 +27,7 @@ import org.hawkinssoftware.azia.ui.model.RowAddress.Section;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel.ModelListDomain;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.ListModelPainter.CellRepaintRequest;
+import org.hawkinssoftware.azia.ui.paint.basic.cell.ListModelPainter.RowVisibilityType;
 import org.hawkinssoftware.azia.ui.paint.canvas.Canvas;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintAtomRequest;
 import org.hawkinssoftware.rns.core.role.DomainRole;
@@ -79,13 +80,17 @@ public class ListModelScrollableContentPainter implements UserInterfaceHandler, 
 			@SuppressWarnings("unchecked")
 			DataType datum = (DataType) model.get(address);
 			stamp = stampFactory.getStamp(address, datum);
-			
-			// WIP: BG such as highlight needs to paint outside this inset I just pushed
-			c.pushBounds(ListModelPainter.CELL_TEXT_INSET, y, viewport.getBounds().width, stamp.getSpan(Axis.V, datum));
-			stamp.paint(c, address, datum);
-			c.popBounds();
-			
-			y += stamp.getSpan(Axis.V, datum);
+
+			Axis.Span stampSpan = new Axis.Span(Axis.V, y, stamp.getSpan(Axis.V, datum));
+			if (viewport.getCellPainter().isRowVisible(stampSpan, RowVisibilityType.ACKNOWLEDGE_PARTIAL))
+			{
+				// WIP: BG such as highlight needs to paint outside this inset I just pushed
+				c.pushBounds(ListModelPainter.CELL_TEXT_INSET, y, viewport.getBounds().width, stampSpan.span);
+				stamp.paint(c, address, datum);
+				c.popBounds();
+			}
+
+			y += stampSpan.span;
 		}
 	}
 

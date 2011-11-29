@@ -57,9 +57,9 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
  * @author Byron Hawkins
  */
 @DomainRole.Join(membership = DisplayBoundsDomain.class)
-public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractEventDispatch implements RepaintInstanceDirective.Host
+public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractEventDispatch implements DesktopContainer.SingleFaced,
+		RepaintInstanceDirective.Host
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

@@ -10,6 +10,9 @@
  */
 package org.hawkinssoftware.azia.ui.component.composition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
@@ -70,6 +73,8 @@ public abstract class AbstractComposite<ComponentType extends AbstractComponent,
 
 	private BoundedEntity sizeDelegate;
 
+	private final List<Object> services = new ArrayList<Object>();
+
 	protected AbstractComposite(ComponentType component)
 	{
 		super(component);
@@ -80,6 +85,22 @@ public abstract class AbstractComposite<ComponentType extends AbstractComponent,
 		super(component, painter);
 	}
 
+	public void installService(Object service)
+	{
+		services.add(service);
+	}
+
+	public void uninstallService(Object service)
+	{
+		services.remove(service);
+	}
+
+	public void installPainter(PainterType painter)
+	{
+		super.installPainter(painter);
+		installService(painter);
+	}
+
 	@SuppressWarnings("unchecked")
 	public <ServiceType> ServiceType getService(Class<ServiceType> serviceType)
 	{
@@ -87,6 +108,24 @@ public abstract class AbstractComposite<ComponentType extends AbstractComponent,
 		{
 			return (ServiceType) component;
 		}
+
+		for (Object service : services)
+		{
+			if (serviceType.isAssignableFrom(service.getClass()))
+			{
+				return (ServiceType) service;
+			}
+
+			if (service instanceof AbstractComposite)
+			{
+				ServiceType nestedService = ((AbstractComposite<?, ?>) service).getService(serviceType);
+				if (nestedService != null)
+				{
+					return nestedService;
+				}
+			}
+		}
+
 		return null;
 	}
 

@@ -12,9 +12,11 @@ package org.hawkinssoftware.azia.ui.component.scalar;
 
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
+import org.hawkinssoftware.azia.ui.component.cell.CellViewportComposite;
 import org.hawkinssoftware.azia.ui.component.composition.AbstractComposite;
 import org.hawkinssoftware.azia.ui.component.scalar.handler.ScrollPaneScrollbarContributor;
 import org.hawkinssoftware.azia.ui.component.scalar.handler.ScrollPaneViewportContributor;
+import org.hawkinssoftware.azia.ui.paint.basic.cell.AbstractCellContentPainter;
 import org.hawkinssoftware.azia.ui.paint.basic.scalar.ScrollPanePainter;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
@@ -31,7 +33,6 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 @DomainRole.Join(membership = ScrollPaneComposite.ScrollPaneDomain.class)
 public class ScrollPaneComposite<ViewportType extends ScrollPaneViewportComposite<?, ?>> extends AbstractComposite<ScrollPane, ScrollPanePainter>
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -41,6 +42,19 @@ public class ScrollPaneComposite<ViewportType extends ScrollPaneViewportComposit
 	{
 		@DomainRole.Instance
 		public static final ScrollPaneDomain INSTANCE = new ScrollPaneDomain();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Class<ScrollPaneComposite<CellViewportComposite<?>>> getGenericClass()
+	{
+		return (Class<ScrollPaneComposite<CellViewportComposite<?>>>) (Class<?>) ScrollPaneComposite.class;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <PainterType extends AbstractCellContentPainter> Class<ScrollPaneComposite<CellViewportComposite<PainterType>>> getGenericClass(
+			Class<PainterType> painterType)
+	{
+		return (Class<ScrollPaneComposite<CellViewportComposite<PainterType>>>) (Class<?>) ScrollPaneComposite.class;
 	}
 
 	private final ScrollPaneScrollbarContributor horizontalScrollbarContributor = new ScrollPaneScrollbarContributor(this, Axis.H);
@@ -102,9 +116,12 @@ public class ScrollPaneComposite<ViewportType extends ScrollPaneViewportComposit
 		if (viewport != null)
 		{
 			viewport.removeHandler(viewportContributor);
+			uninstallService(viewport);
+			uninstallService(viewport.getPainter());
 		}
 
 		this.viewport = viewport;
+		installService(viewport);
 
 		viewport.installHandler(viewportContributor);
 	}

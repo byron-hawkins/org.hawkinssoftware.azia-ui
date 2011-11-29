@@ -51,6 +51,11 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 public class ListModelPainter extends AbstractCellContentPainter implements CellStamp.RepaintHandler, ScrollPaneViewport.Painter,
 		CompositionElement.Initializing
 {
+	public enum RowVisibilityType
+	{
+		ACKNOWLEDGE_PARTIAL,
+		IGNORE_PARTIAL;
+	}
 
 	/**
 	 * DOC comment task awaits.
@@ -173,14 +178,29 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 		return null;
 	}
 
-	public boolean isRowFullyVisible(int row)
+	public boolean isRowVisible(int row, RowVisibilityType visibilityType)
 	{
-		Axis.Span span = getRowSpan(Section.SCROLLABLE, Axis.V, row);
-		if (span.position < viewport.getComponent().yViewport())
+		return isRowVisible(getRowSpan(Section.SCROLLABLE, Axis.V, row), visibilityType);
+	}
+
+	boolean isRowVisible(Axis.Span span, RowVisibilityType visibilityType)
+	{
+		int topIntersectingPosition = span.position;
+		if (visibilityType == RowVisibilityType.ACKNOWLEDGE_PARTIAL)
+		{
+			topIntersectingPosition += span.span;
+		}
+		int bottomIntersectingPosition = span.position;
+		if (visibilityType == RowVisibilityType.IGNORE_PARTIAL)
+		{
+			bottomIntersectingPosition += span.span;
+		}
+
+		if (topIntersectingPosition < viewport.getComponent().yViewport())
 		{
 			return false;
 		}
-		if (((span.position + span.span) - viewport.getComponent().yViewport()) > staticContent.getSouthSectionTop())
+		if ((bottomIntersectingPosition - viewport.getComponent().yViewport()) > staticContent.getSouthSectionTop())
 		{
 			return false;
 		}
@@ -189,6 +209,11 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 
 	public <DataType> Axis.Span getRowSpan(Section section, Axis axis, int row)
 	{
+		if ((row <= 0) || (model.getRowCount(section) <= row))
+		{
+			return new Axis.Span(axis, 0, 0);
+		}
+		
 		RowAddress rowAddress = viewport.createAddress(row, section);
 		@SuppressWarnings("unchecked")
 		DataType rowDatum = (DataType) model.get(rowAddress);
@@ -218,7 +243,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 		{
 			return 0;
 		}
-		
+
 		int row = 0;
 		int position = 0;
 		for (; row < model.getRowCount(Section.SCROLLABLE); row++)

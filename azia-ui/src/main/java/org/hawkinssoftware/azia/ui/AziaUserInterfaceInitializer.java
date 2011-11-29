@@ -72,9 +72,13 @@ public class AziaUserInterfaceInitializer
 		InputDispatch.start();
 		CompositeRouter.initialize();
 		LockRegistry.initialize();
+		KeyEventDispatch.initialize();
+	}
+	
+	public static void initializeClipboardEvents()
+	{
 		ClipboardMonitor.initialize();
 		ClipboardEventDispatch.initialize();
-		KeyEventDispatch.initialize();
 	}
 
 	/**

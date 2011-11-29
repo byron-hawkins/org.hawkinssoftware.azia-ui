@@ -73,7 +73,7 @@ public class RepaintRequestManager
 
 	public static void requestRepaint(RepaintInstanceDirective request)
 	{
-		MANAGERS.get().registerRequest((RepaintInstanceDirective) request);
+		MANAGERS.get().registerRequest(request);
 	}
 
 	public static void requestRepaint(RepaintAtomRequest request)

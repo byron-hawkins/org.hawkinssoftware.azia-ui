@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.component.transaction.window;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
+import org.hawkinssoftware.azia.ui.component.DesktopContainer;
 
 /**
  * DOC comment task awaits.
@@ -21,7 +22,6 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
  */
 public class WindowFocusAction extends UserInterfaceDirective
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -33,14 +33,21 @@ public class WindowFocusAction extends UserInterfaceDirective
 		{
 			return focused;
 		}
+		
+		public DesktopContainer getWindow()
+		{
+			return window;
+		}
 	}
 	
 	public final boolean focused;
+	public final DesktopContainer window;
 
-	public WindowFocusAction(UserInterfaceActorDelegate actor, boolean focused)
+	public WindowFocusAction(DesktopContainer window, boolean focused)
 	{
-		super(actor);
+		super(window);
 		this.focused = focused;
+		this.window = window;
 	}
 	
 	@Override
