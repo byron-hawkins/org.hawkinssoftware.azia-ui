@@ -10,7 +10,10 @@
  */
 package org.hawkinssoftware.azia.ui.component.scalar;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
+import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery.Property;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.ScreenPosition;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
@@ -39,7 +42,7 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 @DomainRole.Join(membership = { SliderKnobDomain.class, SliderTrackDomain.class })
 public class SliderComposite<SliderType extends AbstractSlider> extends AbstractComposite<SliderType, InstancePainter<SliderType>>
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -56,11 +59,23 @@ public class SliderComposite<SliderType extends AbstractSlider> extends Abstract
 	 * 
 	 * @author Byron Hawkins
 	 */
-	public class VisibilityHandler implements UserInterfaceHandler
+	public class VisibilityHandler implements UserInterfaceHandler, UserInterfaceActorPreview
 	{
 		public void visibilityChanged(SetVisibleDirective change)
 		{
 			setVisible(change.visible);
+		}
+
+		@Override
+		public boolean affects(Property property)
+		{
+			return property.matches("isVisible");
+		}
+
+		@SuppressWarnings("unchecked")
+		public <T> T getPreview(UserInterfaceDirective action, T value)
+		{
+			return (T) (Boolean) ((SetVisibleDirective) action).visible;
 		}
 	}
 
@@ -115,7 +130,7 @@ public class SliderComposite<SliderType extends AbstractSlider> extends Abstract
 		return knob;
 	}
 
- 	public ComponentEnclosure<SliderTrack, SliderTrackPainter> getTrack()
+	public ComponentEnclosure<SliderTrack, SliderTrackPainter> getTrack()
 	{
 		return track;
 	}

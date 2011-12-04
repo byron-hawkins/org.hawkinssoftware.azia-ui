@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.component.transaction.window;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -46,6 +47,19 @@ public class WindowEventTransaction implements UserInterfaceTransaction
 	}
 
 	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
+	}
+
+	@Override
 	public void postDirectResponse(UserInterfaceDirective... actions)
 	{
 		for (UserInterfaceDirective action : actions)
@@ -76,6 +90,11 @@ public class WindowEventTransaction implements UserInterfaceTransaction
 		{
 			action.commit();
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

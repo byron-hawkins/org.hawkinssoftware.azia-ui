@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.component.router;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
@@ -201,5 +202,19 @@ public final class CompositeRouter
 	public void removeHandler(UserInterfaceHandler handler)
 	{
 		handlers.remove(handler);
+	}
+	
+	public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
+	{
+		List<UserInterfaceActorPreview> previews = new ArrayList<UserInterfaceActorPreview>();
+		for (UserInterfaceHandler handler : handlers)
+		{
+			GeneratedRouter<ComponentDirectiveRouter> router = InstrumentedRouterCache.getInstance().getActionRouter(handler.getClass(), action.getClass());
+			if ((router != null) && (handler instanceof UserInterfaceActorPreview))
+			{
+				previews.add((UserInterfaceActorPreview) handler);
+			}
+		}
+		return previews;
 	}
 }

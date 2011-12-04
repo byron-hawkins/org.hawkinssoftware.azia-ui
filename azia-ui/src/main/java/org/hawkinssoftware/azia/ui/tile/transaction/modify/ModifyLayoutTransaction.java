@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
 import org.hawkinssoftware.azia.core.action.LayoutTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor.SynchronizationRole;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
@@ -93,6 +94,19 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 	public void setSession(Session session)
 	{
 		this.session = session;
+	}
+
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
 	}
 
 	public DesktopWindow<KeyType> createWindow(final KeyType key, DesktopWindow.FrameType frameType,  final String title)
@@ -298,6 +312,11 @@ public class ModifyLayoutTransaction<KeyType extends LayoutEntity.Key<KeyType>> 
 		{
 			action.commit();
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

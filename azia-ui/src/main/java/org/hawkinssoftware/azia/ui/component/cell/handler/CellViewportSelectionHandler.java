@@ -55,9 +55,11 @@ public class CellViewportSelectionHandler implements UserInterfaceHandler, UserI
 
 	public void dataChanging(DataChangeNotification change, PendingTransaction transaction)
 	{
-		// WIP: how to handle multiple row removals in the transaction? Either I need to see the whole transaction, or I
-		// need some kind of notification having all rows in it--or I'll have to keep track of every row change, which
-		// is outside the scope of this class.
+		if ((model.getView().getRowCount(Section.SCROLLABLE) == 0) && (selectedRow >= 0))
+		{
+			transaction.contribute(new SetSelectedRowDirective(change.address.getComponent(), -1));
+			return;
+		}
 
 		switch (change.type)
 		{
@@ -68,9 +70,9 @@ public class CellViewportSelectionHandler implements UserInterfaceHandler, UserI
 				}
 				break;
 			case REMOVE:
-				if ((selectedRow == change.address.row) && (change.address.row == (model.getRowCount(Section.SCROLLABLE) - 1)))
+				if (selectedRow >= model.getView().getRowCount(Section.SCROLLABLE))
 				{ // the last row is being deleted, so move up one
-					transaction.contribute(new SetSelectedRowDirective(change.address.getComponent(), change.address.row - 1));
+					transaction.contribute(new SetSelectedRowDirective(change.address.getComponent(), model.getView().getRowCount(Section.SCROLLABLE) - 1));
 				}
 				break;
 		}

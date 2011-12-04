@@ -21,10 +21,12 @@ class TextAreaLinePainter
 {
 	String lineText;
 	Rectangle lineBounds = new Rectangle();
+	int textBaseline;
 	
-	TextAreaLinePainter(String lineText, Rectangle lineBounds)
+	TextAreaLinePainter(String lineText, Rectangle lineBounds, int textBaseline)
 	{
 		this.lineText = lineText;
 		this.lineBounds.setBounds(lineBounds);
+		this.textBaseline = textBaseline;
 	}
 }

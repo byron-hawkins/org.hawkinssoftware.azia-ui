@@ -14,6 +14,7 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.rns.core.role.DomainRole;
@@ -35,8 +36,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  * receive a (presently fictitious) <code>ButtonPressedNotification</code> for collaboration purposes, the UIHandler
  * declares:
  * <p>
- * <code>public void buttonPressed(ButtonPressedNotification notification, PendingTransaction transaction);</code>
- * <i>or perhaps</i><br>
+ * <code>public void buttonPressed(ButtonPressedNotification notification, PendingTransaction transaction);</code> <i>or
+ * perhaps</i><br>
  * <code>public void buttonEventOccurred(AbstractButtonNotification notification, PendingTransaction transaction);</code>
  * <p>
  * To receive a UIDirective, the subclass of UIHandler implements a public method having any name and one parameter:

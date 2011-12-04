@@ -10,6 +10,9 @@
  */
 package org.hawkinssoftware.azia.ui.component.cell;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceTask.ConcurrentAccessException;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.ui.component.PaintableActor;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPane;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneComposite;
@@ -17,10 +20,15 @@ import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewportComposite;
 import org.hawkinssoftware.azia.ui.model.RowAddress;
 import org.hawkinssoftware.azia.ui.model.RowAddress.Section;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel;
+import org.hawkinssoftware.azia.ui.model.list.ListDataModel.ModelListDomain;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.AbstractCellContentPainter;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.CellViewportPainter;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.ListModelCellViewport;
 import org.hawkinssoftware.azia.ui.paint.basic.cell.ListModelPainter;
+import org.hawkinssoftware.azia.ui.tile.LayoutEntity;
+import org.hawkinssoftware.azia.ui.tile.transaction.modify.UpdateLayoutHandler;
+import org.hawkinssoftware.rns.core.log.Log;
+import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
  * Abstract base class for a <code>ScrollPane</code> viewport containing a vertical list of cells. Supports both
@@ -56,6 +64,27 @@ public class CellViewportComposite<CellPainterType extends AbstractCellContentPa
 		protected ListModelPainter createCellPainter()
 		{
 			return new ListModelPainter();
+		}
+	}
+	
+	@DomainRole.Join(membership = ModelListDomain.class)
+	public static class UpdateHandler<KeyType extends LayoutEntity.Key<KeyType>> extends UpdateLayoutHandler<KeyType>
+	{
+		public UpdateHandler(KeyType tileKey)
+		{
+			super(tileKey);
+		}
+
+		public void dataChanging(ListDataModel.DataChangeNotification dataChange, PendingTransaction transaction)
+		{
+			try
+			{
+				executeUpdate();
+			}
+			catch (ConcurrentAccessException e)
+			{
+				Log.out(Tag.DEBUG, e, "Failed to update the layout of a cell viewport after data change.");
+			}
 		}
 	}
 

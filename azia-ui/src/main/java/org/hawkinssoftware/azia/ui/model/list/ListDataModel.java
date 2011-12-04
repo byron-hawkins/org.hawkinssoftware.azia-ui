@@ -72,7 +72,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
 	public static class DataChangeNotification extends UserInterfaceNotification
 	{
-		
+
 		/**
 		 * DOC comment task awaits.
 		 * 
@@ -381,17 +381,48 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		// Might be better to handle that internally.
 		private final ListDataModelTransaction transaction;
 
+		final List<Object> scrollableData = new ArrayList<Object>();
+		final List<Object> northData = new ArrayList<Object>();
+		final List<Object> southData = new ArrayList<Object>();
+
 		Session(ListDataModelTransaction transaction)
 		{
 			this.transaction = transaction;
+			transaction.addModelSession(this);
+
+			scrollableData.addAll(ListDataModel.this.scrollableData);
+			northData.addAll(ListDataModel.this.northData);
+			southData.addAll(ListDataModel.this.southData);
 		}
-		
-		public void clear()
+
+		private List<Object> getSessionDataSection(Section section)
 		{
-			for (int i = (getRowCount(Section.SCROLLABLE) -1); i >= 0 ; i--)
+			switch (section)
+			{
+				case SCROLLABLE:
+					return scrollableData;
+				case NORTH:
+					return northData;
+				case SOUTH:
+					return southData;
+				default:
+					throw new UnknownEnumConstantException(section);
+			}
+		}
+
+		public void close()
+		{
+			getView().session = null;
+		}
+
+		public void clear(Section section)
+		{
+			for (int i = (getRowCount(section) - 1); i >= 0; i--)
 			{
 				remove(i);
 			}
+
+			getSessionDataSection(section).clear();
 		}
 
 		public void add(Object datum)
@@ -402,6 +433,8 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		public void add(Object datum, Section section)
 		{
 			transaction.addDataAction(new AddAction(datum, section));
+
+			getSessionDataSection(section).add(datum);
 		}
 
 		public void insert(int row, Object datum, Section section)
@@ -410,13 +443,15 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 			// a pending copy of the entire model, apply changes directly to it and responding to queries (within the
 			// same transaction) from it. But there can still be sequence confusion if rows are referred by position;
 			// should probably require rows to be referred by a reliable ID.
-			if (getDataSection(section).isEmpty())
+			if (getSessionDataSection(section).isEmpty())
 			{
 				add(datum, section);
 			}
 			else
 			{
 				transaction.addDataAction(new AddAction(row, datum, section));
+
+				getSessionDataSection(section).add(row, datum);
 			}
 		}
 
@@ -428,6 +463,8 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		public void replace(int row, Object datum, Section section)
 		{
 			transaction.addDataAction(new ReplaceAction(row, datum, section));
+
+			getSessionDataSection(section).set(row, datum);
 		}
 
 		public void remove(int row)
@@ -438,18 +475,75 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		public void remove(int row, Section section)
 		{
 			transaction.addDataAction(new RemoveAction(row, section));
+
+			getSessionDataSection(section).remove(row);
 		}
 
+		@SuppressWarnings("unchecked")
 		public <DataType> void change(int row, Section section, DataChange<DataType> dataChange)
 		{
 			transaction.addDataAction(new ChangeDataAction<DataType>(section, row, dataChange));
+
+			dataChange.applyChange(section, row, (DataType) getSessionDataSection(section).get(row));
 		}
 
+		@SuppressWarnings("unchecked")
 		public <DataType> void changeAllRows(DataChange<DataType> dataChange)
 		{
 			transaction.addFinalAction(new ChangeAllRowsAction<DataType>(dataChange));
+
+			for (int i = 0; i < northData.size(); i++)
+			{
+				dataChange.applyChange(Section.NORTH, i, (DataType) northData.get(i));
+			}
+			for (int i = 0; i < scrollableData.size(); i++)
+			{
+				dataChange.applyChange(Section.SCROLLABLE, i, (DataType) scrollableData.get(i));
+			}
+			for (int i = 0; i < southData.size(); i++)
+			{
+				dataChange.applyChange(Section.SOUTH, i, (DataType) southData.get(i));
+			}
 		}
 	}
+
+	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
+	public class View
+	{
+		private Session session = null;
+
+		private View()
+		{
+		}
+
+		public Object get(RowAddress address)
+		{
+			if (session == null)
+			{
+				return ListDataModel.this.getDataSection(address.section).get(address.row);
+			}
+
+			return session.getSessionDataSection(address.section).get(address.row);
+		}
+
+		public int getRowCount(Section section)
+		{
+			if (session == null)
+			{
+				return ListDataModel.this.getRowCount(section);
+			}
+
+			return session.getSessionDataSection(section).size();
+		}
+	}
+
+	private final ThreadLocal<View> VIEWS = new ThreadLocal<View>() {
+		@Override
+		protected View initialValue()
+		{
+			return new View();
+		}
+	};
 
 	private final List<Object> scrollableData = AccessValidatingList.create(new ArrayList<Object>());
 	private final List<Object> northData = AccessValidatingList.create(new ArrayList<Object>());
@@ -457,9 +551,18 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 
 	private ComponentContext context;
 
+	public View getView()
+	{
+		return VIEWS.get();
+	}
+
 	public Session createSession(ListDataModelTransaction transaction)
 	{
-		return new Session(transaction);
+		Session session = new Session(transaction);
+
+		getView().session = session;
+
+		return session;
 	}
 
 	private List<Object> getDataSection(Section section)

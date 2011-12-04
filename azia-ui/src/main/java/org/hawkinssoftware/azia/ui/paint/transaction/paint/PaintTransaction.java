@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
@@ -74,6 +75,12 @@ public class PaintTransaction implements UserInterfaceTransaction.Iterative
 	public void setSession(Session session)
 	{
 		this.session = session;
+	}
+
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		// non-calculable
 	}
 
 	public void addRegion(BoundedEntity.PanelRegion region, EnclosureBounds bounds)
@@ -186,6 +193,11 @@ public class PaintTransaction implements UserInterfaceTransaction.Iterative
 		{
 			Canvas.removeExecutionContext();
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

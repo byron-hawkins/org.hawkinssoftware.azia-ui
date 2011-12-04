@@ -11,10 +11,12 @@
 package org.hawkinssoftware.azia.ui.model.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -40,10 +42,17 @@ public class ListDataModelTransaction implements UserInterfaceTransaction
 	private final List<UserInterfaceDirective> transaction = new ArrayList<UserInterfaceDirective>();
 	private Session session;
 
+	private final List<ListDataModel.Session> modelSessions = new ArrayList<ListDataModel.Session>();
+
 	@Override
 	public void setSession(Session session)
 	{
 		this.session = session;
+	}
+
+	public void addModelSession(ListDataModel.Session modelSession)
+	{
+		modelSessions.add(modelSession);
 	}
 
 	void addDataAction(AbstractDataAction dataAction)
@@ -78,6 +87,18 @@ public class ListDataModelTransaction implements UserInterfaceTransaction
 	@Override
 	public void transactionIntroduced(Class<? extends UserInterfaceTransaction> introducedTransactionType)
 	{
+	}
+
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		List<UserInterfaceDirective> reverseActions = new ArrayList<UserInterfaceDirective>();
+		reverseActions.addAll(modificationsByRow.values());
+		reverseActions.addAll(appendingActions);
+		reverseActions.addAll(finalActions);
+		reverseActions.addAll(transaction);
+		Collections.reverse(reverseActions);
+		actions.addAll(reverseActions);
 	}
 
 	@Override
@@ -122,6 +143,22 @@ public class ListDataModelTransaction implements UserInterfaceTransaction
 		for (UserInterfaceDirective action : transaction)
 		{
 			action.commit();
+		}
+
+		closeModelSessions();
+	}
+	
+	@Override
+	public void transactionRolledBack()
+	{
+		closeModelSessions();
+	}
+	
+	private void closeModelSessions()
+	{
+		for (ListDataModel.Session modelSession : modelSessions)
+		{
+			modelSession.close();
 		}
 	}
 

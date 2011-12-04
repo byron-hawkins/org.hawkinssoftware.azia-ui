@@ -10,6 +10,7 @@
  */
 package org.hawkinssoftware.azia.ui.component.scalar.handler;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.core.layout.Axis;
@@ -18,6 +19,8 @@ import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneComposite;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneComposite.ScrollPaneDomain;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewportComposite.ScrollPaneViewportDomain;
+import org.hawkinssoftware.azia.ui.component.scalar.ScrollSlider;
+import org.hawkinssoftware.azia.ui.component.scalar.SliderComposite;
 import org.hawkinssoftware.azia.ui.component.scalar.transaction.ChangeKnobPositionNotification;
 import org.hawkinssoftware.azia.ui.component.scalar.transaction.ChangeKnobSpanDirective;
 import org.hawkinssoftware.azia.ui.component.scalar.transaction.ChangeViewportContentBoundsDirective;
@@ -57,12 +60,18 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 			viewportContentPosition = (axis == Axis.H) ? host.getViewport().getComponent().xViewport() : host.getViewport().getComponent().yViewport();
 		}
 
-		// WIP: if viewport content is changing, the latest content size may not yet be available
 		private void reboundKnob(PendingTransaction transaction)
 		{
 			double visibilityRatio = viewportSpan / (double) contentSpan;
 			// FIXME: scrollbarSpan is dependent on opposite bar visibility
-			int scrollbarSpan = host.getScrollbar(axis).getBounds().getSpan(axis);
+
+			SliderComposite<ScrollSlider> slider = host.getScrollbar(axis);
+			if (!slider.isVisible())
+			{
+				return;
+			}
+			int scrollbarSpan = slider.getBounds().getSpan(axis);
+
 			int knobSpan = (int) (scrollbarSpan * visibilityRatio);
 			transaction.contribute(new ChangeKnobSpanDirective(host.getScrollbar(axis).getComponent(), knobSpan));
 
@@ -87,6 +96,8 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportMoving(MoveViewportOriginDirective.Notification move, PendingTransaction transaction)
 	{
+		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
+		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.viewportContentPosition = move.x();
 		orientedMetrics.reboundKnob(transaction);
@@ -97,6 +108,8 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportResizing(ComponentBoundsChangeDirective.Notification resize, PendingTransaction transaction)
 	{
+		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
+		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.viewportSpan = (resize.getBoundsChange().width == null) ? host.getBounds().width : resize.getBoundsChange().width;
 		orientedMetrics.reboundKnob(transaction);
@@ -107,6 +120,8 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportContentResizing(ChangeViewportContentBoundsDirective.Notification resize, PendingTransaction transaction)
 	{
+		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
+		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.contentSpan = resize.getBounds().width;
 		orientedMetrics.reboundKnob(transaction);

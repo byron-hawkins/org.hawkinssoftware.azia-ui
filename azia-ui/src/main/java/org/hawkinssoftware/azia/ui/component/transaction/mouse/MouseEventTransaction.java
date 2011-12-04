@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.component.transaction.mouse;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -34,7 +35,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = MouseEventDomain.class)
 public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -85,6 +85,19 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	public void setSession(Session session)
 	{
 		this.session = session;
+	}
+
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
 	}
 
 	// TODO: should this maybe not be specific to the TopTile, but the generic BoundedEntity.LayoutRoot?
@@ -184,6 +197,11 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 		{
 			action.commit();
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

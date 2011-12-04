@@ -209,7 +209,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 
 	public <DataType> Axis.Span getRowSpan(Section section, Axis axis, int row)
 	{
-		if ((row <= 0) || (model.getRowCount(section) <= row))
+		if ((row <= 0) || (model.getView().getRowCount(section) <= row))
 		{
 			return new Axis.Span(axis, 0, 0);
 		}

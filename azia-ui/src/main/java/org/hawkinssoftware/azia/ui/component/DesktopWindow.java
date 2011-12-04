@@ -43,6 +43,7 @@ import org.hawkinssoftware.azia.ui.input.MouseAware.MouseEventDomain;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintDirective;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
 import org.hawkinssoftware.azia.ui.tile.LayoutEntity;
+import org.hawkinssoftware.azia.ui.tile.LayoutRegion.TileLayoutDomain;
 import org.hawkinssoftware.azia.ui.tile.TopTile;
 import org.hawkinssoftware.rns.core.log.Log;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
@@ -56,8 +57,8 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
  *            the generic type
  * @author Byron Hawkins
  */
-@DomainRole.Join(membership = DisplayBoundsDomain.class)
-public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractEventDispatch implements DesktopContainer.SingleFaced,
+@DomainRole.Join(membership = { DisplayBoundsDomain.class, TileLayoutDomain.class })
+public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractEventDispatch implements DesktopContainer.SingleFaced<KeyType>,
 		RepaintInstanceDirective.Host
 {
 	/**
@@ -107,6 +108,11 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 		InputDispatch.getInstance().register(this);
 
 		installHandler(new VisibilityHandler());
+	}
+
+	public LayoutEntity<KeyType> getLayoutEntity(KeyType key)
+	{
+		return mainPanel.getTopTile().getEntity(key);
 	}
 
 	public TopTile<KeyType> getTopTile()

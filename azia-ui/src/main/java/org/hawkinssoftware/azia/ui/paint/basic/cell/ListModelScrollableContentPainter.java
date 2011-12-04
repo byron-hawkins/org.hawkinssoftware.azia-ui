@@ -103,11 +103,11 @@ public class ListModelScrollableContentPainter implements UserInterfaceHandler, 
 	<DataType> int getContentHeight()
 	{
 		int height = viewport.getCellPainter().staticContent.northSpan;
-		for (int i = 0; i < model.getRowCount(Section.SCROLLABLE); i++)
+		for (int i = 0; i < model.getView().getRowCount(Section.SCROLLABLE); i++)
 		{
 			RowAddress address = viewport.createAddress(i, Section.SCROLLABLE);
 			@SuppressWarnings("unchecked")
-			DataType datum = (DataType) model.get(address);
+			DataType datum = (DataType) model.getView().get(address);
 			CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
 			height += stamp.getSpan(Axis.V, datum);
 		}

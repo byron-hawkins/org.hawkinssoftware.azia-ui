@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hawkinssoftware.azia.core.action.TransactionRegistry;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -30,7 +31,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = DisplayBoundsDomain.class)
 public class ComponentResizeTransaction implements UserInterfaceTransaction
 {
-	
 	/**
 	 * The listener interface for receiving transactionRegistry events. The class that is interested in processing a
 	 * transactionRegistry event implements this interface, and the object created with that class is registered with a
@@ -77,6 +77,19 @@ public class ComponentResizeTransaction implements UserInterfaceTransaction
 	}
 
 	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
+	}
+
+	@Override
 	public void postNotificationFromAnotherTransaction(UserInterfaceNotification notification)
 	{
 		if (notification instanceof EnclosureEncountered)
@@ -117,6 +130,11 @@ public class ComponentResizeTransaction implements UserInterfaceTransaction
 		{
 			action.commit(); 
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

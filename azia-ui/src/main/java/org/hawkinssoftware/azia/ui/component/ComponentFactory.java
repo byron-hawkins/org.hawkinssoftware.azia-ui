@@ -42,7 +42,7 @@ class ComponentFactory
 
 	@SuppressWarnings({ "unchecked" })
 	static <ComponentType extends AbstractComponent, PainterType extends InstancePainter<ComponentType>, EnclosureType extends ComponentEnclosure<ComponentType, PainterType>> EnclosureType createComponent(
-			ComponentAssembly<ComponentType, PainterType, EnclosureType> assembly, DesktopContainer window, RepaintDirective.Host repaintHost)
+			ComponentAssembly<ComponentType, PainterType, EnclosureType> assembly, DesktopContainer<?> window, RepaintDirective.Host repaintHost)
 	{
 		try
 		{

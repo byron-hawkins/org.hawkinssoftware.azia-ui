@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.component.transaction.clipboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -43,6 +44,19 @@ public class ClipboardEventTransaction implements UserInterfaceTransaction
 	@Override
 	public void transactionIntroduced(Class<? extends UserInterfaceTransaction> introducedTransactionType)
 	{
+	}
+
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
 	}
 
 	@Override
@@ -79,9 +93,13 @@ public class ClipboardEventTransaction implements UserInterfaceTransaction
 	}
 
 	@Override
+	public void transactionRolledBack()
+	{
+	}
+
+	@Override
 	public boolean isEmpty()
 	{
 		return false;
 	}
-
 }

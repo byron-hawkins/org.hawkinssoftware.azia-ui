@@ -13,6 +13,7 @@ package org.hawkinssoftware.azia.ui.tile.transaction.resize;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -40,6 +41,19 @@ public abstract class AbstractApplyLayoutTransaction implements UserInterfaceTra
 	public void transactionIntroduced(Class<? extends UserInterfaceTransaction> introducedTransactionType)
 	{
 		// no responses from this transaction
+	}
+	
+	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
 	}
 
 	@Override
@@ -78,6 +92,11 @@ public abstract class AbstractApplyLayoutTransaction implements UserInterfaceTra
 		{
 			action.commit(); 
 		}
+	}
+	
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

@@ -5,16 +5,14 @@ import java.util.List;
 
 import org.hawkinssoftware.azia.ui.component.ComponentEnclosure;
 import org.hawkinssoftware.azia.ui.component.DesktopContainer;
-import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
-import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
 
 class WindowFocusCycle
 {
-	final DesktopContainer window;
+	final DesktopContainer<?> window;
 	private int focusedComponentIndex = -1;
 	private final List<ComponentEnclosure<?, ?>> focusableComponents = new ArrayList<ComponentEnclosure<?, ?>>();
 
-	WindowFocusCycle(DesktopContainer window)
+	WindowFocusCycle(DesktopContainer<?> window)
 	{
 		this.window = window;
 	}

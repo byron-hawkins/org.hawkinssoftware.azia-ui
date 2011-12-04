@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hawkinssoftware.azia.core.action.TransactionRegistry;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
@@ -75,6 +76,19 @@ public class PainterResizeTransaction implements UserInterfaceTransaction
 	}
 
 	@Override
+	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
+	{
+		for (int i = transaction.size()-1; i >= 0; i--)
+		{
+			UserInterfaceDirective action = transaction.get(i);
+			if (action.getActor() == actor)
+			{
+				actions.add(action);
+			}
+		}
+	}
+
+	@Override
 	public void postDirectResponse(UserInterfaceNotification... notifications)
 	{
 		for (UserInterfaceNotification notification : notifications)
@@ -114,6 +128,11 @@ public class PainterResizeTransaction implements UserInterfaceTransaction
 		{
 			action.commit();
 		}
+	}
+
+	@Override
+	public void transactionRolledBack()
+	{
 	}
 
 	@Override

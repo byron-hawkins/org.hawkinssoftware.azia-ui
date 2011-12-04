@@ -12,8 +12,10 @@ package org.hawkinssoftware.azia.ui.component;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
@@ -30,10 +32,9 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  */
 @ValidateRead
 @ValidateWrite
-public abstract class VirtualComponent implements UserInterfaceHandler.Host, ComponentDataHandler.Host, ChangeComponentStateDirective.Component,
-		CompositionElement.Initializing
+public abstract class VirtualComponent implements UserInterfaceHandler.Host, UserInterfaceActorPreview.Host, ComponentDataHandler.Host,
+		ChangeComponentStateDirective.Component, CompositionElement.Initializing
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -93,6 +94,12 @@ public abstract class VirtualComponent implements UserInterfaceHandler.Host, Com
 		{
 			dataHandlers.remove(((ComponentDataHandler) handler).key);
 		}
+	}
+	
+	@Override
+	public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
+	{
+		return router.getPreviews(action);
 	}
 
 	@Override

@@ -71,17 +71,19 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 		{
 			this.text = text;
 
-			String[] splitLines = text.split("\\n");
+			String[] splitLines = text.split("\n");
 			textLines = new TextAreaLinePainter[splitLines.length];
 			Rectangle lineBounds = new Rectangle();
 			textBounds.setSize(-1, -1);
 			int y = 0;
+			int textBaseline;
 			for (int i = 0; i < splitLines.length; i++)
 			{
 				InstancePainter.TextMetrics.INSTANCE.getSize(splitLines[i], BoundsType.TEXT).applyTo(lineBounds);
 				lineBounds.y = y;
 				y += lineBounds.height;
-				textLines[i] = new TextAreaLinePainter(splitLines[i], lineBounds);
+				textBaseline = InstancePainter.TextMetrics.INSTANCE.getTypicalBaseline(lineBounds.height);
+				textLines[i] = new TextAreaLinePainter(splitLines[i], lineBounds, textBaseline);
 
 				textBounds.add(lineBounds);
 			}
@@ -143,7 +145,7 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 		{
 			if (textBlock.intersects(textLine.lineBounds))
 			{
-				c.g.drawString(textLine.lineText, 0, textLine.lineBounds.y);
+				c.g.drawString(textLine.lineText, 0, textLine.lineBounds.y + textLine.textBaseline);
 			}
 		}
 	}

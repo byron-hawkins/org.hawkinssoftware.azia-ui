@@ -105,7 +105,7 @@ public final class CompositionRegistry
 		private final List<Session> activeSessions = new ArrayList<Session>();
 		private final List<Composition> closedSessions = new ArrayList<Composition>();
 
-		private DesktopContainer window;
+		private DesktopContainer<?> window;
 		private RepaintDirective.Host repaintHost;
 
 		void push(Session session)
@@ -203,7 +203,7 @@ public final class CompositionRegistry
 				+ " could not be found in the composition registry.");
 	}
 	
-	public static DesktopContainer getWindow(CompositionElement element)
+	public static DesktopContainer<?> getWindow(CompositionElement element)
 	{
 		SessionStack sessions = SESSIONS.get();
 		if (!sessions.isEmpty())
@@ -303,7 +303,7 @@ public final class CompositionRegistry
 		INSTANCE.compose(sessions);
 	}
 
-	public static void registerWindow(DesktopContainer window)
+	public static void registerWindow(DesktopContainer<?> window)
 	{
 		SessionStack sessions = SESSIONS.get();
 		if (sessions.isEmpty())
@@ -407,7 +407,7 @@ public final class CompositionRegistry
 		private final AbstractComposite<?, ?> composite;
 		private final Set<CompositionElement> elements;
 		private final List<CompositionElement> notificationList = new ArrayList<CompositionElement>();
-		private DesktopContainer window;
+		private DesktopContainer<?> window;
 		private RepaintDirective.Host repaintHost;
 
 		Composition(AbstractComposite<?, ?> composite, Set<CompositionElement> elements)

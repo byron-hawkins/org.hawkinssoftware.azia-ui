@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
+import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
 import org.hawkinssoftware.azia.input.KeyboardInputEvent;
 import org.hawkinssoftware.azia.input.KeyboardInputEvent.State;
 import org.hawkinssoftware.azia.input.key.HardwareKey;
@@ -21,6 +22,7 @@ import org.hawkinssoftware.azia.ui.component.transaction.state.SetFocusAction;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
 import org.hawkinssoftware.rns.core.log.Log;
+import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 
 // * repaint comps (lost + gained) on component focus change
 public class ApplicationFocusHandler extends AbstractEventDispatch
@@ -32,6 +34,7 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 		boolean isFocusCycleBackward(KeyboardInputEvent event);
 	}
 
+	@InvocationConstraint(domains = AssemblyDomain.class)
 	public static void install()
 	{
 		new InitializationTask().start();
@@ -40,8 +43,8 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 	private final StateHandler stateHandler = new StateHandler();
 	private CycleKeySelector keySelector = new TabSelector();
 
-	private DesktopContainer focusedWindow;
-	private Map<DesktopContainer, WindowFocusCycle> windowFocusCycles = new HashMap<DesktopContainer, WindowFocusCycle>();
+	private DesktopContainer<?> focusedWindow;
+	private Map<DesktopContainer<?>, WindowFocusCycle> windowFocusCycles = new HashMap<DesktopContainer<?>, WindowFocusCycle>();
 
 	public ApplicationFocusHandler()
 	{
@@ -49,7 +52,7 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 		KeyEventDispatch.getInstance().installHandler(stateHandler);
 	}
 
-	public void registerWindow(DesktopContainer window)
+	public void registerWindow(DesktopContainer<?> window)
 	{
 		establishWindowComponents(window);
 		window.installHandler(stateHandler);
@@ -60,7 +63,7 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 		establishWindowComponents(CompositionRegistry.getWindow(enclosure.getComponent())).add(enclosure);
 	}
 
-	private WindowFocusCycle establishWindowComponents(DesktopContainer window)
+	private WindowFocusCycle establishWindowComponents(DesktopContainer<?> window)
 	{
 		WindowFocusCycle cycle = windowFocusCycles.get(window);
 		if (cycle == null)
@@ -119,7 +122,7 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 
 		public void componentFocused(SetFocusAction action)
 		{
-			DesktopContainer window = CompositionRegistry.getWindow(action.activate);
+			DesktopContainer<?> window = CompositionRegistry.getWindow(action.activate);
 			WindowFocusCycle cycle = windowFocusCycles.get(window);
 			changeFocus(cycle, action.activate);
 		}
@@ -153,7 +156,7 @@ public class ApplicationFocusHandler extends AbstractEventDispatch
 			changeFocus(cycle, nextComponent);
 		}
 
-		private void requestRepaint(DesktopContainer window)
+		private void requestRepaint(DesktopContainer<?> window)
 		{
 			WindowFocusCycle cycle = windowFocusCycles.get(window);
 			if (cycle != null)

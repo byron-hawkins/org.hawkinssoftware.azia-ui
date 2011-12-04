@@ -12,6 +12,7 @@ package org.hawkinssoftware.azia.ui.component;
 
 import java.awt.Rectangle;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.ScreenPosition;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
@@ -67,9 +68,8 @@ public class EnclosureBounds implements Axis.Bounds
 				throw new UnknownEnumConstantException(axis);
 		}
 	}
-
-	@Override
-	public int getPosition(Axis axis)
+	
+	private int getCurrentPosition(Axis axis)
 	{
 		switch (axis)
 		{
@@ -83,7 +83,12 @@ public class EnclosureBounds implements Axis.Bounds
 	}
 
 	@Override
-	public int getSpan(Axis axis)
+	public int getPosition(Axis axis)
+	{
+		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(PositionProperty.oriented(axis)).getValue();
+	}
+	
+	private int getCurrentSpan(Axis axis)
 	{
 		switch (axis)
 		{
@@ -94,6 +99,12 @@ public class EnclosureBounds implements Axis.Bounds
 			default:
 				throw new UnknownEnumConstantException(axis);
 		}
+	}
+
+	@Override
+	public int getSpan(Axis axis)
+	{
+		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(SpanProperty.oriented(axis)).getValue();
 	}
 
 	public boolean isAtOrigin()
@@ -115,5 +126,73 @@ public class EnclosureBounds implements Axis.Bounds
 	public String toString()
 	{
 		return "[x: " + x + " -> " + (x + width) + " (" + width + "), y: " + y + " -> " + (y + height) + " (" + height + ")]";
+	}
+
+	private static class SpanProperty extends UserInterfaceTransactionQuery.Property<EnclosureBounds, Integer>
+	{
+		private static SpanProperty oriented(Axis axis)
+		{
+			switch (axis)
+			{
+				case H:
+					return HORIZONTAL_INSTANCE;
+				case V:
+					return VERTICAL_INSTANCE;
+				default:
+					throw new UnknownEnumConstantException(axis);
+			}
+		}
+
+		private static final SpanProperty HORIZONTAL_INSTANCE = new SpanProperty(Axis.H);
+		private static final SpanProperty VERTICAL_INSTANCE = new SpanProperty(Axis.V);
+
+		private final Axis axis;
+
+		SpanProperty(Axis axis)
+		{
+			super("getSpan");
+
+			this.axis = axis;
+		}
+
+		@Override
+		public Integer getCurrentValue(EnclosureBounds parentValue)
+		{
+			return parentValue.getCurrentSpan(axis);
+		}
+	}
+
+	private static class PositionProperty extends UserInterfaceTransactionQuery.Property<EnclosureBounds, Integer>
+	{
+		private static PositionProperty oriented(Axis axis)
+		{
+			switch (axis)
+			{
+				case H:
+					return HORIZONTAL_INSTANCE;
+				case V:
+					return VERTICAL_INSTANCE;
+				default:
+					throw new UnknownEnumConstantException(axis);
+			}
+		}
+
+		private static final PositionProperty HORIZONTAL_INSTANCE = new PositionProperty(Axis.H);
+		private static final PositionProperty VERTICAL_INSTANCE = new PositionProperty(Axis.V);
+
+		private final Axis axis;
+
+		PositionProperty(Axis axis)
+		{
+			super("getSpan");
+
+			this.axis = axis;
+		}
+
+		@Override
+		public Integer getCurrentValue(EnclosureBounds parentValue)
+		{
+			return parentValue.getCurrentPosition(axis);
+		}
 	}
 }

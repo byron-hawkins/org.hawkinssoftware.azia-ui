@@ -15,8 +15,11 @@ import java.util.List;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery.Property;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.FlyweightCellDomain;
@@ -44,7 +47,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  */
 @DomainRole.Join(membership = { RenderingDomain.class, DisplayBoundsDomain.class, FlyweightCellDomain.class, ModelListDomain.class,
 		CompositionInitializationDomain.class })
-public class MaximumWidthHandler implements UserInterfaceHandler, CompositionElement.Initializing, UserInterfaceActorDelegate
+public class MaximumWidthHandler implements UserInterfaceHandler, CompositionElement.Initializing, UserInterfaceActorDelegate, UserInterfaceActorPreview
 {
 	@ValidateRead
 	@ValidateWrite
@@ -64,36 +67,31 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 		stampFactory = CompositionRegistry.getService(CellStamp.Factory.class);
 		viewport = CompositionRegistry.getComposite(CellViewportComposite.class);
 		updateWidthDirective = new UpdateWidthDirective();
-		
+
 		viewport.installHandler(this);
 	}
 
 	int getMaxWidth()
 	{
-		return maxWidth;
+		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(WidthProperty.INSTANCE).getValue();
+	}
+
+	@Override
+	public boolean affects(Property<?, ?> property)
+	{
+		return property.matches("getMaxWidth");
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getPreview(UserInterfaceDirective action, T value)
+	{
+		return (T) (Integer) ((UpdateWidthDirective) action).calculateMaxWidth((Integer) value);
 	}
 
 	@Override
 	public UserInterfaceActor getActor()
 	{
 		return viewport.getComponent();
-	}
-	
-	private <DataType> void revalidateWidth()
-	{
-		maxWidth = 0;
-		for (int i = 0; i < model.getRowCount(Section.SCROLLABLE); i++)
-		{
-			RowAddress address = viewport.createAddress(i, Section.SCROLLABLE);
-			@SuppressWarnings("unchecked")
-			DataType datum = (DataType) model.get(address);
-			CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
-			int width = stamp.getSpan(Axis.H, datum);
-			if (width > maxWidth)
-			{
-				maxWidth = width;
-			}
-		}
 	}
 
 	public void dataChanging(ListDataModel.DataChangeNotification dataChange, PendingTransaction transaction)
@@ -150,15 +148,28 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 			active = true;
 		}
 
-		@Override
-		public void commit()
+		private <DataType> int calculateMaxWidth(int currentMaxWidth)
 		{
+			int maxWidth;
 			if (revalidate)
 			{
-				revalidateWidth();
+				maxWidth = 0;
+				for (int i = 0; i < model.getView().getRowCount(Section.SCROLLABLE); i++)
+				{
+					RowAddress address = viewport.createAddress(i, Section.SCROLLABLE);
+					@SuppressWarnings("unchecked")
+					DataType datum = (DataType) model.getView().get(address);
+					CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
+					int width = stamp.getSpan(Axis.H, datum);
+					if (width > maxWidth)
+					{
+						maxWidth = width;
+					}
+				}
 			}
 			else
 			{
+				maxWidth = currentMaxWidth;
 				for (String textAddition : textAdditions)
 				{
 					int width = TextMetrics.INSTANCE.getSize(textAddition, BoundsType.TEXT).width;
@@ -168,10 +179,32 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 					}
 				}
 			}
+			return maxWidth;
+		}
+
+		@Override
+		public void commit()
+		{
+			MaximumWidthHandler.this.maxWidth = this.calculateMaxWidth(MaximumWidthHandler.this.maxWidth);
 
 			revalidate = false;
 			textAdditions.clear();
 			active = false;
+		}
+	}
+
+	private static class WidthProperty extends UserInterfaceTransactionQuery.Property<MaximumWidthHandler, Integer>
+	{
+		static final WidthProperty INSTANCE = new WidthProperty();
+
+		public WidthProperty()
+		{
+			super("getMaxWidth");
+		}
+
+		protected Integer getCurrentValue(MaximumWidthHandler parentValue)
+		{
+			return parentValue.maxWidth;
 		}
 	}
 }

@@ -11,7 +11,9 @@
 package org.hawkinssoftware.azia.ui.component.scalar.handler;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
+import org.hawkinssoftware.azia.ui.component.EnclosureBounds;
 import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.component.scalar.AbstractSlider;
 import org.hawkinssoftware.azia.ui.component.scalar.SliderComposite;
@@ -31,6 +33,8 @@ public class SliderCollaborationActionContributor implements UserInterfaceHandle
 {
 	private final SliderComposite<? extends AbstractSlider> host;
 
+	private final BoundsProperty boundsProperty = new BoundsProperty();
+
 	public SliderCollaborationActionContributor(SliderComposite<? extends AbstractSlider> host)
 	{
 		this.host = host;
@@ -38,8 +42,9 @@ public class SliderCollaborationActionContributor implements UserInterfaceHandle
 
 	public void changeKnobPosition(ChangeKnobPositionNotification moveKnob, PendingTransaction transaction)
 	{
-		int absolutePosition = moveKnob.knobPosition + host.getBounds().getPosition(host.getAxis());
+		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
 
+		int absolutePosition = moveKnob.knobPosition + host.getBounds().getPosition(host.getAxis());
 		ComponentBoundsChangeDirective moveKnobBounds = ComponentBoundsChangeDirective.changePosition(host.getKnob().getComponent(), host.getAxis(),
 				absolutePosition);
 		transaction.contribute(moveKnobBounds);
@@ -50,5 +55,19 @@ public class SliderCollaborationActionContributor implements UserInterfaceHandle
 		ComponentBoundsChangeDirective resizeKnobBounds = ComponentBoundsChangeDirective.changeSpan(host.getKnob().getComponent(), host.getAxis(),
 				resizeKnob.getKnobWidth());
 		transaction.contribute(resizeKnobBounds);
+	}
+
+	private class BoundsProperty extends UserInterfaceTransactionQuery.Property<SliderComposite<AbstractSlider>, EnclosureBounds>
+	{
+		public BoundsProperty()
+		{
+			super("getBounds");
+		}
+
+		@Override
+		public EnclosureBounds getCurrentValue(SliderComposite<AbstractSlider> parentValue)
+		{
+			return parentValue.getBounds();
+		}
 	}
 }

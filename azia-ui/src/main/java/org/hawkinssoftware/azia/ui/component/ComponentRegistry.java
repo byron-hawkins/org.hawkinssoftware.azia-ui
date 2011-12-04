@@ -81,7 +81,7 @@ public final class ComponentRegistry
 	 * @return the composite
 	 */
 	public <ComponentType extends AbstractComponent, PainterType, CompositeType extends AbstractComposite<ComponentType, ?>> CompositeType establishComposite(
-			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer.SingleFaced window)
+			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer.SingleFaced<?> window)
 	{
 		return establishComposite(assembly, window, window);
 	}
@@ -96,7 +96,7 @@ public final class ComponentRegistry
 	 */
 	@SuppressWarnings("unchecked")
 	public <ComponentType extends AbstractComponent, PainterType, CompositeType extends AbstractComposite<ComponentType, ?>> CompositeType establishComposite(
-			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer window, RepaintDirective.Host repaintHost)
+			CompositeAssembly<ComponentType, PainterType, CompositeType> assembly, DesktopContainer<?> window, RepaintDirective.Host repaintHost)
 	{
 		CompositeType composite = (CompositeType) componentsByKey.get(assembly);
 		if (composite == null)
@@ -134,11 +134,11 @@ public final class ComponentRegistry
 	private static class ComponentCreationTask extends InstantiationTask.Producer<ComponentCreationTask>
 	{
 		private ComponentAssembly assembly;
-		private DesktopContainer window;
+		private DesktopContainer<?> window;
 		private RepaintDirective.Host repaintHost;
 		ComponentEnclosure enclosure = null;
 
-		public ComponentCreationTask(SynchronizationRole role, String description, ComponentAssembly assembly, DesktopContainer window,
+		public ComponentCreationTask(SynchronizationRole role, String description, ComponentAssembly assembly, DesktopContainer<?> window,
 				RepaintDirective.Host repaintHost)
 		{
 			super(role, description);

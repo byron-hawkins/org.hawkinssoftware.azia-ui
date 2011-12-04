@@ -12,7 +12,10 @@ package org.hawkinssoftware.azia.ui.component;
 
 import java.util.Collection;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
+import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
@@ -44,7 +47,6 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 public class ComponentEnclosure<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> implements
 		UserInterfaceHandler.Host, ComponentDataHandler.Host, BoundedEntity, PaintableActorDelegate, CompositionElement
 {
-
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -65,11 +67,23 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	 * @author Byron Hawkins
 	 */
 	@DomainRole.Join(membership = DisplayBoundsDomain.class)
-	public class BoundsChangeHandler implements UserInterfaceHandler
+	public class BoundsChangeHandler implements UserInterfaceHandler, UserInterfaceActorPreview
 	{
 		public void applyBoundsChange(ComponentBoundsChangeDirective change)
 		{
 			bounds = change.bounds.applyValues(bounds);
+		}
+
+		@Override
+		public boolean affects(UserInterfaceTransactionQuery.Property<?, ?> property)
+		{
+			return property.matches("getBounds");
+		}
+
+		@SuppressWarnings("unchecked")
+		public <T> T getPreview(UserInterfaceDirective action, T value)
+		{
+			return (T) ((ComponentBoundsChangeDirective) action).bounds.applyValues((EnclosureBounds) value);
 		}
 	}
 
@@ -145,7 +159,7 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	}
 
 	@Override
-	public <HandlerType extends ComponentDataHandler> HandlerType getDataHandler(org.hawkinssoftware.azia.ui.component.ComponentDataHandler.Key<HandlerType> key)
+	public <HandlerType extends ComponentDataHandler> HandlerType getDataHandler(ComponentDataHandler.Key<HandlerType> key)
 	{
 		return component.getDataHandler(key);
 	}
@@ -176,7 +190,7 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 
 	public boolean isVisible()
 	{
-		return visible;
+		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(VisibilityProperty.INSTANCE).getValue();
 	}
 
 	protected void setVisible(boolean visible)
@@ -195,13 +209,18 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 		this.painter = painter;
 	}
 
-	public EnclosureBounds getBounds()
+	private EnclosureBounds getCurrentBounds()
 	{
-		if (!visible)
+		if (!isVisible())
 		{
 			return EnclosureBounds.EMPTY;
 		}
 		return bounds;
+	}
+
+	public EnclosureBounds getBounds()
+	{
+		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(BoundsProperty.INSTANCE).getValue();
 	}
 
 	@Override
@@ -222,5 +241,37 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	public BoundedEntity.MaximumSize getMaxSize(Axis axis)
 	{
 		return getPainter().getMaxSize(axis);
+	}
+
+	private static class VisibilityProperty extends UserInterfaceTransactionQuery.Property<ComponentEnclosure<?, ?>, Boolean>
+	{
+		private static final VisibilityProperty INSTANCE = new VisibilityProperty();
+
+		private VisibilityProperty()
+		{
+			super("isVisible");
+		}
+
+		@Override
+		public Boolean getCurrentValue(ComponentEnclosure<?, ?> parentValue)
+		{
+			return parentValue.visible;
+		}
+	}
+
+	private static class BoundsProperty extends UserInterfaceTransactionQuery.Property<ComponentEnclosure<?, ?>, EnclosureBounds>
+	{
+		private static final BoundsProperty INSTANCE = new BoundsProperty();
+
+		private BoundsProperty()
+		{
+			super("getBounds");
+		}
+
+		@Override
+		public EnclosureBounds getCurrentValue(ComponentEnclosure<?, ?> parentValue)
+		{
+			return parentValue.getCurrentBounds();
+		}
 	}
 }
