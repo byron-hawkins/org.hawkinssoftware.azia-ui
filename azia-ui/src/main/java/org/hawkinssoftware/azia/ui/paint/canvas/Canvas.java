@@ -38,7 +38,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class Canvas
 {
-
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -213,6 +212,16 @@ public class Canvas
 	public Size size()
 	{
 		return currentBounds.size;
+	}
+	
+	public int x()
+	{
+		return currentBounds.bounds.x;
+	}
+	
+	public int y()
+	{
+		return currentBounds.bounds.y;
 	}
 
 	public Size span()

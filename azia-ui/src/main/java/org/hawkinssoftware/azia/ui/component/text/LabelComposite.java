@@ -10,8 +10,15 @@
  */
 package org.hawkinssoftware.azia.ui.component.text;
 
+import org.hawkinssoftware.azia.core.action.UserInterfaceTask.ConcurrentAccessException;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.ui.component.composition.AbstractComposite;
+import org.hawkinssoftware.azia.ui.component.transaction.state.ChangeTextDirective;
 import org.hawkinssoftware.azia.ui.paint.ComponentPainter;
+import org.hawkinssoftware.azia.ui.tile.LayoutEntity;
+import org.hawkinssoftware.azia.ui.tile.transaction.modify.UpdateLayoutHandler;
+import org.hawkinssoftware.rns.core.log.Log;
 
 /**
  * DOC comment task awaits.
@@ -24,6 +31,26 @@ import org.hawkinssoftware.azia.ui.paint.ComponentPainter;
  */
 public class LabelComposite<LabelType extends Label, PainterType extends ComponentPainter<LabelType>> extends AbstractComposite<LabelType, PainterType>
 {
+	public static class UpdateHandler<KeyType extends LayoutEntity.Key<KeyType>> extends UpdateLayoutHandler<KeyType>
+	{
+		public UpdateHandler(KeyType tileKey)
+		{
+			super(tileKey);
+		}
+
+		public void textChanging(ChangeTextDirective.Notification change, PendingTransaction transaction)
+		{
+			try
+			{
+				executeUpdate();
+			}
+			catch (ConcurrentAccessException e)
+			{
+				Log.out(Tag.DEBUG, e, "Failed to update the layout of a label after data change.");
+			}
+		}
+	}
+
 	public LabelComposite(LabelType component)
 	{
 		super(component);

@@ -135,8 +135,11 @@ public class TextBlockPainter implements UserInterfaceHandler, UserInterfaceActo
 
 	public void paint(Canvas c, Color color)
 	{
-		textBlock.clipBounds.x = 0;
-		textBlock.clipBounds.y = 0;
+		// hackish, making assumptions about the clip bounds origin
+		// visible bounds need to be obtained some other way
+		// should this painter even know the bounds directly?
+		textBlock.clipBounds.x = -c.x();
+		textBlock.clipBounds.y = -c.y();
 		textBlock.clipBounds.width = c.span().width;
 		textBlock.clipBounds.height = c.span().height;
 

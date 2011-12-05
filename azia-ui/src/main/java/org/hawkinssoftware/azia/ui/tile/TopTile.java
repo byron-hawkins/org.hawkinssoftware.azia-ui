@@ -137,7 +137,6 @@ public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> implements Layou
 		{
 			bounds = ((TileBoundsChangeDirective) action).bounds;
 		}
-
 	}
 
 	@InvocationConstraint(domains = DisplayBoundsDomain.class)
