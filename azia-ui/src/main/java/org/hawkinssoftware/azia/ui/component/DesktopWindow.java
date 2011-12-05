@@ -27,6 +27,7 @@ import java.util.Collection;
 
 import javax.swing.SwingUtilities;
 
+import org.hawkinssoftware.azia.core.action.GenericTransaction;
 import org.hawkinssoftware.azia.core.action.TransactionRegistry;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTask;
@@ -133,7 +134,20 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 		frame.setMaximumSize(maximumSize);
 	}
 
-	public void setVisible(boolean b)
+	public void display(boolean b)
+	{
+		try
+		{
+			TransactionRegistry.executeTask(new DisplayTask(b));
+		}
+		catch (ConcurrentAccessException e)
+		{
+			Log.out(Tag.CRITICAL, e, "Failed to open the console.");
+		}
+
+	}
+
+	private void setVisible(boolean b)
 	{
 		frame.setVisible(b);
 
@@ -240,6 +254,24 @@ public class DesktopWindow<KeyType extends LayoutEntity.Key<KeyType>> extends Ab
 				Log.out(Tag.CRITICAL, t, "Failed to initiate a window event transaction.");
 				return false;
 			}
+		}
+	}
+
+	private class DisplayTask extends UserInterfaceTask
+	{
+		private final boolean visible;
+
+		public DisplayTask(boolean visible)
+		{
+			this.visible = visible;
+		}
+
+		@Override
+		protected boolean execute()
+		{
+			GenericTransaction transaction = getTransaction(GenericTransaction.class);
+			transaction.addAction(new SetVisibleAction(DesktopWindow.this, visible));
+			return true;
 		}
 	}
 
