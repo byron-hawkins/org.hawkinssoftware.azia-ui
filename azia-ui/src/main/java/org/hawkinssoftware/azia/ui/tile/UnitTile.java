@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
-import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity;
 import org.hawkinssoftware.azia.ui.component.EnclosureBounds;
@@ -87,8 +86,6 @@ public class UnitTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstrac
 	@Override
 	protected void accommodateBoundsChange(TileBoundsChangeDirective.Notification notification, PendingTransaction transaction)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-
 		int xCommand = notification.getBounds().x;
 		int yCommand = notification.getBounds().y;
 		int wCommand = notification.getBounds().width;

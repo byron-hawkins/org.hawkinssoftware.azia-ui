@@ -10,7 +10,6 @@
  */
 package org.hawkinssoftware.azia.ui.component.scalar.handler;
 
-import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.core.layout.Axis;
@@ -96,8 +95,6 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportMoving(MoveViewportOriginDirective.Notification move, PendingTransaction transaction)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.viewportContentPosition = move.x();
 		orientedMetrics.reboundKnob(transaction);
@@ -108,8 +105,6 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportResizing(ComponentBoundsChangeDirective.Notification resize, PendingTransaction transaction)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.viewportSpan = (resize.getBoundsChange().width == null) ? host.getBounds().width : resize.getBoundsChange().width;
 		orientedMetrics.reboundKnob(transaction);
@@ -120,8 +115,6 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 
 	public void viewportContentResizing(ChangeViewportContentBoundsDirective.Notification resize, PendingTransaction transaction)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-		
 		orientedMetrics.assignCurrentValues(Axis.H);
 		orientedMetrics.contentSpan = resize.getBounds().width;
 		orientedMetrics.reboundKnob(transaction);

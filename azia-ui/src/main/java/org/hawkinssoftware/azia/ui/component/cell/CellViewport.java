@@ -38,7 +38,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateWrite
 public class CellViewport extends ScrollPaneViewport
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -80,7 +80,7 @@ public class CellViewport extends ScrollPaneViewport
 	{
 		// marker
 	}
-	
+
 	@ValidateRead.Exempt
 	@ValidateWrite.Exempt
 	private CellViewportComposite<?> viewport;
@@ -95,7 +95,7 @@ public class CellViewport extends ScrollPaneViewport
 	public void compositionCompleted()
 	{
 		super.compositionCompleted();
-		
+
 		viewport = CompositionRegistry.getComposite(CellViewportComposite.class);
 	}
 
@@ -113,12 +113,11 @@ public class CellViewport extends ScrollPaneViewport
 	 * 
 	 * @author Byron Hawkins
 	 */
-	@DomainRole.Join(membership = { TransactionParticipant.class, FlyweightCellDomain.class })
 	public class MouseHandler implements UserInterfaceHandler
 	{
 		public void mouseStateChange(final EventPass pass, final PendingTransaction transaction)
 		{
-			new InstantiationTask.SubordinateTask(CellViewport.this) {
+			new ForwardTask() {
 				@Override
 				protected void execute()
 				{
@@ -129,6 +128,15 @@ public class CellViewport extends ScrollPaneViewport
 					}
 				}
 			}.start();
+		}
+
+		@DomainRole.Join(membership = { TransactionParticipant.class, FlyweightCellDomain.class })
+		private abstract class ForwardTask extends InstantiationTask.SubordinateTask
+		{
+			ForwardTask()
+			{
+				super(CellViewport.this);
+			}
 		}
 	}
 }

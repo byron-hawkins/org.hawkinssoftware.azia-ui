@@ -209,7 +209,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 
 	public <DataType> Axis.Span getRowSpan(Section section, Axis axis, int row)
 	{
-		if ((row <= 0) || (model.getView().getRowCount(section) <= row))
+		if ((row <= 0) || (model.getRowCount(section) <= row))
 		{
 			return new Axis.Span(axis, 0, 0);
 		}
@@ -218,7 +218,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 		@SuppressWarnings("unchecked")
 		DataType rowDatum = (DataType) model.get(rowAddress);
 		CellStamp<DataType> rowStamp = stampFactory.getStamp(rowAddress, rowDatum);
-
+		
 		int position = 0;
 		int span = rowStamp.getSpan(axis, rowDatum);
 
@@ -233,7 +233,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 				position += stamp.getSpan(Axis.V, datum);
 			}
 		}
-
+		
 		return new Axis.Span(axis, position, span);
 	}
 

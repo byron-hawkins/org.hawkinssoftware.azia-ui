@@ -18,6 +18,7 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.FlyweightCellDomain;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry;
@@ -227,11 +228,11 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		{
 			if (address.row < 0)
 			{
-				getDataSection(address.section).add(datum);
+				getCurrentDataSection(address.section).add(datum);
 			}
 			else
 			{
-				getDataSection(address.section).add(address.row, datum);
+				getCurrentDataSection(address.section).add(address.row, datum);
 			}
 		}
 	}
@@ -258,7 +259,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		@Override
 		public void commit()
 		{
-			getDataSection(address.section).set(address.row, datum);
+			getCurrentDataSection(address.section).set(address.row, datum);
 		}
 	}
 
@@ -284,7 +285,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		@Override
 		public void commit()
 		{
-			getDataSection(address.section).remove(address.row);
+			getCurrentDataSection(address.section).remove(address.row);
 		}
 	}
 
@@ -412,7 +413,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 
 		public void close()
 		{
-			getView().session = null;
+			VIEWS.get().session = null;
 		}
 
 		public void clear(Section section)
@@ -508,32 +509,20 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	}
 
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
-	public class View
+	private class View
 	{
 		private Session session = null;
 
-		private View()
-		{
-		}
-
-		public Object get(RowAddress address)
+		List<Object> getDataSection(Section section)
 		{
 			if (session == null)
 			{
-				return ListDataModel.this.getDataSection(address.section).get(address.row);
+				return ListDataModel.this.getCurrentDataSection(section);
 			}
-
-			return session.getSessionDataSection(address.section).get(address.row);
-		}
-
-		public int getRowCount(Section section)
-		{
-			if (session == null)
+			else
 			{
-				return ListDataModel.this.getRowCount(section);
+				return session.getSessionDataSection(section);
 			}
-
-			return session.getSessionDataSection(section).size();
 		}
 	}
 
@@ -551,21 +540,28 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 
 	private ComponentContext context;
 
-	public View getView()
-	{
-		return VIEWS.get();
-	}
-
 	public Session createSession(ListDataModelTransaction transaction)
 	{
 		Session session = new Session(transaction);
 
-		getView().session = session;
+		VIEWS.get().session = session;
 
 		return session;
 	}
 
 	private List<Object> getDataSection(Section section)
+	{
+		if (UserInterfaceTransactionQuery.isReadingTransactionalChanges())
+		{
+			return VIEWS.get().getDataSection(section);
+		}
+		else
+		{
+			return getCurrentDataSection(section);
+		}
+	}
+	
+	private List<Object> getCurrentDataSection(Section section)
 	{
 		switch (section)
 		{

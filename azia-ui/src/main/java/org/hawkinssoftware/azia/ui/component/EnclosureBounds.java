@@ -15,6 +15,8 @@ import java.awt.Rectangle;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.ScreenPosition;
+import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
+import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
 
 /**
@@ -128,6 +130,7 @@ public class EnclosureBounds implements Axis.Bounds
 		return "[x: " + x + " -> " + (x + width) + " (" + width + "), y: " + y + " -> " + (y + height) + " (" + height + ")]";
 	}
 
+	@DomainRole.Join(membership = DisplayBoundsDomain.class)
 	private static class SpanProperty extends UserInterfaceTransactionQuery.Property<EnclosureBounds, Integer>
 	{
 		private static SpanProperty oriented(Axis axis)
@@ -162,9 +165,10 @@ public class EnclosureBounds implements Axis.Bounds
 		}
 	}
 
+	@DomainRole.Join(membership = DisplayBoundsDomain.class)
 	private static class PositionProperty extends UserInterfaceTransactionQuery.Property<EnclosureBounds, Integer>
 	{
-		private static PositionProperty oriented(Axis axis)
+		private static PositionProperty oriented(Axis axis) 
 		{
 			switch (axis)
 			{
@@ -175,7 +179,7 @@ public class EnclosureBounds implements Axis.Bounds
 				default:
 					throw new UnknownEnumConstantException(axis);
 			}
-		}
+		} 
 
 		private static final PositionProperty HORIZONTAL_INSTANCE = new PositionProperty(Axis.H);
 		private static final PositionProperty VERTICAL_INSTANCE = new PositionProperty(Axis.V);

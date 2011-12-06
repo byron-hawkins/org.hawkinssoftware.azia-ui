@@ -6,12 +6,11 @@ import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.ui.component.DesktopContainer;
 import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry;
-import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
-import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
 import org.hawkinssoftware.azia.ui.tile.LayoutEntity;
 import org.hawkinssoftware.azia.ui.tile.LayoutRegion;
 import org.hawkinssoftware.azia.ui.tile.transaction.resize.ApplyLayoutTransaction;
 import org.hawkinssoftware.rns.core.log.Log;
+import org.hawkinssoftware.rns.core.role.DomainRole;
 
 public class UpdateLayoutHandler<KeyType extends LayoutEntity.Key<KeyType>> implements UserInterfaceHandler
 {
@@ -33,6 +32,7 @@ public class UpdateLayoutHandler<KeyType extends LayoutEntity.Key<KeyType>> impl
 		updateTask.start();
 	}
 
+	@DomainRole.Join(membership = LayoutRegion.TileLayoutDomain.class)
 	private class UpdateLayoutTask extends UserInterfaceTask
 	{
 		@Override
@@ -55,7 +55,7 @@ public class UpdateLayoutHandler<KeyType extends LayoutEntity.Key<KeyType>> impl
 				Log.out(Tag.DEBUG, "Warning: can't update layout entity %s because it is not found in the window", tileKey);
 			}
 
-			return true;
+			return true;  
 		}
 	}
 }

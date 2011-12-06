@@ -67,7 +67,7 @@ public class SliderComposite<SliderType extends AbstractSlider> extends Abstract
 		}
 
 		@Override
-		public boolean affects(Property property)
+		public boolean affects(Property<?, ?> property)
 		{
 			return property.matches("isVisible");
 		}

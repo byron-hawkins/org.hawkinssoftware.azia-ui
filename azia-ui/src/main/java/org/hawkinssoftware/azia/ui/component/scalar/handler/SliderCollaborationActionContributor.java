@@ -42,8 +42,6 @@ public class SliderCollaborationActionContributor implements UserInterfaceHandle
 
 	public void changeKnobPosition(ChangeKnobPositionNotification moveKnob, PendingTransaction transaction)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-
 		int absolutePosition = moveKnob.knobPosition + host.getBounds().getPosition(host.getAxis());
 		ComponentBoundsChangeDirective moveKnobBounds = ComponentBoundsChangeDirective.changePosition(host.getKnob().getComponent(), host.getAxis(),
 				absolutePosition);

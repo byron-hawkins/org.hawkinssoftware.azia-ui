@@ -14,7 +14,6 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
-import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.rns.core.role.DomainRole;

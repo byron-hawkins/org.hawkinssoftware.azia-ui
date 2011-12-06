@@ -13,7 +13,6 @@ package org.hawkinssoftware.azia.ui.tile;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
-import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity;
 import org.hawkinssoftware.azia.ui.component.EnclosureBounds;
@@ -167,16 +166,12 @@ public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>
 	@Override
 	public int getPackedSize(Axis axis)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-		
 		return pad(unit.getPackedSize(axis), axis);
 	}
 
 	@Override
 	public BoundedEntity.MaximumSize getMaxSize(Axis axis)
 	{
-		UserInterfaceTransactionQuery.setReadTransactionalChanges(true);
-		
 		BoundedEntity.MaximumSize max = unit.getMaxSize(axis);
 		if (max.exists())
 		{

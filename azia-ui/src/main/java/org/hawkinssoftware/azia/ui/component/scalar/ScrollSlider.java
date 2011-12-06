@@ -39,7 +39,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
  */
 public class ScrollSlider extends AbstractSlider
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -47,7 +47,7 @@ public class ScrollSlider extends AbstractSlider
 	 *            the generic type
 	 * @author Byron Hawkins
 	 */
-	@DomainRole.Join(membership = DisplayBoundsDomain.class)
+	@DomainRole.Join(membership = { DisplayBoundsDomain.class, SliderComposite.SliderCompositeDomain.class })
 	public static class Assembly<SliderCompositeType extends SliderComposite<ScrollSlider>> extends
 			CompositeAssembly<ScrollSlider, AbstractSlider.Painter, SliderCompositeType>
 	{
@@ -79,7 +79,7 @@ public class ScrollSlider extends AbstractSlider
 		public void assemble(SliderCompositeType slider)
 		{
 			super.assemble(slider);
-  
+
 			slider.getComponent().setAxis(axis);
 			slider.setTrack(ComponentRegistry.getInstance().getComponent(sliderTrackAssembly));
 			slider.getTrack().getComponent().setRepaintAction(new RepaintInstanceDirective(slider.getComponent()));

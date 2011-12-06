@@ -17,8 +17,8 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
-import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionQuery.Property;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
@@ -29,6 +29,7 @@ import org.hawkinssoftware.azia.ui.component.cell.CellViewportComposite;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry.CompositionInitializationDomain;
+import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewportComposite;
 import org.hawkinssoftware.azia.ui.model.RowAddress;
 import org.hawkinssoftware.azia.ui.model.RowAddress.Section;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel;
@@ -115,8 +116,6 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 			default:
 				throw new UnknownEnumConstantException(dataChange.type);
 		}
-
-		viewport.getCellPainter().repaint(dataChange.address);
 	}
 
 	/**
@@ -124,7 +123,8 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 	 * 
 	 * @author Byron Hawkins
 	 */
-	@DomainRole.Join(membership = RenderingDomain.class)
+	@DomainRole.Join(membership = { RenderingDomain.class, DisplayBoundsDomain.class, ListDataModel.ModelListDomain.class, FlyweightCellDomain.class,
+			ScrollPaneViewportComposite.ScrollPaneViewportDomain.class })
 	private class UpdateWidthDirective extends UserInterfaceDirective
 	{
 		private final List<String> textAdditions = new ArrayList<String>();
@@ -154,11 +154,11 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 			if (revalidate)
 			{
 				maxWidth = 0;
-				for (int i = 0; i < model.getView().getRowCount(Section.SCROLLABLE); i++)
+				for (int i = 0; i < model.getRowCount(Section.SCROLLABLE); i++)
 				{
 					RowAddress address = viewport.createAddress(i, Section.SCROLLABLE);
 					@SuppressWarnings("unchecked")
-					DataType datum = (DataType) model.getView().get(address);
+					DataType datum = (DataType) model.get(address);
 					CellStamp<DataType> stamp = stampFactory.getStamp(address, datum);
 					int width = stamp.getSpan(Axis.H, datum);
 					if (width > maxWidth)
