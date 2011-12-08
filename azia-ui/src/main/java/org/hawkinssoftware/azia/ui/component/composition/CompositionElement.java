@@ -26,7 +26,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @InitializationAspect(agent = CompositionElement.Agent.class)
 public interface CompositionElement
 {
-
 	/**
 	 * A marker interface indicating that the implementor would like to be notified when its implicit composition
 	 * sequence has been completed.

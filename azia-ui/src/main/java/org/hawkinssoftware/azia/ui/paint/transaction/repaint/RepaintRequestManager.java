@@ -108,7 +108,7 @@ public class RepaintRequestManager
 					+ " because no transaction is currently in assembly.");
 		}
 
-		RepaintDirective.Host host = CompositionRegistry.getRepaintHost(request.getActor());
+		RepaintDirective.Host host = CompositionRegistry.getRepaintHost(request.getActor().getCompositionElement());
 		Map<Object, RepaintDirective> hostRequests = requestsByHostThenKey.get(host);
 		if (hostRequests == null)
 		{
@@ -127,7 +127,7 @@ public class RepaintRequestManager
 					+ " because no transaction is currently in assembly.");
 		}
 
-		RepaintDirective.Host requestHost = CompositionRegistry.getRepaintHost(request.getPaintedActor());
+		RepaintDirective.Host requestHost = CompositionRegistry.getRepaintHost(request.getPaintedActor().getCompositionElement());
 
 		Map<Object, RepaintDirective> hostRequests = requestsByHostThenKey.get(requestHost);
 		if (hostRequests == null)

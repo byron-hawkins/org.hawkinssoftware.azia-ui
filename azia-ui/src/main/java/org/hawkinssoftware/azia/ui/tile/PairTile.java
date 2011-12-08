@@ -36,10 +36,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateRead
 @ValidateWrite
 @InvocationConstraint(domains = TileLayoutDomain.class)
-public class PairTile<KeyType extends LayoutEntity.Key<KeyType>> implements LayoutRegion, LayoutUnit<KeyType>, LayoutTile<KeyType>
+public class PairTile<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractTile<KeyType> implements LayoutUnit<KeyType>, LayoutTile<KeyType>
 {
-	private final KeyType key;
-
 	EnclosureBounds bounds = EnclosureBounds.EMPTY;
 
 	LayoutTile<KeyType> first;
@@ -52,14 +50,8 @@ public class PairTile<KeyType extends LayoutEntity.Key<KeyType>> implements Layo
 
 	public PairTile(KeyType key, Axis axis)
 	{
-		this.key = key;
+		super(key);
 		this.axis = axis;
-	}
-
-	@Override
-	public KeyType getKey()
-	{
-		return key;
 	}
 
 	@Override

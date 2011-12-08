@@ -65,7 +65,7 @@ public class ListModelScrollableContentPainter implements UserInterfaceHandler, 
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return viewport.getComponent();
+		return viewport.getComponent().getActor();
 	}
 
 	<DataType> void paint()

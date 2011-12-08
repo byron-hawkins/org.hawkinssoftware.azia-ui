@@ -22,7 +22,6 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
  */
 public class ChangePressedStateDirective extends ChangeComponentStateDirective
 {
-
 	/**
 	 * Notification corresponding to the enclosing <code>ChangePressedStateDirective</code>.
 	 * 

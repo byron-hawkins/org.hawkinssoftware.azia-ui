@@ -213,12 +213,12 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 		{
 			return new Axis.Span(axis, 0, 0);
 		}
-		
+
 		RowAddress rowAddress = viewport.createAddress(row, section);
 		@SuppressWarnings("unchecked")
 		DataType rowDatum = (DataType) model.get(rowAddress);
 		CellStamp<DataType> rowStamp = stampFactory.getStamp(rowAddress, rowDatum);
-		
+
 		int position = 0;
 		int span = rowStamp.getSpan(axis, rowDatum);
 
@@ -233,7 +233,7 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 				position += stamp.getSpan(Axis.V, datum);
 			}
 		}
-		
+
 		return new Axis.Span(axis, position, span);
 	}
 
@@ -270,7 +270,11 @@ public class ListModelPainter extends AbstractCellContentPainter implements Cell
 	{
 		if (address.hasRow())
 		{
-			RepaintRequestManager.requestRepaint(createRepaintRequest(address));
+			if (model.getRowCount(address.section) > address.row)
+			{
+				RepaintRequestManager.requestRepaint(createRepaintRequest(address));
+			}
+			// else this row is already gone, so there's no repainting to be done for it
 		}
 		else
 		{

@@ -12,6 +12,7 @@ package org.hawkinssoftware.azia.ui.component.cell;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity.Expansion;

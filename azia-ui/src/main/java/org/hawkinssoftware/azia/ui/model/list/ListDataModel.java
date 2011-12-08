@@ -56,6 +56,17 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 * 
 	 * @author Byron Hawkins
 	 */
+	public static class ModelListWriteDomain extends ModelListDomain 
+	{
+		@DomainRole.Instance
+		public static final ModelListWriteDomain INSTANCE = new ModelListWriteDomain();
+	}
+	
+	/**
+	 * DOC comment task awaits.
+	 * 
+	 * @author Byron Hawkins
+	 */
 	@DomainRole.Join(membership = FlyweightCellDomain.class)
 	public interface ComponentContext
 	{
@@ -73,7 +84,6 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
 	public static class DataChangeNotification extends UserInterfaceNotification
 	{
-
 		/**
 		 * DOC comment task awaits.
 		 * 
@@ -375,6 +385,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 * 
 	 * @author Byron Hawkins
 	 */
+	@VisibilityConstraint(domains = ModelListWriteDomain.class)
 	@DomainRole.Join(membership = { ModelListDomain.class, TransactionParticipant.class })
 	public class Session
 	{

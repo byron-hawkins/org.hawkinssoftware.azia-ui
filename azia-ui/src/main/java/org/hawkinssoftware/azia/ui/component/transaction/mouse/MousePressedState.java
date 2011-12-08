@@ -71,7 +71,7 @@ public class MousePressedState extends ComponentDataHandler implements MouseAwar
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return component;
+		return component.getActor();
 	}
 
 	public boolean isPressed()

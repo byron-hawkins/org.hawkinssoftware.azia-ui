@@ -13,8 +13,8 @@ package org.hawkinssoftware.azia.ui.component.cell;
 import java.awt.Color;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.ui.component.EnclosureBounds;
-import org.hawkinssoftware.azia.ui.component.PaintableActor;
 import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.component.VirtualComponent;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
@@ -83,12 +83,6 @@ public class SelfPaintingListCell extends VirtualComponent implements AggregateP
 		return contentBounds;
 	}
 
-	@Override
-	public PaintableActor getActor()
-	{
-		return this;
-	}
-
 	public void setData(String data)
 	{
 		this.data = data;
@@ -124,7 +118,6 @@ public class SelfPaintingListCell extends VirtualComponent implements AggregateP
 	 */
 	public class ChangeTextDirective extends ChangeComponentStateDirective
 	{
-		
 		/**
 		 * DOC comment task awaits.
 		 * 

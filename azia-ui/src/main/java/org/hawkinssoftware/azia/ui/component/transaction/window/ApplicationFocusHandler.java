@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor.SynchronizationRole;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.AssemblyDomain;
 import org.hawkinssoftware.azia.input.KeyboardInputEvent;

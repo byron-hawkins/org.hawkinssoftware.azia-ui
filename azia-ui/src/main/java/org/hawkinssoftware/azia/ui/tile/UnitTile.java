@@ -37,7 +37,6 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @InvocationConstraint(domains = TileLayoutDomain.class)
 public class UnitTile<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractUnitTile<KeyType>
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

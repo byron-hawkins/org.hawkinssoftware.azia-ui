@@ -40,11 +40,9 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateWrite
 @VisibilityConstraint(voidInheritance = true)
 @InvocationConstraint(domains = TileLayoutDomain.class)
-public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> implements LayoutEntity<KeyType>, LayoutRegion, BoundedEntity.LayoutRoot
+public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractTile<KeyType> implements BoundedEntity.LayoutRoot
 {
 	final Map<KeyType, LayoutEntity<KeyType>> entitiesByKey = new HashMap<KeyType, LayoutEntity<KeyType>>();
-
-	private final KeyType key;
 
 	EnclosureBounds bounds = EnclosureBounds.EMPTY;
 
@@ -52,21 +50,15 @@ public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> implements Layou
 
 	public TopTile(KeyType key)
 	{
-		this.key = key;
+		super(key);
 	}
 
-	@Override
-	public KeyType getKey()
-	{
-		return key;
-	}
-	
 	@Override
 	public boolean isConfigured()
 	{
 		return unit != null;
 	}
-	
+
 	@Override
 	public EnclosureBounds getBounds()
 	{

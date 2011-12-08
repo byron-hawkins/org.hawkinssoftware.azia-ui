@@ -11,6 +11,7 @@
 package org.hawkinssoftware.azia.ui.paint.transaction.repaint;
 
 import org.hawkinssoftware.azia.ui.component.PaintableActor;
+import org.hawkinssoftware.azia.ui.component.PaintableActorDelegate;
 
 /**
  * DOC comment task awaits.
@@ -21,9 +22,9 @@ public class RepaintInstanceDirective extends RepaintDirective
 {
 	protected final PaintableActor actor;
 
-	public RepaintInstanceDirective(PaintableActor actor)
+	public RepaintInstanceDirective(PaintableActorDelegate actor)
 	{
-		this.actor = actor;
+		this.actor = actor.getActor();
 	}
 
 	@Override

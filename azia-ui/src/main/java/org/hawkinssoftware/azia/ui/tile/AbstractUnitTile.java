@@ -28,9 +28,8 @@ import org.hawkinssoftware.rns.core.util.UnknownEnumConstantException;
  *            the generic type
  * @author Byron Hawkins
  */
-public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>> implements LayoutRegion, LayoutTile<KeyType>
+public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractTile<KeyType> implements LayoutTile<KeyType>
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -52,8 +51,6 @@ public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>
 		}
 	}
 
-	protected final KeyType key;
-
 	EnclosureBounds bounds = EnclosureBounds.EMPTY;
 
 	LayoutUnit<KeyType> unit;
@@ -62,16 +59,10 @@ public abstract class AbstractUnitTile<KeyType extends LayoutEntity.Key<KeyType>
 
 	public AbstractUnitTile(KeyType key)
 	{
-		this.key = key;
+		super(key);
 	}
 
 	protected abstract void accommodateBoundsChange(TileBoundsChangeDirective.Notification notification, PendingTransaction transaction);
-
-	@Override
-	public KeyType getKey()
-	{
-		return key;
-	}
 
 	@Override
 	public boolean isConfigured()

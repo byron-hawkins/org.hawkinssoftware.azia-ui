@@ -34,23 +34,15 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateRead
 @ValidateWrite
 @InvocationConstraint(domains = TileLayoutDomain.class)
-public class ComponentTile<KeyType extends LayoutEntity.Key<KeyType>> implements LayoutRegion, LayoutUnit<KeyType>
+public class ComponentTile<KeyType extends LayoutEntity.Key<KeyType>> extends AbstractTile<KeyType> implements LayoutUnit<KeyType>
 {
-	private final KeyType key;
-
 	ComponentEnclosure<?, ?> component;
 
 	EnclosureBounds bounds = EnclosureBounds.EMPTY;
 
 	public ComponentTile(KeyType key)
 	{
-		this.key = key;
-	}
-
-	@Override
-	public KeyType getKey()
-	{
-		return key;
+		super(key);
 	}
 
 	@Override

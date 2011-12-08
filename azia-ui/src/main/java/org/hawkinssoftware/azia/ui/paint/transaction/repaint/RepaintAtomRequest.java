@@ -68,13 +68,13 @@ public class RepaintAtomRequest implements UserInterfaceActorDelegate, Compositi
 
 	public PaintableActor getPaintedActor()
 	{
-		return composite.getComponent();
+		return composite.getComponent().getActor();
 	}
 
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return composite.getComponent();
+		return composite.getComponent().getActor();
 	}
 
 	public Object getAggregationKey()

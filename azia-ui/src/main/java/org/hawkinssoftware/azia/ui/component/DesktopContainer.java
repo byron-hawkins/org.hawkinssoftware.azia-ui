@@ -1,6 +1,5 @@
 package org.hawkinssoftware.azia.ui.component;
 
-import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintInstanceDirective;
 import org.hawkinssoftware.azia.ui.tile.LayoutEntity;
 import org.hawkinssoftware.azia.ui.tile.LayoutRegion.TileLayoutDomain;
@@ -10,7 +9,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 
 @InitializationAspect(agent = DesktopContainer.FocusRegistrationAgent.class)
 @DomainRole.Join(membership = TileLayoutDomain.class)
-public interface DesktopContainer<KeyType extends LayoutEntity.Key<KeyType>> extends UserInterfaceHandler.Host, UserInterfaceActor
+public interface DesktopContainer<KeyType extends LayoutEntity.Key<KeyType>> extends UserInterfaceHandler.Host
 {
 	LayoutEntity<KeyType> getLayoutEntity(KeyType key);
 	

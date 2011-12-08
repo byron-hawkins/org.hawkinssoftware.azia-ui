@@ -37,7 +37,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = { ScrollPaneDomain.class, ScrollPaneViewportDomain.class, DisplayBoundsDomain.class })
 public class ScrollPaneViewportContributor implements UserInterfaceHandler
 {
-
 	/**
 	 * DOC comment task awaits.
 	 * 

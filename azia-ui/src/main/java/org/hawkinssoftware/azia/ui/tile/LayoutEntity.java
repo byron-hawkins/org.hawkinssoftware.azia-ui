@@ -31,7 +31,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 @DomainRole.Join(membership = { BoundedEntity.LayoutContainerDomain.class, DisplayBoundsDomain.class, RenderingDomain.class })
 public interface LayoutEntity<KeyType extends LayoutEntity.Key<KeyType>> extends LayoutRegion
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 

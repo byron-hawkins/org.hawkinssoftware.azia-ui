@@ -23,7 +23,7 @@ import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.FlyweightCellDomain;
 import org.hawkinssoftware.azia.ui.model.RowAddress;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel.AbstractDataAction;
-import org.hawkinssoftware.azia.ui.model.list.ListDataModel.ModelListDomain;
+import org.hawkinssoftware.azia.ui.model.list.ListDataModel.ModelListWriteDomain;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel.ModificationAction;
 import org.hawkinssoftware.azia.ui.model.list.ListDataModel.RemoveAction;
 import org.hawkinssoftware.rns.core.role.DomainRole;
@@ -33,7 +33,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
  * 
  * @author Byron Hawkins
  */
-@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
+@DomainRole.Join(membership = { ModelListWriteDomain.class, FlyweightCellDomain.class })
 public class ListDataModelTransaction implements UserInterfaceTransaction
 {
 	private final List<AbstractDataAction> appendingActions = new ArrayList<AbstractDataAction>();

@@ -56,7 +56,7 @@ public class PushedStateHandler extends ComponentDataHandler implements UserInte
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return component;
+		return component.getActor();
 	}
 
 	public boolean isPushed()

@@ -76,7 +76,7 @@ public class ListModelStaticContentPainter implements UserInterfaceHandler, User
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return viewport.getComponent();
+		return viewport.getComponent().getActor();
 	}
 
 	public void dataChanging(ListDataModel.StaticDataChangeNotification dataChange, PendingTransaction transaction)
@@ -257,7 +257,7 @@ public class ListModelStaticContentPainter implements UserInterfaceHandler, User
 		@Override
 		public UserInterfaceActor getActor()
 		{
-			return viewport.getComponent();
+			return viewport.getComponent().getActor();
 		}
 	}
 }

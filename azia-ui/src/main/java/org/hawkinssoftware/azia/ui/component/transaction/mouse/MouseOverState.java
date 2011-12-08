@@ -68,7 +68,7 @@ public class MouseOverState extends ComponentDataHandler implements UserInterfac
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return component;
+		return component.getActor();
 	}
 
 	public boolean isMouseOver()

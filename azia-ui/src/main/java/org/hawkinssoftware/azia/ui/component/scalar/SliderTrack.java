@@ -11,6 +11,7 @@
 package org.hawkinssoftware.azia.ui.component.scalar;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.layout.Axis;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity;
 import org.hawkinssoftware.azia.core.layout.BoundedEntity.Expansion;

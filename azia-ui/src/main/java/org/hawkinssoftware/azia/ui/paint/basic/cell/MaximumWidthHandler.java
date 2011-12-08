@@ -92,7 +92,7 @@ public class MaximumWidthHandler implements UserInterfaceHandler, CompositionEle
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return viewport.getComponent();
+		return viewport.getComponent().getActor();
 	}
 
 	public void dataChanging(ListDataModel.DataChangeNotification dataChange, PendingTransaction transaction)

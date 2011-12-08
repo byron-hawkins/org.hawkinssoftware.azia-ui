@@ -121,7 +121,7 @@ public class SliderTrackDivisionHandler implements UserInterfaceHandler, UserInt
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return host;
+		return host.getActor();
 	}
 
 	public int getDivisionPoint()

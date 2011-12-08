@@ -125,7 +125,7 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 		{
 			for (MouseAware forward : unvisitedForwards)
 			{
-				session.postAction(forward, notification);
+				session.postAction(forward.getActor(), notification);
 			}
 			unvisitedForwards.clear();
 		}
@@ -136,13 +136,13 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 			for (MouseAware satellitePositionForward : conclusion.satellitePositionForwards)
 			{
 				// TODO: could use a separate notification for satellite forwards
-				session.postAction(satellitePositionForward, notification);
+				session.postAction(satellitePositionForward.getActor(), notification);
 			}
 
 			Termination termination = new Termination();
 			for (MouseAware terminationForward : conclusion.terminations)
 			{
-				session.postAction(terminationForward, termination);
+				session.postAction(terminationForward.getActor(), termination);
 			}
 
 			mouseState.closeFrame(notification);

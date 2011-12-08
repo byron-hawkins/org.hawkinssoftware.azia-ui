@@ -30,9 +30,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @ValidateRead
 @ValidateWrite
 @DomainRole.Join(membership = DisplayBoundsDomain.class)
-public abstract class AbstractComponent extends VirtualComponent implements PaintableActor
+public abstract class AbstractComponent extends VirtualComponent 
 {
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -52,7 +51,7 @@ public abstract class AbstractComponent extends VirtualComponent implements Pain
 		}
 	}
 
-	private RepaintInstanceDirective repaintAction = new RepaintInstanceDirective(this);
+	private RepaintInstanceDirective repaintAction = new RepaintInstanceDirective(getActor());
 
 	@InvocationConstraint(domains = DisplayBoundsDomain.class)
 	public abstract BoundedEntity.Expansion getExpansion(Axis axis);
@@ -62,7 +61,7 @@ public abstract class AbstractComponent extends VirtualComponent implements Pain
 	{
 		RepaintRequestManager.requestRepaint(repaintAction);
 	}
-	
+
 	@InvocationConstraint(domains = AssemblyDomain.class)
 	public void setRepaintAction(RepaintInstanceDirective repaintAction)
 	{

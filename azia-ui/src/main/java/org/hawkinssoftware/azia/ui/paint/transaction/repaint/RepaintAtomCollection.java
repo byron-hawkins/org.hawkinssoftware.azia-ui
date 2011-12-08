@@ -59,12 +59,12 @@ public class RepaintAtomCollection extends RepaintDirective
 	@Override
 	public PaintableActor getActor()
 	{
-		return enclosure.getComponent();
+		return enclosure.getComponent().getActor();
 	}
 
 	@Override
 	public Object getInstanceKey()
 	{
-		return enclosure.getComponent();
+		return getActor();
 	}
 }

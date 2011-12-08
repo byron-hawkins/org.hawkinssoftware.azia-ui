@@ -12,12 +12,16 @@ package org.hawkinssoftware.azia.ui.component;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
+import org.hawkinssoftware.azia.ui.paint.transaction.repaint.RepaintRequestManager;
+import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
 
 /**
  * DOC comment task awaits.
  * 
  * @author Byron Hawkins
  */
-public interface PaintableActor extends UserInterfaceActor, PaintableActorDelegate, CompositionElement
+public interface PaintableActor extends UserInterfaceActor, PaintableActorDelegate
 {
+	@InvocationConstraint(types = RepaintRequestManager.class)
+	CompositionElement getCompositionElement();
 }

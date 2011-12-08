@@ -61,6 +61,6 @@ public abstract class AbstractCellContentPainter implements UserInterfaceHandler
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return viewport.getComponent();
+		return viewport.getComponent().getActor();
 	}
 }

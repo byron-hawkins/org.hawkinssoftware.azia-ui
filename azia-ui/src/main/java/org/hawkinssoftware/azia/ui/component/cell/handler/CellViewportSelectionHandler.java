@@ -58,7 +58,7 @@ public class CellViewportSelectionHandler implements UserInterfaceHandler, UserI
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return viewport.getComponent();
+		return viewport.getComponent().getActor();
 	}
 
 	public int getSelectedRow()

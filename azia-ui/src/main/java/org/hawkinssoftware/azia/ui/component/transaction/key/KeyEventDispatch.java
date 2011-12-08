@@ -12,6 +12,7 @@ package org.hawkinssoftware.azia.ui.component.transaction.key;
 
 import org.hawkinssoftware.azia.core.action.InstantiationTask;
 import org.hawkinssoftware.azia.core.action.TransactionRegistry;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActor.SynchronizationRole;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTask;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTask.ConcurrentAccessException;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;

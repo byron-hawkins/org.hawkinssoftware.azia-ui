@@ -63,7 +63,7 @@ public abstract class ComponentPainter<ComponentType extends AbstractComponent> 
 	@Override
 	public UserInterfaceActor getActor()
 	{
-		return component;
+		return component.getActor();
 	}
 	
 	@Override

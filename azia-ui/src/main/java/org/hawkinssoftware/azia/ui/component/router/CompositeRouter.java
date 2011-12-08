@@ -41,8 +41,8 @@ import org.hawkinssoftware.rns.core.util.RNSUtils;
  * @author Byron Hawkins
  */
 @ExecutionPath.NoFrame
-@VisibilityConstraint(extendedTypes = { VirtualComponent.class, AbstractEventDispatch.class })
-@InvocationConstraint(types = { VirtualComponent.class, AbstractEventDispatch.class })
+@VisibilityConstraint(extendedTypes = { VirtualComponent.class, VirtualComponent.Actor.class, AbstractEventDispatch.class, AbstractEventDispatch.Actor.class })
+@InvocationConstraint(types = { VirtualComponent.class, VirtualComponent.Actor.class, AbstractEventDispatch.class, AbstractEventDispatch.Actor.class })
 public final class CompositeRouter
 {
 	/**
@@ -203,7 +203,7 @@ public final class CompositeRouter
 	{
 		handlers.remove(handler);
 	}
-	
+
 	public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
 	{
 		List<UserInterfaceActorPreview> previews = new ArrayList<UserInterfaceActorPreview>();

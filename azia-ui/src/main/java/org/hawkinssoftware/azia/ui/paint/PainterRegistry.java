@@ -61,14 +61,14 @@ public final class PainterRegistry
 	}
 
 	@SuppressWarnings("unchecked")
-	@InvocationConstraint(domains = RenderingDomain.class)
+	@InvocationConstraint(domains = { RenderingDomain.class })
 	public <ComponentType extends AbstractComponent> InstancePainter<ComponentType> getPainter(ComponentType component)
 	{
 		return (InstancePainter<ComponentType>) componentPainters.get(component);
 	}
 
 	@SuppressWarnings("unchecked")
-	@InvocationConstraint(domains = { AssemblyDomain.class, RenderingDomain.class })
+	@InvocationConstraint(domains = { RenderingDomain.class, AssemblyDomain.class })
 	public <RegionType extends BoundedEntity.PanelRegion> RegionPainter<RegionType> getPainter(RegionType region)
 	{
 		RegionPainter<RegionType> painter = (RegionPainter<RegionType>) regionPainters.get(region);

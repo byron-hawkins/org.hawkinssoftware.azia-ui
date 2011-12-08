@@ -12,8 +12,9 @@ package org.hawkinssoftware.azia.ui.component.transaction.state;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
-import org.hawkinssoftware.azia.ui.component.PaintableActor;
+import org.hawkinssoftware.azia.ui.component.PaintableActorDelegate;
 import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
+import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.azia.ui.input.MouseAware;
 
 /**
@@ -42,7 +43,7 @@ public abstract class ChangeComponentStateDirective extends UserInterfaceDirecti
 	 * 
 	 * @author Byron Hawkins
 	 */
-	public interface Component extends MouseAware, PaintableActor, UserInterfaceHandler.Host
+	public interface Component extends PaintableActorDelegate, MouseAware, UserInterfaceHandler.Host, CompositionElement
 	{
 		void requestRepaint();
 	}

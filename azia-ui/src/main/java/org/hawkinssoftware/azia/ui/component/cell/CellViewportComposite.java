@@ -13,7 +13,6 @@ package org.hawkinssoftware.azia.ui.component.cell;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTask.ConcurrentAccessException;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.log.AziaLogging.Tag;
-import org.hawkinssoftware.azia.ui.component.PaintableActor;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPane;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneComposite;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewportComposite;
@@ -115,11 +114,5 @@ public class CellViewportComposite<CellPainterType extends AbstractCellContentPa
 	public RowAddress createAddress(int row, Section section)
 	{
 		return new RowAddress(getComponent(), row, section);
-	}
-
-	@Override
-	public PaintableActor getActor()
-	{
-		return getComponent();
 	}
 }

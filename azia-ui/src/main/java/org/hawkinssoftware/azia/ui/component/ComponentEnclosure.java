@@ -173,7 +173,7 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	@Override
 	public PaintableActor getActor()
 	{
-		return component;
+		return component.getActor();
 	}
 
 	// this method is a hack for initializing static dimensions

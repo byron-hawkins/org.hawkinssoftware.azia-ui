@@ -18,6 +18,7 @@ import java.util.Map;
 import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.azia.ui.component.router.CompositeRouter;
 import org.hawkinssoftware.azia.ui.component.transaction.state.ChangeComponentStateDirective;
@@ -32,8 +33,8 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  */
 @ValidateRead
 @ValidateWrite
-public abstract class VirtualComponent implements UserInterfaceHandler.Host, UserInterfaceActorPreview.Host, ComponentDataHandler.Host,
-		ChangeComponentStateDirective.Component, CompositionElement.Initializing
+public abstract class VirtualComponent implements UserInterfaceHandler.Host, ComponentDataHandler.Host, ChangeComponentStateDirective.Component,
+		CompositionElement.Initializing
 {
 	/**
 	 * DOC comment task awaits.
@@ -48,6 +49,7 @@ public abstract class VirtualComponent implements UserInterfaceHandler.Host, Use
 		}
 	}
 
+	private final Actor actor = new Actor();
 	private final CompositeRouter router = new CompositeRouter();
 
 	private final Map<ComponentDataHandler.Key<?>, ComponentDataHandler> dataHandlers = new HashMap<ComponentDataHandler.Key<?>, ComponentDataHandler>();
@@ -95,12 +97,6 @@ public abstract class VirtualComponent implements UserInterfaceHandler.Host, Use
 			dataHandlers.remove(((ComponentDataHandler) handler).key);
 		}
 	}
-	
-	@Override
-	public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
-	{
-		return router.getPreviews(action);
-	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -116,25 +112,52 @@ public abstract class VirtualComponent implements UserInterfaceHandler.Host, Use
 	}
 
 	@Override
-	public final void apply(UserInterfaceDirective action)
+	public final PaintableActor getActor()
 	{
-		router.routeAction(action);
-	}
-
-	@Override
-	public final void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
-	{
-		router.routeNote(notification, transaction);
-	}
-
-	@Override
-	public PaintableActor getActor()
-	{
-		return this;
+		return actor;
 	}
 
 	@Override
 	public void compositionCompleted()
 	{
+	}
+
+	public final class Actor implements PaintableActor
+	{
+		@Override
+		public void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
+		{
+			router.routeNote(notification, transaction);
+		}
+
+		@Override
+		public void apply(UserInterfaceDirective action)
+		{
+			router.routeAction(action);
+		}
+
+		@Override
+		public CompositionElement getCompositionElement()
+		{
+			return VirtualComponent.this;
+		}
+
+		@Override
+		public PaintableActor getActor()
+		{
+			return this;
+		}
+
+		@Override
+		public boolean hasPreviews()
+		{
+			return true;
+		}
+
+		@Override
+		public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
+		{
+			return router.getPreviews(action);
+		}
 	}
 }

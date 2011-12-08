@@ -15,8 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.action.UserInterfaceTransactionDomains.TransactionParticipant;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.DisplayBoundsDomain;
 import org.hawkinssoftware.azia.input.MouseInputEvent;
@@ -35,7 +36,7 @@ import com.google.common.collect.Multimap;
  * 
  * @author b
  */
-public interface MouseAware extends UserInterfaceActor
+public interface MouseAware extends UserInterfaceActorDelegate
 {
 	/**
 	 * Domain specific to mouse events.

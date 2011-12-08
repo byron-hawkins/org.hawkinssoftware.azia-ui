@@ -15,15 +15,14 @@ import java.util.Map;
 
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
+import org.hawkinssoftware.azia.core.action.UserInterfaceTransaction.ActorBasedContributor.PendingTransaction;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.FlyweightCellDomain;
 import org.hawkinssoftware.azia.core.role.UserInterfaceDomains.RenderingDomain;
-import org.hawkinssoftware.azia.ui.component.PaintableActor;
 import org.hawkinssoftware.azia.ui.component.UserInterfaceHandler;
 import org.hawkinssoftware.azia.ui.component.VirtualComponent;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionElement;
 import org.hawkinssoftware.azia.ui.component.composition.CompositionRegistry;
 import org.hawkinssoftware.azia.ui.component.transaction.mouse.MouseOverState;
-import org.hawkinssoftware.azia.ui.component.transaction.state.ChangeComponentStateDirective;
 import org.hawkinssoftware.azia.ui.component.transaction.state.ChangeMouseOverDirective;
 import org.hawkinssoftware.azia.ui.input.MouseAware;
 import org.hawkinssoftware.azia.ui.model.RowAddress;
@@ -110,7 +109,7 @@ public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>
 	@VisibilityConstraint(domains = FlyweightCellDomain.class)
 	@InvocationConstraint(domains = FlyweightCellDomain.class)
 	@DomainRole.Join(membership = { UserInterfaceActor.DependentActorDomain.class, FlyweightCellDomain.class })
-	public class InteractiveCell extends VirtualComponent implements MouseAware, ChangeComponentStateDirective.Component
+	public class InteractiveCell extends VirtualComponent 
 	{
 		public final CellContextImpl<DataType> cellContext;
 
@@ -138,13 +137,7 @@ public abstract class AbstractCellStamp<DataType> implements CellStamp<DataType>
 		{
 			interactiveCells.remove(cellContext.getAddress());
 		}
-
-		@Override
-		public PaintableActor getActor()
-		{
-			return this;
-		}
-
+		
 		@Override
 		public void requestRepaint()
 		{

@@ -76,6 +76,12 @@ public interface UserInterfaceHandler extends CompositionElement
 		public static final HandlerDomain INSTANCE = new HandlerDomain();
 	}
 
+	public static class HandlerInstallationDomain extends DomainRole
+	{
+		@DomainRole.Instance
+		public static final HandlerInstallationDomain INSTANCE = new HandlerInstallationDomain();
+	}
+	
 	/**
 	 * By implementing this interface, the Host declares that it will forward all instances of
 	 * <code>UserInterfaceDirective</code> and <code>UserInterfaceNotification</code> directed to its actor (specified

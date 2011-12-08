@@ -10,7 +10,12 @@
  */
 package org.hawkinssoftware.azia.ui.component;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.hawkinssoftware.azia.core.action.UserInterfaceActor;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorDelegate;
+import org.hawkinssoftware.azia.core.action.UserInterfaceActorPreview;
 import org.hawkinssoftware.azia.core.action.UserInterfaceDirective;
 import org.hawkinssoftware.azia.core.action.UserInterfaceNotification;
 import org.hawkinssoftware.azia.ui.component.router.CompositeRouter;
@@ -20,9 +25,10 @@ import org.hawkinssoftware.azia.ui.component.router.CompositeRouter;
  * 
  * @author Byron Hawkins
  */
-public abstract class AbstractEventDispatch implements UserInterfaceHandler.Host, UserInterfaceActor
+public abstract class AbstractEventDispatch implements UserInterfaceHandler.Host, UserInterfaceActorDelegate
 {
 	private final CompositeRouter router = new CompositeRouter();
+	private final Actor actor = new Actor();
 
 	@Override
 	public void installHandler(UserInterfaceHandler handler)
@@ -47,20 +53,41 @@ public abstract class AbstractEventDispatch implements UserInterfaceHandler.Host
 	}
 
 	@Override
-	public final void apply(UserInterfaceDirective action)
-	{
-		router.routeAction(action);
-	}
-
-	@Override
-	public final void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
-	{
-		router.routeNote(notification, transaction);
-	}
-
-	@Override
 	public UserInterfaceActor getActor()
 	{
-		return this;
+		return actor;
+	}
+
+	public class Actor implements UserInterfaceActor
+	{
+		@Override
+		public final void apply(UserInterfaceDirective action)
+		{
+			router.routeAction(action);
+		}
+
+		@Override
+		public final void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
+		{
+			router.routeNote(notification, transaction);
+		}
+
+		@Override
+		public UserInterfaceActor getActor()
+		{
+			return this;
+		}
+
+		@Override
+		public boolean hasPreviews()
+		{
+			return false;
+		}
+
+		@Override
+		public List<UserInterfaceActorPreview> getPreviews(UserInterfaceDirective action)
+		{
+			return Collections.emptyList();
+		}
 	}
 }
