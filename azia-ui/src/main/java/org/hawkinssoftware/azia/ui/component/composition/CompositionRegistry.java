@@ -202,7 +202,7 @@ public final class CompositionRegistry
 		throw new IllegalArgumentException("Composite " + RNSUtils.getPlainName(compositeType) + " for element " + RNSUtils.getPlainName(element.getClass())
 				+ " could not be found in the composition registry.");
 	}
-	
+
 	public static DesktopContainer<?> getWindow(CompositionElement element)
 	{
 		SessionStack sessions = SESSIONS.get();
@@ -210,7 +210,7 @@ public final class CompositionRegistry
 		{
 			return sessions.window;
 		}
-		
+
 		for (Composition composition : INSTANCE.compositions.values())
 		{
 			if (composition.elements.contains(element))
@@ -267,14 +267,22 @@ public final class CompositionRegistry
 
 	public static RepaintDirective.Host getRepaintHost(CompositionElement element)
 	{
-		for (Composition composition : INSTANCE.compositions.values())
+		SessionStack sessions = SESSIONS.get();
+		if (sessions.isEmpty())
 		{
-			if (composition.elements.contains(element))
+			for (Composition composition : INSTANCE.compositions.values())
 			{
-				return composition.repaintHost;
+				if (composition.elements.contains(element))
+				{
+					return composition.repaintHost;
+				}
 			}
+			return null;
 		}
-		return null;
+		else
+		{
+			return sessions.repaintHost;
+		}
 	}
 
 	public static void beginComposition(Class<? extends AbstractComposite<?, ?>> compositeType)
@@ -371,6 +379,11 @@ public final class CompositionRegistry
 
 			if (sessions.isEmpty())
 			{
+				if (sessions.repaintHost == null)
+				{
+					throw new IllegalStateException("Composition session never acquired a repaint host.");
+				}
+
 				composition.notifyCompositionCompleted();
 				composition.window = sessions.window;
 				composition.repaintHost = sessions.repaintHost;

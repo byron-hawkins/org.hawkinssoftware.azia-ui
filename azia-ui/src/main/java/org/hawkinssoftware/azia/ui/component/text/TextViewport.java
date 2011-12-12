@@ -17,7 +17,6 @@ import org.hawkinssoftware.azia.ui.component.AbstractComponent;
 import org.hawkinssoftware.azia.ui.component.ComponentAssembly;
 import org.hawkinssoftware.azia.ui.component.ComponentEnclosure;
 import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewport;
-import org.hawkinssoftware.azia.ui.component.scalar.ScrollPaneViewportComposite;
 import org.hawkinssoftware.azia.ui.component.text.handler.TextViewportSizeChangeHandler;
 import org.hawkinssoftware.azia.ui.component.transaction.mouse.MouseOverState;
 import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
@@ -40,18 +39,18 @@ public class TextViewport extends ScrollPaneViewport
 	 * 
 	 * @author Byron Hawkins
 	 */
-	public static class Assembly extends ComponentAssembly<TextViewport, TextViewport.Painter, ScrollPaneViewportComposite<TextViewport, ?>>
+	public static class Assembly extends ComponentAssembly<TextViewport, TextViewport.Painter, TextViewportComposite>
 	{
 		public Assembly()
 		{
 			super(UserInterfaceActor.SynchronizationRole.SUBORDINATE);
 
 			setComponent((Key<? extends TextViewport>) new AbstractComponent.Key<TextViewport>(TextViewport.class));
-			setEnclosure(new ComponentEnclosure.Key(ScrollPaneViewportComposite.class));
+			setEnclosure(new ComponentEnclosure.Key(TextViewportComposite.class));
 		}
 
 		@Override
-		public void assemble(ScrollPaneViewportComposite<TextViewport, ?> viewport)
+		public void assemble(TextViewportComposite viewport)
 		{
 			super.assemble(viewport);
 
@@ -70,7 +69,7 @@ public class TextViewport extends ScrollPaneViewport
 		// marker
 	}
 
-	@InvocationConstraint 
+	@InvocationConstraint
 	public TextViewport()
 	{
 	}

@@ -29,7 +29,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 public class ScrollPaneViewportComposite<ViewportType extends ScrollPaneViewport, PainterType extends ScrollPaneViewportPainter<ViewportType>> extends
 		AbstractComposite<ViewportType, PainterType>
 {  
-	
 	/**
 	 * DOC comment task awaits.
 	 * 
