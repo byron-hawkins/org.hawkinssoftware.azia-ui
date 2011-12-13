@@ -116,7 +116,7 @@ public abstract class VirtualComponent implements UserInterfaceHandler.Host, Com
 	{
 		return actor;
 	}
-
+	
 	@Override
 	public void compositionCompleted()
 	{

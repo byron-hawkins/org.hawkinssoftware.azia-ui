@@ -56,12 +56,12 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 * 
 	 * @author Byron Hawkins
 	 */
-	public static class ModelListWriteDomain extends ModelListDomain 
+	public static class ModelListWriteDomain extends ModelListDomain
 	{
 		@DomainRole.Instance
 		public static final ModelListWriteDomain INSTANCE = new ModelListWriteDomain();
 	}
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -307,7 +307,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 * @author Byron Hawkins
 	 */
 	@VisibilityConstraint(domains = ModelListDomain.class)
-	public class ChangeDataAction<DataType> extends AbstractDataAction
+	public class ChangeDataAction<DataType extends DataChange.Element> extends AbstractDataAction
 	{
 		private final Section section;
 		private final int row;
@@ -337,7 +337,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 *            the generic type
 	 * @author Byron Hawkins
 	 */
-	public class ChangeAllRowsAction<DataType> extends UserInterfaceDirective
+	public class ChangeAllRowsAction<DataType extends DataChange.Element> extends UserInterfaceDirective
 	{
 		private final DataChange<DataType> change;
 
@@ -375,9 +375,14 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 	 * @author Byron Hawkins
 	 */
 	@DomainRole.Join(membership = { ModelListDomain.class, FlyweightCellDomain.class })
-	public interface DataChange<DataType>
+	public interface DataChange<DataType extends DataChange.Element>
 	{
 		void applyChange(Section section, int row, DataType data);
+
+		public interface Element
+		{
+			Element copy();
+		}
 	}
 
 	/**
@@ -402,9 +407,30 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 			this.transaction = transaction;
 			transaction.addModelSession(this);
 
-			scrollableData.addAll(ListDataModel.this.scrollableData);
-			northData.addAll(ListDataModel.this.northData);
-			southData.addAll(ListDataModel.this.southData);
+			for (Object o : ListDataModel.this.scrollableData)
+			{
+				if (o instanceof DataChange.Element)
+				{
+					o = ((DataChange.Element)o).copy();
+				}
+				scrollableData.add(o);
+			}
+			for (Object o : ListDataModel.this.northData)
+			{
+				if (o instanceof DataChange.Element)
+				{
+					o = ((DataChange.Element)o).copy();
+				}
+				northData.add(o);
+			}
+			for (Object o : ListDataModel.this.southData)
+			{
+				if (o instanceof DataChange.Element)
+				{
+					o = ((DataChange.Element)o).copy();
+				}
+				southData.add(o);
+			}
 		}
 
 		private List<Object> getSessionDataSection(Section section)
@@ -492,7 +518,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 
 		@SuppressWarnings("unchecked")
-		public <DataType> void change(int row, Section section, DataChange<DataType> dataChange)
+		public <DataType  extends DataChange.Element> void change(int row, Section section, DataChange<DataType> dataChange)
 		{
 			transaction.addDataAction(new ChangeDataAction<DataType>(section, row, dataChange));
 
@@ -500,7 +526,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 		}
 
 		@SuppressWarnings("unchecked")
-		public <DataType> void changeAllRows(DataChange<DataType> dataChange)
+		public <DataType extends DataChange.Element> void changeAllRows(DataChange<DataType> dataChange)
 		{
 			transaction.addFinalAction(new ChangeAllRowsAction<DataType>(dataChange));
 
@@ -571,7 +597,7 @@ public class ListDataModel implements UserInterfaceActorDelegate, CompositionEle
 			return getCurrentDataSection(section);
 		}
 	}
-	
+
 	private List<Object> getCurrentDataSection(Section section)
 	{
 		switch (section)
