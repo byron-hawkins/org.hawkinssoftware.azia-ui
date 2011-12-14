@@ -286,6 +286,13 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 			super(Type.POST_PROCESSING);
 		}
 
+		/**
+		 * @JTourBusStop 10.1, Stack-based properties for java.awt.Graphics, Coordination of application repainting also
+		 *               relies on the stack for integrity of the Graphics properties:
+		 * 
+		 *               This RepaintTask iterates an ad hoc sequence of repaint requests, each of which will make many
+		 *               property changes... (continued at stop 10.2)
+		 */
 		public void setRepaints(Collection<RepaintDirective> repaints)
 		{
 			this.repaints = repaints;

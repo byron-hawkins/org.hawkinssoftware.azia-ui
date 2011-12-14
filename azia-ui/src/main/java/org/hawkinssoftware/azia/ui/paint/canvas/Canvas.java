@@ -64,12 +64,31 @@ public class Canvas
 			this.canvas = canvas;
 		}
 
+		/**
+		 * @JTourBusStop 8.2, Stack-based properties for java.awt.Graphics, Under the hood - frame management for the
+		 *               property stack:
+		 * 
+		 *               As the client code enters a method, the invocation depth is incremented, so that the Canvas
+		 *               will know the number of method exits after which the current stack frame should be popped.
+		 *               Incrementation will stop if the entered method calls Canvas.get(), because a new stack frame
+		 *               will be pushed for it; further method entries will increment the latter frame's invocation
+		 *               depth.
+		 */
 		@Override
 		protected void pushFrame(ExecutionStackFrame frame)
 		{
 			canvas.currentFrame.invocationDepth++;
 		}
 
+		/**
+		 * @JTourBusStop 8.3, Stack-based properties for java.awt.Graphics, Under the hood - frame management for the
+		 *               property stack:
+		 * 
+		 *               On every method exit in the client code, the invocation depth is checked for zero, which means
+		 *               that the current Canvas stack frame was created in the current method call stack frame, and
+		 *               therefore must be popped. If positive, the depth is decremented to account for the exit of a
+		 *               non-painting method.
+		 */
 		@Override
 		protected void popFromFrame(ExecutionStackFrame frame)
 		{
@@ -97,6 +116,13 @@ public class Canvas
 		ExecutionPath.removeExecutionContext(Key.INSTANCE);
 	}
 
+	/**
+	 * @JTourBusStop 8.1, Stack-based properties for java.awt.Graphics, Under the hood - frame management for the
+	 *               property stack:
+	 * 
+	 *               A canvas frame is created each time Canvas.get() is called by the client code (unless a frame
+	 *               already exists for the calling method).
+	 */
 	public static Canvas get()
 	{
 		Canvas c = ExecutionPath.getExecutionContext(Key.INSTANCE).canvas;
@@ -213,12 +239,12 @@ public class Canvas
 	{
 		return currentBounds.size;
 	}
-	
+
 	public int x()
 	{
 		return currentBounds.bounds.x;
 	}
-	
+
 	public int y()
 	{
 		return currentBounds.bounds.y;
@@ -408,6 +434,15 @@ public class Canvas
 		int colorCount = 0;
 		int fontCount = 0;
 
+		/**
+		 * @JTourBusStop 9, Stack-based properties for java.awt.Graphics, Under the hood - resetting the Graphics
+		 *               properties when popping a frame:
+		 * 
+		 *               Popping a bounds frame on method exit guarantees the internal Graphics instance is returned to
+		 *               the exact state it was in at the time that method was entered. The last-known values of the
+		 *               previous frame are simply re-applied as absolute values, so the frame will be reset correctly
+		 *               even if the client code has directly manipulated the Graphics instance.
+		 */
 		void popAll()
 		{
 			if (boundsCount > 0)

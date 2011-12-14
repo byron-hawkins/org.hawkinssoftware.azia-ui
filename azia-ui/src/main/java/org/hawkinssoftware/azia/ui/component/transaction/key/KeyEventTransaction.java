@@ -50,7 +50,7 @@ public class KeyEventTransaction implements UserInterfaceTransaction
 	@Override
 	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
 	{
-		for (int i = transaction.size()-1; i >= 0; i--)
+		for (int i = transaction.size() - 1; i >= 0; i--)
 		{
 			UserInterfaceDirective action = transaction.get(i);
 			if (action.getActor() == actor)
@@ -84,6 +84,12 @@ public class KeyEventTransaction implements UserInterfaceTransaction
 	{
 	}
 
+	/**
+	 * @JTourBusStop 4.12, ReCopyHandler participates in mouse and keyboard transactions, KeyEventTransaction commits:
+	 * 
+	 *               When the ReCopyCommand was contributed in response to the KeyboardInputNotification, it was routed
+	 *               to this.transaction, which is a simple list of actions. Each is committed in sequence.
+	 */
 	@Override
 	public void commitTransaction()
 	{

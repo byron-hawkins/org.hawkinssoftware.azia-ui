@@ -94,6 +94,13 @@ public class PaintTransaction implements UserInterfaceTransaction.Iterative
 		session.postAction(actor, new PaintIncludeNotification(actor));
 	}
 
+	/**
+	 * @JTourBusStop 10.2, Stack-based properties for java.awt.Graphics, Coordination of application repainting also
+	 *               relies on the stack for integrity of the Graphics properties:
+	 * 
+	 *               ...and the repaint requests are simply executed in sequence, knowing that the stack will always
+	 *               keep the original Graphics properties intact.
+	 */
 	@InvocationConstraint(domains = RenderingDomain.class)
 	public void start(Collection<RepaintDirective> repaints)
 	{
