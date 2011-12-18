@@ -60,6 +60,14 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  * @see UserInterfaceDirective
  * @see UserInterfaceNotification
  * @see UserInterfaceTransaction.PendingTransaction
+ * 
+ * @JTourBusStop 4, Usage of @DefinesIdentity in Azia, Identity root - UserInterfaceHandler:
+ * 
+ *               This interface is a fundamental type because every implementor becomes eligible to act as a handling
+ *               agent for transactional activity on behalf of a UserInterfaceActor. The UserInterfaceHandler has a
+ *               specially designated role in the transaction processing cycle, making it dangerous to co-inherit with
+ *               other base types which also have a designated role in the transaction cycle, or with base types which
+ *               participate in another internally governed cycle (such as the ComponentAssembly).
  */
 @DefinesIdentity
 @DomainRole.Join(membership = { TransactionParticipant.class, UserInterfaceHandler.HandlerDomain.class })
@@ -81,7 +89,7 @@ public interface UserInterfaceHandler extends CompositionElement
 		@DomainRole.Instance
 		public static final HandlerInstallationDomain INSTANCE = new HandlerInstallationDomain();
 	}
-	
+
 	/**
 	 * By implementing this interface, the Host declares that it will forward all instances of
 	 * <code>UserInterfaceDirective</code> and <code>UserInterfaceNotification</code> directed to its actor (specified
@@ -91,7 +99,14 @@ public interface UserInterfaceHandler extends CompositionElement
 	 * @author Byron Hawkins
 	 * @see UserInterfaceDirective
 	 * @see UserInterfaceNotification
+	 * 
+	 * @JTourBusStop 5, Usage of @DefinesIdentity in Azia, Identity root - UserInterfaceHandler.Host:
+	 * 
+	 *               An instance of UserInterfaceHandler registers with an instance of this Host interface to act as a
+	 *               handling agent for it. This compositional relationship would be very confusing if a handler could
+	 *               be its own host, and the transaction notification cycle might not work correctly in all such cases.
 	 */
+	@DefinesIdentity
 	public interface Host extends UserInterfaceActorDelegate
 	{
 		void installHandler(UserInterfaceHandler handler);

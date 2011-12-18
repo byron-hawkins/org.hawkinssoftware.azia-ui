@@ -34,6 +34,14 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  * DOC comment task awaits.
  * 
  * @author Byron Hawkins
+ * 
+ * @JTourBusStop 7, Usage of @DefinesIdentity in Azia, Exposure of relationships - MousePressedState:
+ * 
+ *               Each atom of component state in an Azia user interface is owned by a subclass of ComponentDataHandler,
+ *               such as this MousePressedState. The @DefinesIdentity annotation on UserInterfaceHandler (parent
+ *               interface of ComponentDataHandler) guarantees that the relationship between handlers and hosts
+ *               (UserInterfaceHandler.Host) is never compressed within a single class. The net effect is to make every
+ *               data handler available for installation in any number of host components.
  */
 @ValidateRead
 @ValidateWrite

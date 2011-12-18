@@ -23,7 +23,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
 import org.hawkinssoftware.rns.core.role.TypeRole;
 import org.hawkinssoftware.rns.core.util.DefinesIdentity;
 
-//@SuppressWarnings("rawtypes")
 /**
  * Abstract assembly descriptor for an <code>AbstractComponent</code>.
  * 
@@ -36,6 +35,12 @@ import org.hawkinssoftware.rns.core.util.DefinesIdentity;
  * @param <EnclosureType>
  *            The kind of <code>ComponentEnclosure</code> with which to wrap the constructed component.
  * @author Byron Hawkins
+ * 
+ * @JTourBusStop 1, Usage of @DefinesIdentity in Azia, Identity root - ComponentAssembly:
+ * 
+ *               There are 5 base types in Azia annotated with @DefinesIdentity, each of them fundamental to the
+ *               architecture of the library. This component assembly descriptor is a fundamental base type because its
+ *               usage is mandatory for constructing all subtypes of AbstractComponent and AbstractComposite.
  */
 @DefinesIdentity
 @InvocationConstraint(domains = AssemblyDomain.class)

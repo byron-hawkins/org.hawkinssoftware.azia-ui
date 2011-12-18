@@ -35,13 +35,22 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * A generic encapsulation of an AbstractComponent which binds it to a compatible InstancePainter and maintains its
+ * pixel size.
  * 
  * @param <ComponentType>
- *            the generic type
+ *            the type of AbstractComponent contained in this enclosure
  * @param <PainterType>
- *            the generic type
+ *            the type of InstancePainter responsible for rendering this.component
  * @author Byron Hawkins
+ * 
+ * @JTourBusStop 1, Integration of a class fragment into multiple features, Introducing the ComponentEnclosure:
+ * 
+ *               In Azia, every component is a subclass of AbstractComponent and has no size, state or functionality.
+ *               The latter two are fulfilled by ComponentDataHandler and UserInterfaceHandler, respectively, and are
+ *               plugged in via AbstractComponent.installHandler(). At assembly time, every AbstractComponent is wrapped
+ *               in a ComponentEnclosure, which maintains its size (in the "bounds" field). All user interface entities
+ *               needing information about the size of an AbstractComponent queries its ComponentEnclosure.getBounds().
  */
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class ComponentEnclosure<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> implements
@@ -218,8 +227,29 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 		return bounds;
 	}
 
+	/**
+	 * @JTourBusStop 2, Integration of a class fragment into multiple features, ComponentEnclosure.getBounds():
+	 * 
+	 *               According to RNS assertion #6, every consumer of this method belongs to an implicit layer of code
+	 *               which could be referred to as the "ComponentEnclosure bounds consumers." Furthermore, there must be
+	 *               some kind of cohesion amongst these consumers, and it must occur in terms of this getBounds()
+	 *               method. The ComponentEnclosure is a fundamental base type of Azia, so the domain of getBounds()
+	 *               consumers is open to client code; therefore no cohesion can be made on the basis of set members,
+	 *               rather it must be drawn from homogeneity of meaning given to the return value. So the domain of
+	 *               consumers is cohesive on the basis that they all make the same meaning out of the returned
+	 *               EnclosureBounds; specifically, that it refers to the position and size of this.component.
+	 * 
+	 *               As a developer, it is very simple to comprehend the domain of getBounds() consumers: it is a set of
+	 *               classes which regard the returned EnclosureBounds as the position and size of this.component. Any
+	 *               alternative usage will break the cohesion, which depends solely on the meaning made from the
+	 *               returned EnclosureBounds; therefore it is implicitly illegal for any class to call getBounds() and
+	 *               regard the return value as anything other than the position and size of this.component.
+	 */
 	public EnclosureBounds getBounds()
 	{
+		// Fetch the bounds via query, in case the caller is in a transaction which has changed the value without yet
+		// committing it. If there is no current transaction, or if the bounds have not changed in the current
+		// transaction, the heap-persisted value is returned via getCurrentBounds().
 		return UserInterfaceTransactionQuery.start(this).getTransactionalValue(BoundsProperty.INSTANCE).getValue();
 	}
 

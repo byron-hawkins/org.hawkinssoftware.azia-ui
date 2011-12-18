@@ -36,7 +36,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 @InvocationConstraint(domains = SliderKnob.SliderKnobDomain.class)
 public class SliderKnob extends AbstractComponent
 {
-	
+
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -67,6 +67,13 @@ public class SliderKnob extends AbstractComponent
 			setEnclosure(ComponentEnclosure.SINGULAR);
 		}
 
+		/**
+		 * @JTourBusStop 7.1, Usage of @DefinesIdentity in Azia, Exposure of relationships - MousePressedState installed
+		 *               in a SliderKnob:
+		 * 
+		 *               To support dragging, a slider knob needs to know when the mouse button is pressed on it. This
+		 *               awareness is obtained simply by installing the MousePressedState into the knob during assembly.
+		 */
 		@Override
 		public void assemble(ComponentEnclosure<SliderKnob, PainterType> enclosure)
 		{

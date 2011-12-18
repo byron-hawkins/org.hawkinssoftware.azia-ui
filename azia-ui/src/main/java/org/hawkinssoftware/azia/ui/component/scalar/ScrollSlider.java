@@ -39,7 +39,6 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
  */
 public class ScrollSlider extends AbstractSlider
 {
-
 	/**
 	 * DOC comment task awaits.
 	 * 
@@ -51,6 +50,22 @@ public class ScrollSlider extends AbstractSlider
 	public static class Assembly<SliderCompositeType extends SliderComposite<ScrollSlider>> extends
 			CompositeAssembly<ScrollSlider, AbstractSlider.Painter, SliderCompositeType>
 	{
+		/**
+		 * @JTourBusStop 6, Usage of @DefinesIdentity in Azia, Isolation of operations - ScrollSlider.Assembly declared:
+		 * 
+		 *               The ScrollSlider is a composite of a track and a knob, and as such its assembly descriptor
+		 *               includes sub-descriptors for them. Because the ComponentAssembly and the fundamental
+		 *               transaction base types are all annotated @DefinesIdentity, this ScrollSlider.Assembly knows for
+		 *               certain that its sub-descriptors for the track and knob will not have any transactional
+		 *               side-effects. The compiler would never allow the sub-descriptors to declare themselves as
+		 *               transaction participants of any kind, and therefore all consumers of the track and knob
+		 *               descriptors are guaranteed to get an assembly descriptor with nothing extra attached.
+		 * 
+		 *               This orthognoality characteristic can be described as analagous to the First Normal Form of
+		 *               database schema design, because it yields assembly descriptors which must act only as assembly
+		 *               descriptors. Having isolated the role of assembly descriptor, consumers can use them in
+		 *               compositions without any risk of accidentally including another unwanted role.
+		 */
 		private final SliderTrack.Assembly<SliderTrackPainter> sliderTrackAssembly = new SliderTrack.Assembly<SliderTrackPainter>();
 		private final SliderKnob.Assembly<SliderKnobPainter> sliderKnobAssembly = new SliderKnob.Assembly<SliderKnobPainter>();
 

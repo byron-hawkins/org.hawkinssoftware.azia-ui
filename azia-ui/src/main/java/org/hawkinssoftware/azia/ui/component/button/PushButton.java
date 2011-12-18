@@ -71,6 +71,19 @@ public class PushButton extends AbstractButton
 	 * state.
 	 * 
 	 * @author Byron Hawkins
+	 * 
+	 * @JTourBusStop 7.2, Usage of @DefinesIdentity in Azia, Exposure of relationships - MousePressedState installed in
+	 *               a PushButton:
+	 * 
+	 *               A PushButton of course needs to know when it is pushed, and though it does not respond to the mouse
+	 *               like a scrollbar knob would, it can still use the same data handler. The @DefinesIdentity
+	 *               annotation requires the MousePressedState to be defined as a separate entity from the scrollbar
+	 *               knob, making it available for use in this PushButton. Of course the knob could define its own
+	 *               MousePressedState as a private inner class, but even in that case the private handler would be very
+	 *               easy to share with other classes--simply changing its declaration to "public static" would make it
+	 *               globally available. Conversely, if the knob defined its button press handling within its own
+	 *               methods, it would be very difficult to share that functionality, because the essential relationship
+	 *               between the knob and its mouse press handling would be compressed inside the knob's code.
 	 */
 	public static class TextButtonAssembly extends Assembly
 	{

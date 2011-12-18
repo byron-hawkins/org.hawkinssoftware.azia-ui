@@ -40,7 +40,8 @@ public class CellViewportSelectionKeyHandler implements UserInterfaceHandler, Co
 
 	public void keyEvent(KeyboardInputNotification event, PendingTransaction transaction)
 	{
-		if (!(ComponentRegistry.getInstance().getFocusHandler().windowHasFocus(this) && (ComponentRegistry.getInstance().getFocusHandler().getFocusedComponent(this) == viewport)))
+		if (!(ComponentRegistry.getInstance().getFocusHandler().windowHasFocus(this) && (ComponentRegistry.getInstance().getFocusHandler()
+				.getFocusedComponent(this) == viewport)))
 		{
 			return;
 		}
@@ -66,6 +67,20 @@ public class CellViewportSelectionKeyHandler implements UserInterfaceHandler, Co
 					transaction.contribute(new SetSelectedRowDirective(viewport.getComponent(), selectedRow + 1));
 				}
 				break;
+			/**
+			 * @JTourBusStop 5, Integration of a class fragment into multiple features,
+			 *               CellViewportSelectionKeyHandler.keyEvent() queries ComponentEnclosure.getBounds():
+			 * 
+			 *               The key handler for the selection of a cell-based viewport has no relationship with a paint
+			 *               transaction or a scroll pane handler, but it too is a peer ComponentEnclosure.getBounds()
+			 *               consumer. Its response to the "page up" and "page down" keys is calculated here on the
+			 *               basis of the viewport's height (among other factors) as found via viewport.getBounds().
+			 * 
+			 *               The same consistent usage is (not surprisingly) found throughout all consumers of the
+			 *               ComponentEnclosure.getBounds() method. Therefore, this set of consumers is synthesized into
+			 *               a feature group which is most understandably defined as "the set of classes which regard
+			 *               ComponentEnclsoure.getBounds() to return the position and size of the enclosed component."
+			 */
 			case PAGE_UP:
 				if (selectedRow > 0)
 				{

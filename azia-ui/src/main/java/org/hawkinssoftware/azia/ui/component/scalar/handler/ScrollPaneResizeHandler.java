@@ -53,6 +53,14 @@ public class ScrollPaneResizeHandler implements AbstractComposite.ResizeHandler
 		SliderComposite<ScrollSlider> horizontalScrollbar = host.getHorizontalScrollbar();
 		SliderComposite<ScrollSlider> verticalScrollbar = host.getVerticalScrollbar();
 		ScrollPaneViewportComposite<?, ?> viewport = host.getViewport();
+
+		/**
+		 * @JTourBusStop 3, Integration of a class fragment into multiple features, ScrollPaneResizeHandler.resize()
+		 *               queries ComponentEnclosure.getBounds():
+		 * 
+		 *               This local variable is assigned the bounds of the scroll pane in which this handler is
+		 *               installed, and it always regards the bounds values as the position and size of the scroll pane.
+		 */
 		EnclosureBounds bounds = host.getBounds();
 
 		int hbarWidth = verticalScrollbar.getPackedSize(Axis.H);
