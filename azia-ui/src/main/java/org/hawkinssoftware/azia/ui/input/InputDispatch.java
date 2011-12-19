@@ -30,7 +30,7 @@ import org.hawkinssoftware.rns.core.role.DomainRole;
  */
 public class InputDispatch
 {
-	
+
 	/**
 	 * The listener interface for receiving input events. The class that is interested in processing a input event
 	 * implements this interface, and the object created with that class is registered with a component using the
@@ -49,6 +49,14 @@ public class InputDispatch
 			KeyEventDispatch.getInstance().keyEvent(event);
 		}
 
+		/**
+		 * @JTourBusStop 2, Virtual encapsulation in an Azia user interface transaction, Native mouse event detected:
+		 * 
+		 *               When the Azia native input driver detects a change in the state of the mouse--a position change
+		 *               or a button press or release--it notifies a set of ordinary listeners. Client code is not
+		 *               allowed to listen to these native events. Instead, this internal listener broadcasts it to each
+		 *               DesktopWindow in the application.
+		 */
 		@Override
 		public void mouseStateChanged(MouseInputEvent event)
 		{

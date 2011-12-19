@@ -40,6 +40,24 @@ public class SliderKnobDragContributor implements UserInterfaceHandler
 		repaint = new RepaintInstanceDirective(host.getComponent());
 	}
 
+	/**
+	 * @JTourBusStop 3, Declaring and respecting usage of a shared feature, ScrollPaneViewport usage policy:
+	 * 
+	 *               To avoid usage limitations, Azia employs a sequence of dependent operations to maintain consistency
+	 *               between the viewport position and the scrollbar knobs. The operations are scattered across several
+	 *               objects, and must be invoked according to a specific policy. Consumers are allowed to invoke the
+	 *               operations in any way, but are expected to abide by the invocation policy. In this sense, viewport
+	 *               scrolling in Azia is synthesized as a feature according to RNS assertion #7.
+	 * 
+	 *               Policy: the scrollbar size and position are dependent on the viewport size and position. Changes
+	 *               should be sent to the viewport, and will be propagated to the scrollbars. Any changes sent directly
+	 *               to the scrollbars will be ignored by the viewport, causing the scroll pane to become disoriented.
+	 * 
+	 *               Here the mouse drag is received by a scrollbar knob handler, but is not applied directly to the
+	 *               scrollbar knob position, even though the knob is directly available. Instead, to abide by policy,
+	 *               this handler simply translates it into a SlideToPositionNotification, indicating that some other
+	 *               responsible party should apply the position change.
+	 */
 	public void mouseDragged(MouseDragDirective.Notification drag, PendingTransaction transaction)
 	{
 		int trackStart = host.getBounds().getPosition(host.getAxis());

@@ -51,7 +51,7 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 		@Override
 		public MouseInputEvent event()
 		{
-			return mouseState.event();   
+			return mouseState.event();
 		}
 	}
 
@@ -90,7 +90,7 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	@Override
 	public void addActionsOn(List<UserInterfaceDirective> actions, UserInterfaceActor actor)
 	{
-		for (int i = transaction.size()-1; i >= 0; i--)
+		for (int i = transaction.size() - 1; i >= 0; i--)
 		{
 			UserInterfaceDirective action = transaction.get(i);
 			if (action.getActor() == actor)
@@ -101,6 +101,11 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	}
 
 	// TODO: should this maybe not be specific to the TopTile, but the generic BoundedEntity.LayoutRoot?
+	/**
+	 * @JTourBusStop 3.1, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction initiated:
+	 * 
+	 *               The transaction begins by posting a notification to the topTile.
+	 */
 	@InvocationConstraint(domains = MouseEventDomain.class)
 	public void assemble(TopTile<?> topTile, MouseAware.State mouseState)
 	{
@@ -121,6 +126,12 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	@Override
 	public void iterate()
 	{
+		/**
+		 * @JTourBusStop 4.12, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction
+		 *               propagated through client components:
+		 * 
+		 *               The unvisited Forward instances are visited one by one.
+		 */
 		if (!unvisitedForwards.isEmpty())
 		{
 			for (MouseAware forward : unvisitedForwards)
@@ -131,6 +142,17 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 		}
 		else
 		{
+			/**
+			 * @JTourBusStop 5, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction
+			 *               concludes:
+			 * 
+			 *               After all Forward instances have been visited by this MouseEventTransaction, a set of
+			 *               UserInterfaceDirectives have been collected in this.transaction, but no field values
+			 *               throughout the user interface components have yet been modified. At this point, the
+			 *               transaction consists of a formula for executing the client responses to its initial
+			 *               proposition, which was a mouse state change. A few conclusory steps are taken here, which
+			 *               may result in additional directives added to the transaction, and then...
+			 */
 			mouseState.prepareFrameConclusion(notification, conclusion);
 
 			for (MouseAware satellitePositionForward : conclusion.satellitePositionForwards)
@@ -160,6 +182,13 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 		}
 	}
 
+	/**
+	 * @JTourBusStop 4.11, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               The Forward instance arrives back at the MouseEventTransaction, and is appended to the list of
+	 *               unvisitedForwards, which must all be visited before the transaction can be considered complete.
+	 */
 	@Override
 	public void postDirectResponse(UserInterfaceNotification... notifications)
 	{
@@ -190,6 +219,13 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	{
 	}
 
+	/**
+	 * @JTourBusStop 5.1, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction concludes:
+	 * 
+	 *               ...the transaction engine invokes commitTransaction(), which iteratively commits all the collected
+	 *               directives. Each commit applies the directive's intended change of field value to the user
+	 *               interface component instance assigned to it. 
+	 */
 	@Override
 	public void commitTransaction()
 	{
@@ -205,7 +241,7 @@ public class MouseEventTransaction implements UserInterfaceTransaction.Iterative
 	}
 
 	@Override
-	public boolean isEmpty() 
+	public boolean isEmpty()
 	{
 		return transaction.isEmpty();
 	}

@@ -27,11 +27,18 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * A layout tile have two units which occupy a singly divided rectangular space on the screen.
  * 
  * @param <KeyType>
- *            the generic type
+ *            Every tile layout requires that an enum be assigned as the key set of the layout. The KeyType is the type
+ *            of that enum. It is used for ad hoc access to the layout tiles.
  * @author Byron Hawkins
+ * 
+ * @JTourBusStop 3, Defining the TileLayoutDomain and its scope, Inheritor of membership in the TileLayoutDomain:
+ * 
+ *               The PairTile inherits membership in the TileLayoutDomain via LayoutUnit, which inherited membership via
+ *               LayoutEntity, which inherited membership directly from LayoutRegion. Every class and interface in the
+ *               hierarchy of a domain member is also a member of that domain.
  */
 @ValidateRead
 @ValidateWrite
@@ -87,6 +94,12 @@ public class PairTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstrac
 		return this;
 	}
 
+	/**
+	 * @JTourBusStop 4.2, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               The loop continues into the next layout tile...
+	 */
 	@Override
 	public void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
 	{
@@ -196,6 +209,12 @@ public class PairTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstrac
 		}
 	}
 
+	/**
+	 * @JTourBusStop 4.21, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               ... which forwards to its first or second component (depending on which the mouse is in)...
+	 */
 	protected void mouseStateChange(EventPass pass, PendingTransaction transaction)
 	{
 		if (bounds.contains(pass.event()))

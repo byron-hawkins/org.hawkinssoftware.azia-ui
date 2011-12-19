@@ -188,11 +188,17 @@ public class UnitTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstrac
 		}
 	}
 
+	/**
+	 * @JTourBusStop 4.3, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               ...and the loop continues through all the layout tiles...
+	 */
 	@Override
 	protected void mouseStateChange(EventPass pass, PendingTransaction transaction)
 	{
 		super.mouseStateChange(pass, transaction);
-		
+
 		if (bounds.contains(pass.event()))
 		{
 			for (LayoutUnit.Floater<KeyType> leftFloater : floaters.get(LayoutUnit.Floater.Edge.LEFT))

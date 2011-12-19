@@ -24,7 +24,7 @@ import org.hawkinssoftware.rns.core.validation.ValidateRead;
 import org.hawkinssoftware.rns.core.validation.ValidateWrite;
 
 /**
- * DOC comment task awaits.
+ * Generic painter for a slider track, commonly used for painting scrollbar tracks.
  * 
  * @author Byron Hawkins
  */

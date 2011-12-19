@@ -331,6 +331,20 @@ public final class CompositionRegistry
 		sessions.repaintHost = repaintHost;
 	}
 
+	/**
+	 * @JTourBusStop 1, Homogenous initialization using @InitializationAspect, Introducing the CompositionRegistry:
+	 * 
+	 *               The Azia library provides this CompositionRegistry to facilitate freedom of composition. Members of
+	 *               an AbstractComposite obtain reference to other members within the same composite by querying this
+	 *               registry, which makes it much easier for developers to wire the compositional structures. Instead
+	 *               of manually maintaining a hierarchy references, all requests are simply directed to the
+	 *               CompositionRegistry. To establish correlation of CompositionElements, the registry requires each
+	 *               one to be registered using this static method.
+	 * 
+	 *               If the CompositionElement were a class, every instance could be automatically registered within the
+	 *               CompositionElement constructor. But because it is an interface, the obligation to register remains
+	 *               as a manual task, requiring continual maintenance and risking accidental omission.
+	 */
 	static void register(CompositionElement element)
 	{
 		SessionStack sessions = SESSIONS.get();

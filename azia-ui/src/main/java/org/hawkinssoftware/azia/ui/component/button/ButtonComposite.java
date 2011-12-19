@@ -23,10 +23,18 @@ import org.hawkinssoftware.rns.core.publication.InvocationConstraint;
  * @param <PainterType>
  *            the generic type
  * @author Byron Hawkins
+ * 
  */
 public class ButtonComposite<ButtonType extends AbstractButton, PainterType extends ComponentPainter<ButtonType>> extends
 		AbstractComposite<ButtonType, PainterType>
 {
+	/**
+	 * @JTourBusStop 3, Homogenous initialization using @InitializationAspect, Zero footprint throughout the
+	 *               CompositionElement hierarchy:
+	 * 
+	 *               This constructor is guaranteed to call CompositionElement.Agent.initialize() before it exits,
+	 *               because ButtonComposite inherits the @InitializationAspect from CompositionElement.
+	 */
 	@InvocationConstraint
 	public ButtonComposite(ButtonType component)
 	{

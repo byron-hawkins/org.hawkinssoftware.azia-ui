@@ -40,6 +40,12 @@ public class SliderCollaborationActionContributor implements UserInterfaceHandle
 		this.host = host;
 	}
 
+	/**
+	 * @JTourBusStop 4.7, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               Each scrollbar position change request is translated into a physical bounds change... and so on...
+	 */
 	public void changeKnobPosition(ChangeKnobPositionNotification moveKnob, PendingTransaction transaction)
 	{
 		int absolutePosition = moveKnob.knobPosition + host.getBounds().getPosition(host.getAxis());

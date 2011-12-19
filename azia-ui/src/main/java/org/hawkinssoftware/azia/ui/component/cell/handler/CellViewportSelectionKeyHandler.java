@@ -68,18 +68,14 @@ public class CellViewportSelectionKeyHandler implements UserInterfaceHandler, Co
 				}
 				break;
 			/**
-			 * @JTourBusStop 5, Integration of a class fragment into multiple features,
+			 * @JTourBusStop 5, Declaring and respecting usage of a shared class fragment,
 			 *               CellViewportSelectionKeyHandler.keyEvent() queries ComponentEnclosure.getBounds():
 			 * 
-			 *               The key handler for the selection of a cell-based viewport has no relationship with a paint
-			 *               transaction or a scroll pane handler, but it too is a peer ComponentEnclosure.getBounds()
-			 *               consumer. Its response to the "page up" and "page down" keys is calculated here on the
-			 *               basis of the viewport's height (among other factors) as found via viewport.getBounds().
-			 * 
-			 *               The same consistent usage is (not surprisingly) found throughout all consumers of the
-			 *               ComponentEnclosure.getBounds() method. Therefore, this set of consumers is synthesized into
-			 *               a feature group which is most understandably defined as "the set of classes which regard
-			 *               ComponentEnclsoure.getBounds() to return the position and size of the enclosed component."
+			 *               This handler collaborates with user keyboard input activity to move the list selection
+			 *               around, and in the case of "page up" and "page down" it must calculate a response to the
+			 *               input key based on the current height of the viewport. All of this is foreign to the
+			 *               ComponentEnclosure of the viewport, but is done respectfully by not introducing its foreign
+			 *               perspective back into the enclosure in any way.
 			 */
 			case PAGE_UP:
 				if (selectedRow > 0)

@@ -67,16 +67,15 @@ public class PaintTransaction implements UserInterfaceTransaction.Iterative
 		Canvas c = Canvas.get();
 
 		/**
-		 * @JTourBusStop 4, Integration of a class fragment into multiple features, PaintTransaction.paint() queries
+		 * @JTourBusStop 4, Declaring and respecting usage of a shared class fragment, PaintTransaction.paint() queries
 		 *               ComponentEnclosure.getBounds():
 		 * 
-		 *               A PaintTransaction has no awareness of any such thing as a ScrollPaneResizeHandler, yet they
-		 *               are peers as ComponentEnclosure.getBounds() consumers. What makes them peers is that they
-		 *               regard the returned EnclosureBounds in exactly the same way. In this case, the PaintTransaction
-		 *               narrows the Canvas to the returned bounds, meaning that all painting and further narrowing will
-		 *               be restricted to these bounds. The PaintTransaction does this because it recognizes that the
-		 *               position and size of the enclosure should define the limits of all painting activity, and it
-		 *               expects these limits to come from ComponentEnclosure.getBounds().
+		 *               This PaintTransaction uses the ComponentEnclosure bounds for its own special purposes, namely
+		 *               to narrow the Canvas, such that all painting and further narrowing will be restricted to the
+		 *               enclosure's bounds. This usage does respect the ComponentEnclosure's getter/setter policy
+		 *               because, although the meaning of the bounds would be foreign to the ComponentEnclosure, the
+		 *               foreign meaning is never introduced back into the ComponentEnclosure. Only the PaintTransaction
+		 *               and its constituents become aware of the slightly translated meaning of the bounds.
 		 */
 		c.pushBounds(enclosure.getBounds());
 		enclosure.getPainter().paint(enclosure.getComponent(), atomCollection.getAtoms());

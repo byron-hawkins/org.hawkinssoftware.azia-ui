@@ -92,6 +92,12 @@ public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstract
 		return this;
 	}
 
+	/**
+	 * @JTourBusStop 4, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               The TopTile receives notification here, and is invited to collaborate in the transaction.
+	 */
 	@Override
 	public void actionPosted(UserInterfaceNotification notification, PendingTransaction transaction)
 	{
@@ -137,6 +143,13 @@ public class TopTile<KeyType extends LayoutEntity.Key<KeyType>> extends Abstract
 		return new TileBoundsChangeDirective(unit, new EnclosureBounds(0, 0, bounds.width, bounds.height));
 	}
 
+	/**
+	 * @JTourBusStop 4.1, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               The TopTile contributes a Contact instance, indicating that the mouse event occurred within its
+	 *               physical bounds, and also contributes a Forward instance specifying the single unit it contains.
+	 */
 	protected void mouseStateChange(EventPass pass, PendingTransaction transaction)
 	{
 		if (bounds.contains(pass.event()))

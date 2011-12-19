@@ -44,13 +44,15 @@ import org.hawkinssoftware.rns.core.validation.ValidateWrite;
  *            the type of InstancePainter responsible for rendering this.component
  * @author Byron Hawkins
  * 
- * @JTourBusStop 1, Integration of a class fragment into multiple features, Introducing the ComponentEnclosure:
+ * @JTourBusStop 1, Declaring and respecting usage of a shared class fragment, Introducing the ComponentEnclosure:
  * 
- *               In Azia, every component is a subclass of AbstractComponent and has no size, state or functionality.
- *               The latter two are fulfilled by ComponentDataHandler and UserInterfaceHandler, respectively, and are
- *               plugged in via AbstractComponent.installHandler(). At assembly time, every AbstractComponent is wrapped
- *               in a ComponentEnclosure, which maintains its size (in the "bounds" field). All user interface entities
- *               needing information about the size of an AbstractComponent queries its ComponentEnclosure.getBounds().
+ *               In Azia, every component is a subclass of AbstractComponent and has no bounds, state or functionality
+ *               within its own class definition. Component state and functionality are provided by plugging in
+ *               ComponentDataHandlers and UserInterfaceHandlers (respectively) via AbstractComponent.installHandler().
+ *               The ComponentRegistry is responsible for constructing every instance of AbstractComponent, and at
+ *               construction time it wraps each component in a ComponentEnclosure, which provides a painter and bounds.
+ *               When any user interface entity needs information about the bounds of a component, it obtains a
+ *               reference to its ComponentEnclosure from the ComponentRegistry (if necessary) and queries getBounds().
  */
 @DomainRole.Join(membership = { DisplayBoundsDomain.class, RenderingDomain.class })
 public class ComponentEnclosure<ComponentType extends AbstractComponent, PainterType extends InstancePainter<? extends ComponentType>> implements
@@ -228,22 +230,23 @@ public class ComponentEnclosure<ComponentType extends AbstractComponent, Painter
 	}
 
 	/**
-	 * @JTourBusStop 2, Integration of a class fragment into multiple features, ComponentEnclosure.getBounds():
+	 * @JTourBusStop 2, Declaring and respecting usage of a shared class fragment, ComponentEnclosure.getBounds()
+	 *               defines a layer of functionality:
 	 * 
-	 *               According to RNS assertion #6, every consumer of this method belongs to an implicit layer of code
-	 *               which could be referred to as the "ComponentEnclosure bounds consumers." Furthermore, there must be
-	 *               some kind of cohesion amongst these consumers, and it must occur in terms of this getBounds()
-	 *               method. The ComponentEnclosure is a fundamental base type of Azia, so the domain of getBounds()
-	 *               consumers is open to client code; therefore no cohesion can be made on the basis of set members,
-	 *               rather it must be drawn from homogeneity of meaning given to the return value. So the domain of
-	 *               consumers is cohesive on the basis that they all make the same meaning out of the returned
-	 *               EnclosureBounds; specifically, that it refers to the position and size of this.component.
+	 *               According to RNS assertion #6, the getBounds() method constitutes a shared class fragment. As such,
+	 *               the ComponentEnclosure is obliged to declare any limitations on the usage of the method, and
+	 *               consumers are obliged to respect that usage. In the case of this method, the declaration is
+	 *               implicit according to the convention of a "getter": namely, that the bounds has a particular
+	 *               meaning in the context of the ComponentEnclosure. To respect this (implicit) declaration, the
+	 *               caller should not use the getBounds() and setBounds() methods for storing an instance of
+	 *               EnclosureBounds which represents anything other than the actual bounds of the enclosure.
 	 * 
-	 *               As a developer, it is very simple to comprehend the domain of getBounds() consumers: it is a set of
-	 *               classes which regard the returned EnclosureBounds as the position and size of this.component. Any
-	 *               alternative usage will break the cohesion, which depends solely on the meaning made from the
-	 *               returned EnclosureBounds; therefore it is implicitly illegal for any class to call getBounds() and
-	 *               regard the return value as anything other than the position and size of this.component.
+	 * @JTourBusStop 6, Declaring and respecting usage of a shared class fragment, Conclusion:
+	 * 
+	 *               The same respectful usage is (not surprisingly) found throughout all consumers of the
+	 *               ComponentEnclosure.getBounds() method. To verify this for all bounds consumers, select the method
+	 *               name and press ctrl+alt+H. Of course it is not difficult to respect a getter/setter pair, but it is
+	 *               essential for the class fragment to be successfully shared amongst multiple syntheses.
 	 */
 	public EnclosureBounds getBounds()
 	{

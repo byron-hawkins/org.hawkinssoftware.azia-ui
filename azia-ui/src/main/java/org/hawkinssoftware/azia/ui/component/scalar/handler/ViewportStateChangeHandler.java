@@ -35,6 +35,11 @@ public class ViewportStateChangeHandler implements UserInterfaceHandler
 		this.host = host;
 	}
 
+	/**
+	 * @JTourBusStop 5.2, Declaring and respecting usage of a shared feature, Applying a viewport position change:
+	 * 
+	 *               This viewport handler applies the origin change to the viewport itself.
+	 */
 	public void moveViewport(MoveViewportOriginDirective move)
 	{
 		host.setViewportPosition(move.x, move.y);

@@ -44,7 +44,12 @@ public abstract class ScrollPaneViewportPainter<ViewportType extends ScrollPaneV
 		return new BoundedEntity.MaximumSize(getScrollableContentSize(axis));
 	}
 
-	// RNS: protect these handler methods? Pattern match in domains.xml?
+	/**
+	 * @JTourBusStop 5.3, Declaring and respecting usage of a shared feature, Applying a viewport position change:
+	 * 
+	 *               The viewport painter observes the origin change and requests repaint for the viewport, since
+	 *               certainly all of its display will be stale after its origin changes.
+	 */
 	public void viewportMoving(MoveViewportOriginDirective.Notification notification, PendingTransaction transaction)
 	{
 		component.requestRepaint();

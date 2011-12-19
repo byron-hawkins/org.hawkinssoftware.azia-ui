@@ -15,9 +15,14 @@ import org.hawkinssoftware.azia.ui.tile.LayoutRegion.TileLayoutDomain;
 import org.hawkinssoftware.rns.core.role.DomainRole;
 
 /**
- * DOC comment task awaits.
+ * A simple DTO representing the bounds of a layout change that is in progress.
  * 
  * @author Byron Hawkins
+ * 
+ * @JTourBusStop 4, Defining the TileLayoutDomain and its scope, LayoutResizeEvent joins the TileLayoutDomain:
+ * 
+ *               Every class participating in the layout of tiles will join the TileLayoutDomain, even if it has a
+ *               transitory and/or tangential role.
  */
 @DomainRole.Join(membership = TileLayoutDomain.class)
 public class LayoutResizeEvent

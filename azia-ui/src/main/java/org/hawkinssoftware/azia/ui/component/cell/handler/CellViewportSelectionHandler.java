@@ -97,6 +97,26 @@ public class CellViewportSelectionHandler implements UserInterfaceHandler, UserI
 		selectedRow = selection.row;
 	}
 
+	/**
+	 * @JTourBusStop 7, Declaring and respecting usage of a shared feature, Tangential consumers abide by the same
+	 *               policy:
+	 * 
+	 *               This handler maintains a selected list item for a viewport containing a list of cells (comparable
+	 *               to a JList in Swing). When the selected list item changes from a visible position to an obscured
+	 *               position (i.e., not visible within the scroll pane's display area), this handler will request that
+	 *               the viewport scroll to keep the selection visible. This handler implements the request according to
+	 *               policy, just like the scrollbar did--by translating the position of the newly selected list item
+	 *               into viewport coordinates and sending a corresponding MoveViewportOriginDirective to the viewport.
+	 * 
+	 * @JTourBusStop 4.5, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               The SetSelectedRowDirective is broadcast to this handler, which governs the selection for the
+	 *               viewport containing the weather station list. The selection request is examined to see if perhaps
+	 *               the newly selected row might not be visible. If not, this handler contributes a
+	 *               MoveViewportOriginDirective, thereby requesting that the enclosing scroll pane scroll to keep the
+	 *               newly selected list item in view.
+	 */
 	public void selectedRowChanging(SetSelectedRowDirective.Notification notification, PendingTransaction transaction)
 	{
 		viewport.getCellPainter().repaint(viewport.createAddress(this.selectedRow, Section.SCROLLABLE));

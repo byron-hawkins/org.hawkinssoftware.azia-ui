@@ -58,6 +58,13 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 			viewportContentPosition = (axis == Axis.H) ? host.getViewport().getComponent().xViewport() : host.getViewport().getComponent().yViewport();
 		}
 
+		/**
+		 * @JTourBusStop 5.1, Declaring and respecting usage of a shared feature, Applying a viewport position change:
+		 * @JTourBusStop 4.61, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction
+		 *               propagated through client components:
+		 * 
+		 *               ...and translates it into position and span changes for each scrollbar.
+		 */
 		private void reboundKnob(PendingTransaction transaction)
 		{
 			double visibilityRatio = viewportSpan / (double) contentSpan;
@@ -92,6 +99,16 @@ public class ScrollPaneViewportContributor implements UserInterfaceHandler
 		this.host = host;
 	}
 
+	/**
+	 * @JTourBusStop 5, Declaring and respecting usage of a shared feature, Applying a viewport position change:
+	 * 
+	 *               This scroll pane handler receives notification about the change in viewport origin...
+	 * 
+	 * @JTourBusStop 4.6, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction propagated
+	 *               through client components:
+	 * 
+	 *               This scroll pane handler receives the viewport origin change...
+	 */
 	public void viewportMoving(MoveViewportOriginDirective.Notification move, PendingTransaction transaction)
 	{
 		orientedMetrics.assignCurrentValues(Axis.H);

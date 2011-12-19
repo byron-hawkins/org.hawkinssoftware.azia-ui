@@ -55,11 +55,11 @@ public class ScrollPaneResizeHandler implements AbstractComposite.ResizeHandler
 		ScrollPaneViewportComposite<?, ?> viewport = host.getViewport();
 
 		/**
-		 * @JTourBusStop 3, Integration of a class fragment into multiple features, ScrollPaneResizeHandler.resize()
+		 * @JTourBusStop 3, Declaring and respecting usage of a shared class fragment, ScrollPaneResizeHandler.resize()
 		 *               queries ComponentEnclosure.getBounds():
 		 * 
-		 *               This local variable is assigned the bounds of the scroll pane in which this handler is
-		 *               installed, and it always regards the bounds values as the position and size of the scroll pane.
+		 *               This local variable "bounds" is assigned the bounds of the scroll pane in which this handler is
+		 *               installed.
 		 */
 		EnclosureBounds bounds = host.getBounds();
 
@@ -69,6 +69,16 @@ public class ScrollPaneResizeHandler implements AbstractComposite.ResizeHandler
 		int contentWidth = viewport.getPainter().getScrollableContentSize(Axis.H);
 		int contentHeight = viewport.getPainter().getScrollableContentSize(Axis.V);
 
+		/**
+		 * @JTourBusStop 3.1, Declaring and respecting usage of a shared class fragment,
+		 *               ScrollPaneResizeHandler.resize() queries ComponentEnclosure.getBounds():
+		 * 
+		 *               Local variable "bounds" is processed according to some rules into 4 separate local variables.
+		 *               An irresponsible implementation could use the original ComponentEnclosure (class field "host")
+		 *               to store these processed values temporarily. Of course that would be ridiculous, but the point
+		 *               of suggesting it is to demonstrate how the declared usage of ComponentEnclosure.getBounds() is
+		 *               honored by this consumer.
+		 */
 		int xTransaction = (resize.getBoundsChange().x == null) ? bounds.x : resize.getBoundsChange().x;
 		int yTransaction = (resize.getBoundsChange().y == null) ? bounds.y : resize.getBoundsChange().y;
 		int wTransaction = (resize.getBoundsChange().width == null) ? bounds.width : resize.getBoundsChange().width;
@@ -108,6 +118,16 @@ public class ScrollPaneResizeHandler implements AbstractComposite.ResizeHandler
 					.getBoundsChange().y, null, height));
 		}
 
+		/**
+		 * @JTourBusStop 3.2, Declaring and respecting usage of a shared class fragment,
+		 *               ScrollPaneResizeHandler.resize() queries ComponentEnclosure.getBounds():
+		 * 
+		 *               This block assigns new bounds to a ComponentEnclosure, in this case the scrollpane viewport
+		 *               (using the Azia transaction semantics, which will not be explained here). This assignment does
+		 *               respect the usage expected by the ComponentEnclosure, because the assigned bounds carry no
+		 *               details of this handler's internal calculation, but simply represent the new size for the
+		 *               viewport.
+		 */
 		int viewportWidth = wTransaction - (vVisible ? vbarWidth : 0);
 		int viewportHeight = hTransaction - (hVisible ? hbarWidth : 0);
 		EnclosureBounds viewportbounds = new EnclosureBounds(xTransaction, yTransaction, viewportWidth, viewportHeight);

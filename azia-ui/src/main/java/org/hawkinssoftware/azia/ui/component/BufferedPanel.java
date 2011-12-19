@@ -251,6 +251,14 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 		@Override
 		protected boolean execute()
 		{
+			/**
+			 * @JTourBusStop 3, Virtual encapsulation in an Azia user interface transaction, MouseEventTransaction
+			 *               initiated:
+			 * 
+			 *               The task obtains a new MouseEventTransaction, assigns it the native event, and sets the
+			 *               transaction in motion on the topTile, which is the outermost container of client
+			 *               components.
+			 */
 			try
 			{
 				MouseEventTransaction transaction = getTransaction(MouseEventTransaction.class);
@@ -497,6 +505,12 @@ public class BufferedPanel<KeyType extends LayoutEntity.Key<KeyType>> extends Ca
 			// return;
 		}
 
+		/**
+		 * @JTourBusStop 2.1, Virtual encapsulation in an Azia user interface transaction, Native mouse event detected:
+		 * 
+		 *               The mouse event arrives here in the BufferedPanel, which is the top-level content panel of a
+		 *               DesktopWindow. The BufferedPanel invokes its MouseEventTask to begin processing of the event.
+		 */
 		try
 		{
 			event.setPosition(xWindow, yWindow);
